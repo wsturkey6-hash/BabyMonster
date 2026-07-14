@@ -15,8 +15,8 @@
 - [x] writing-plans 制定實作計劃（12 Task）
 
 ## 待辦（實作 Task，subagent-driven）
-- [ ] Task 1：專案骨架（手寫 pbxproj，xcodebuild 驗證）
-- [ ] Task 2：Enums + StoolColorCard（TDD）
+- [x] Task 1：專案骨架（手寫 pbxproj，xcodebuild 驗證）✅ 審查通過 commit 3497869
+- [x] Task 2：Enums + StoolColorCard（TDD）✅ 6 tests passed
 - [ ] Task 3：領域值型別 RecordData/ProfileData（TDD）
 - [ ] Task 4：DailyStats（TDD）
 - [ ] Task 5：BabyAge（TDD）
