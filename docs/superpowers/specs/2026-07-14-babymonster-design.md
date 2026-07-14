@@ -40,7 +40,7 @@ Record
   stoolShape: BristolType?       // 布里斯托 1–7
   hasUrine: Bool                 // 有無小便（預設 false）
   temperature: Double?           // 體溫 (°C)
-  weight: Double?                // 體重 (kg)
+  weight: Double?                // 體重 (g，公克)
   note: String?                  // 自由備註
 ```
 
@@ -62,7 +62,7 @@ BristolType: 1, 2, 3, 4, 5, 6, 7
 - **小便次數** = R 中 `hasUrine == true` 的記錄數
 - **總喝奶量** = R 中所有 `feedAmount` 加總（nil 略過）
 - **平均體溫** = R 中有填 `temperature` 者的平均（無資料則顯示「—」）
-- **平均體重** = R 中有填 `weight` 者的平均（無資料則顯示「—」）
+- **平均體重** = R 中有填 `weight` 者的平均（單位：公克 g；無資料則顯示「—」）
 
 實作為純函式 `DailyStats(for date: Date, records: [Record]) -> DailySummary`，方便單元測試。
 
@@ -184,6 +184,11 @@ BabyMonster/
 - **`PROGRESS.md` 持續更新**：每完成一個任務 / 子任務即更新，確保任何時刻（自動 compact、換 session、撞用量上限）進度都已存檔。
 - **SessionStart hook**：新 session 開始自動把 `PROGRESS.md` 內容注入 context，撞到 5-hour limit reset 後可無縫接續。
 - 註：「5-hour limit 到 95% 自動停」無對應觸發事件，harness 無法偵測，本版不實作；但持續更新的 `PROGRESS.md` 已能讓 reset 後接續。
+
+### 12.3 版本控管 / 遠端
+
+- 遠端 repo：`https://github.com/wsturkey6-hash/BabyMonster.git`
+- 本機已 `git init`；實作完成、且使用者明確同意後才推送（推送為對外動作，需逐次確認）。
 
 ## 13. 不做（YAGNI）
 
