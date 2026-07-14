@@ -17,8 +17,8 @@
 ## 待辦（實作 Task，subagent-driven）
 - [x] Task 1：專案骨架（手寫 pbxproj，xcodebuild 驗證）✅ 審查通過 commit 3497869
 - [x] Task 2：Enums + StoolColorCard（TDD）✅ 6 tests passed
-- [ ] Task 3：領域值型別 RecordData/ProfileData（TDD）
-- [ ] Task 4：DailyStats（TDD）
+- [x] Task 3：領域值型別 RecordData/ProfileData（TDD）✅ commit d0a90f2
+- [x] Task 4：DailyStats（TDD）✅ commit beee32f（曾遇 server 錯誤，已重跑）
 - [ ] Task 5：BabyAge（TDD）
 - [ ] Task 6：DataTransfer 匯出/匯入/合併（TDD）
 - [ ] Task 7：SwiftData Entities + 對應（TDD）
