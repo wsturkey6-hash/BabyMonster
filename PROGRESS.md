@@ -3,24 +3,33 @@
 > 每完成一個任務就更新此檔。SessionStart 會自動載入本檔，撞到用量上限 reset 後可據此接續。
 
 ## 目前狀態
-- 階段：**規劃**（brainstorming 完成，準備 writing-plans）
+- 階段：**準備執行**（brainstorming + writing-plans 完成）
 - Spec：`docs/superpowers/specs/2026-07-14-babymonster-design.md`（已核可）
+- Plan：`docs/superpowers/plans/2026-07-15-babymonster-implementation.md`（12 個 Task）
 
 ## 已完成
 - [x] 需求釐清與設計（brainstorming）
 - [x] Spec 撰寫並提交
 - [x] git init + 設定 GitHub 遠端 origin
+- [x] `.claude/settings.json`（autoCompact + SessionStart hook）+ 初始 PROGRESS.md
+- [x] writing-plans 制定實作計劃（12 Task）
 
-## 進行中
-- [ ] 建立 `.claude/settings.json`（autoCompact + SessionStart hook）
-- [ ] writing-plans 制定實作計劃
+## 待辦（實作 Task，subagent-driven）
+- [ ] Task 1：專案骨架（手寫 pbxproj，xcodebuild 驗證）
+- [ ] Task 2：Enums + StoolColorCard（TDD）
+- [ ] Task 3：領域值型別 RecordData/ProfileData（TDD）
+- [ ] Task 4：DailyStats（TDD）
+- [ ] Task 5：BabyAge（TDD）
+- [ ] Task 6：DataTransfer 匯出/匯入/合併（TDD）
+- [ ] Task 7：SwiftData Entities + 對應（TDD）
+- [ ] Task 8：記錄頁（表單 + 今日時間軸）
+- [ ] Task 9：每日統計頁
+- [ ] Task 10：趨勢頁（Swift Charts）+ TrendSeries（TDD）
+- [ ] Task 11：設定頁（名字/生日/年齡/匯出匯入）
+- [ ] Task 12：整合 ModelContainer + 端對端驗證
 
-## 待辦（實作，尚未開始）
-- [ ] 專案骨架（XcodeGen / project.yml）
-- [ ] 資料模型（BabyProfile, Record, Enums, StoolColorCard）
-- [ ] 純邏輯 + 測試（DailyStats, BabyAge, DataTransfer）
-- [ ] 畫面（Record / DailyStats / Trend / Settings / RootTab）
-- [ ] 驗證與整合
+## 派工原則（Orchestrator）
+- Opus 調度；純邏輯 TDD 任務（2–7,10 邏輯）派 **Sonnet**；骨架/視圖接線等機械性任務可派 **Haiku**，較繁複的視圖（Task 8/10/11）派 **Sonnet**。
 
 ## 重要決策備忘
 - 單一寶寶、純本機 SwiftData、iOS 17+、Swift Charts、XCTest
