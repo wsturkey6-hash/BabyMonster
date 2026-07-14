@@ -19,9 +19,9 @@
 - [x] Task 2：Enums + StoolColorCard（TDD）✅ 6 tests passed
 - [x] Task 3：領域值型別 RecordData/ProfileData（TDD）✅ commit d0a90f2
 - [x] Task 4：DailyStats（TDD）✅ commit beee32f（曾遇 server 錯誤，已重跑）
-- [ ] Task 5：BabyAge（TDD）
-- [ ] Task 6：DataTransfer 匯出/匯入/合併（TDD）
-- [ ] Task 7：SwiftData Entities + 對應（TDD）
+- [x] Task 5：BabyAge（TDD）✅ commit 2645c66
+- [x] Task 6：DataTransfer 匯出/匯入/合併（TDD）✅ commit 7999458
+- [x] Task 7：SwiftData Entities + 對應（TDD）✅ commit 8f488c8（24/24 tests）
 - [ ] Task 8：記錄頁（表單 + 今日時間軸）
 - [ ] Task 9：每日統計頁
 - [ ] Task 10：趨勢頁（Swift Charts）+ TrendSeries（TDD）
