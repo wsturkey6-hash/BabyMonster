@@ -29,7 +29,8 @@
 
 ```
 BabyProfile
-  name: String
+  name: String                   // 寶寶名字，預設 "BabyMonster"，可修改
+  birthDate: Date                // 寶寶生日，用來計算年齡
 
 Record
   id: UUID                       // 匯入合併用的穩定鍵
@@ -65,6 +66,12 @@ BristolType: 1, 2, 3, 4, 5, 6, 7
 - **平均體重** = R 中有填 `weight` 者的平均（單位：公克 g；無資料則顯示「—」）
 
 實作為純函式 `DailyStats(for date: Date, records: [Record]) -> DailySummary`，方便單元測試。
+
+### 5.1 寶寶年齡計算
+
+- 依 `birthDate` 與今天，計算「X 歲 X 個月又 X 天」。
+- 純函式 `babyAge(birthDate: Date, asOf: Date, calendar: Calendar) -> (years: Int, months: Int, days: Int)`，以 `Calendar.dateComponents([.year, .month, .day], from:to:)` 實作。
+- 顯示於記錄頁頂部與設定頁；單元測試覆蓋月底 / 跨月 / 生日當天等邊界。
 
 ## 6. 嬰兒大便顏色卡（台灣兒童健康手冊 1–9 號）
 
@@ -118,7 +125,8 @@ BristolType: 1, 2, 3, 4, 5, 6, 7
    - 用 Swift Charts 畫折線圖看趨勢。
 
 4. **設定**
-   - 輸入 / 修改寶寶名字。
+   - 輸入 / 修改寶寶名字（預設 BabyMonster）與生日。
+   - 顯示寶寶目前年齡（X 歲 X 個月又 X 天）。
    - 匯出資料（分享 sheet）、匯入資料（開檔）。
 
 ## 9. 匯出 / 匯入（手動同步）
@@ -134,6 +142,7 @@ BristolType: 1, 2, 3, 4, 5, 6, 7
 純邏輯優先做 TDD，UI 層保持輕薄：
 
 - `DailyStats` 統計計算（含空資料、部分欄位缺值）
+- `babyAge` 年齡計算（跨月、月底、生日當天邊界）
 - `isAbnormalStoolColor` 大便卡正常 / 異常判定（邊界 6 / 7）
 - 匯出 / 匯入 JSON round-trip（編碼後解碼等值）
 - `mergeRecords` 合併去重（重疊 id 不重複、各自新增皆保留）
@@ -152,6 +161,7 @@ BabyMonster/
       StoolColorCard.swift       # 1–9 顏色與異常判定
     Logic/
       DailyStats.swift
+      BabyAge.swift              # 年齡計算（歲/月/天）
       DataTransfer.swift         # 匯出/匯入/合併
     Views/
       RecordView.swift
@@ -161,6 +171,7 @@ BabyMonster/
       RootTabView.swift
   Tests/
     DailyStatsTests.swift
+    BabyAgeTests.swift
     StoolColorTests.swift
     DataTransferTests.swift
   docs/superpowers/specs/...      # 本文件

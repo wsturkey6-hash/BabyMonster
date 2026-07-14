@@ -1,0 +1,16 @@
+{
+  "autoCompactEnabled": true,
+  "autoCompactWindow": 600000,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=\"$CLAUDE_PROJECT_DIR/PROGRESS.md\"; [ -f \"$f\" ] && jq -Rs '{hookSpecificOutput:{hookEventName:\"SessionStart\",additionalContext:(\"[專案進度 PROGRESS.md]\\n\" + .)}}' \"$f\" || true"
+          }
+        ]
+      }
+    ]
+  }
+}
