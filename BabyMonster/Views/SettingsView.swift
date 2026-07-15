@@ -1,5 +1,16 @@
 import SwiftUI
 import SwiftData
+import UIKit
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+    func updateUIViewController(_ vc: UIActivityViewController, context: Context) {}
+}
+
+struct ShareItem: Identifiable { let id = UUID(); let url: URL }
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var context
@@ -8,9 +19,8 @@ struct SettingsView: View {
 
     @State private var name = "BabyMonster"
     @State private var birthDate = Date()
-    @State private var showingExporter = false
     @State private var showingImporter = false
-    @State private var exportDocument = BackupDocument(data: Data())
+    @State private var shareItem: ShareItem?
     @State private var message: String?
 
     private var profile: ProfileEntity? { profiles.first }
@@ -33,10 +43,7 @@ struct SettingsView: View {
             }
             .navigationTitle("設定")
             .onAppear { loadProfile() }
-            .fileExporter(isPresented: $showingExporter, document: exportDocument,
-                          contentType: .json, defaultFilename: exportFilename) { result in
-                if case .success = result { message = "已匯出，可用 LINE 傳給家人" }
-            }
+            .sheet(item: $shareItem) { item in ShareSheet(items: [item.url]) }
             .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
                 handleImport(result)
             }
@@ -63,8 +70,12 @@ struct SettingsView: View {
             profile: ProfileData(name: name, birthDate: birthDate),
             records: records.map { $0.data })
         do {
-            exportDocument = BackupDocument(data: try DataTransfer.encode(payload))
-            showingExporter = true
+            let data = try DataTransfer.encode(payload)
+            let fileURL = FileManager.default.temporaryDirectory
+                .appendingPathComponent("\(exportFilename).json")
+            try data.write(to: fileURL, options: .atomic)
+            shareItem = ShareItem(url: fileURL)
+            message = "已產生匯出檔，可透過分享選單傳給家人（例如 LINE）"
         } catch { message = "匯出失敗：\(error.localizedDescription)" }
     }
 

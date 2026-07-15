@@ -10,10 +10,6 @@ struct TrendView: View {
 
     private let presets = [7, 14, 30]
 
-    private var points: [TrendPoint] {
-        TrendSeries.series(metric: metric, days: days, endingOn: Date(), records: records.map { $0.data })
-    }
-
     var body: some View {
         NavigationStack {
             Form {
@@ -29,7 +25,6 @@ struct TrendView: View {
                     }.pickerStyle(.segmented)
                     if days == -1 {
                         Stepper("自訂：\(customDays) 天", value: $customDays, in: 2...180)
-                            .onAppear { customDays = max(2, customDays) }
                     }
                 }
                 Section("\(metric.displayName)（\(metric.unit)）") {

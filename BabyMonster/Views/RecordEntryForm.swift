@@ -53,6 +53,8 @@ struct RecordEntryForm: View {
                         Text("未選").tag(BristolType?.none)
                         ForEach(BristolType.allCases) { Text($0.displayName).tag(BristolType?.some($0)) }
                     }
+                    Text("新生兒／母乳寶寶的便便天生偏軟，常落在第6–7型；此量表偏成人標準，僅供描述參考。")
+                        .font(.footnote).foregroundStyle(.secondary)
                 }
 
                 Section("小便") { Toggle("有小便", isOn: $hasUrine) }
@@ -83,7 +85,7 @@ struct RecordEntryForm: View {
                         Text("\(n)")
                             .frame(maxWidth: .infinity, minHeight: 36)
                             .background(StoolColorCard.color(for: n))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(StoolColorCard.textColor(for: n))
                             .clipShape(RoundedRectangle(cornerRadius: 6))
                             .overlay(RoundedRectangle(cornerRadius: 6)
                                 .stroke(stoolColor == n ? Color.accentColor : .clear, lineWidth: 3))

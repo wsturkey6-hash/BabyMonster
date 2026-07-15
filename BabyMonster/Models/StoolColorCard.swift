@@ -27,4 +27,12 @@ enum StoolColorCard {
     static func label(for number: Int) -> String {
         isAbnormal(number) ? "\(number) 號（異常）" : "\(number) 號（正常）"
     }
+
+    /// 依卡片底色明暗選擇對比較佳的數字顏色。
+    static func textColor(for number: Int) -> Color {
+        switch number {
+        case 8, 9: return .white
+        default: return .black
+        }
+    }
 }
