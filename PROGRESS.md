@@ -26,7 +26,11 @@
 - [x] Task 9：每日統計頁 ✅ commit 3c960d8
 - [x] Task 10：趨勢頁（Swift Charts）+ TrendSeries（TDD）✅ commit c9e9464（27/27 tests）
 - [x] Task 11：設定頁（名字/生日/年齡/匯出匯入）✅ commit 596feef
-- [ ] Task 12：整合 ModelContainer + 端對端驗證（進行中）
+- [x] Task 12：整合 ModelContainer + 端對端驗證 ✅ commit 3e1c6a9（模擬器啟動驗證通過）
+- [x] 最終整支 branch 審查（Opus）+ 修正 wave ✅ commit 834e0d7（share sheet、Bristol 附註、對比、清理死碼）
+
+## 專案狀態：實作完成 ✅（12/12 tasks + 審查 + 修正皆完成，27/27 測試通過，App 模擬器啟動正常）
+下一步：由使用者決定合併 / 開 PR / 推 GitHub（推送需明確同意）。
 
 ## 派工原則（Orchestrator）
 - Opus 調度；純邏輯 TDD 任務（2–7,10 邏輯）派 **Sonnet**；骨架/視圖接線等機械性任務可派 **Haiku**，較繁複的視圖（Task 8/10/11）派 **Sonnet**。
