@@ -22,11 +22,11 @@
 - [x] Task 5：BabyAge（TDD）✅ commit 2645c66
 - [x] Task 6：DataTransfer 匯出/匯入/合併（TDD）✅ commit 7999458
 - [x] Task 7：SwiftData Entities + 對應（TDD）✅ commit 8f488c8（24/24 tests）
-- [ ] Task 8：記錄頁（表單 + 今日時間軸）
-- [ ] Task 9：每日統計頁
-- [ ] Task 10：趨勢頁（Swift Charts）+ TrendSeries（TDD）
-- [ ] Task 11：設定頁（名字/生日/年齡/匯出匯入）
-- [ ] Task 12：整合 ModelContainer + 端對端驗證
+- [x] Task 8：記錄頁（表單 + 今日時間軸）✅ commit 049e85f
+- [x] Task 9：每日統計頁 ✅ commit 3c960d8
+- [x] Task 10：趨勢頁（Swift Charts）+ TrendSeries（TDD）✅ commit c9e9464（27/27 tests）
+- [x] Task 11：設定頁（名字/生日/年齡/匯出匯入）✅ commit 596feef
+- [ ] Task 12：整合 ModelContainer + 端對端驗證（進行中）
 
 ## 派工原則（Orchestrator）
 - Opus 調度；純邏輯 TDD 任務（2–7,10 邏輯）派 **Sonnet**；骨架/視圖接線等機械性任務可派 **Haiku**，較繁複的視圖（Task 8/10/11）派 **Sonnet**。
