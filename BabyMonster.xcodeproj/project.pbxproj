@@ -1,0 +1,182 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AA0000000000000000000001 /* BabyMonster */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = BabyMonster; sourceTree = "<group>"; };
+		AA0000000000000000000002 /* BabyMonsterTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = BabyMonsterTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA0000000000000000000010 /* Frameworks */ = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		AA0000000000000000000011 /* Frameworks */ = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA0000000000000000000012 /* Sources */ = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		AA0000000000000000000013 /* Sources */ = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		AA0000000000000000000020 /* BabyMonster */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000030 /* Build configuration list for PBXNativeTarget "BabyMonster" */;
+			buildPhases = ( AA0000000000000000000012 /* Sources */, AA0000000000000000000010 /* Frameworks */ );
+			buildRules = ();
+			dependencies = ();
+			fileSystemSynchronizedGroups = ( AA0000000000000000000001 /* BabyMonster */ );
+			name = BabyMonster;
+			productName = BabyMonster;
+			productReference = AA0000000000000000000040 /* BabyMonster.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA0000000000000000000021 /* BabyMonsterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000000031 /* Build configuration list for PBXNativeTarget "BabyMonsterTests" */;
+			buildPhases = ( AA0000000000000000000013 /* Sources */, AA0000000000000000000011 /* Frameworks */ );
+			buildRules = ();
+			dependencies = ( AA0000000000000000000051 /* PBXTargetDependency */ );
+			fileSystemSynchronizedGroups = ( AA0000000000000000000002 /* BabyMonsterTests */ );
+			name = BabyMonsterTests;
+			productName = BabyMonsterTests;
+			productReference = AA0000000000000000000041 /* BabyMonsterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA0000000000000000000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					AA0000000000000000000020 = { CreatedOnToolsVersion = 26.0; };
+					AA0000000000000000000021 = { CreatedOnToolsVersion = 26.0; TestTargetID = AA0000000000000000000020; };
+				};
+			};
+			buildConfigurationList = AA0000000000000000000032 /* Build configuration list for PBXProject "BabyMonster" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = ( en, Base );
+			mainGroup = AA0000000000000000000003;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AA0000000000000000000004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = ( AA0000000000000000000020 /* BabyMonster */, AA0000000000000000000021 /* BabyMonsterTests */ );
+		};
+/* End PBXProject section */
+
+/* Begin PBXGroup section */
+		AA0000000000000000000003 = {
+			isa = PBXGroup;
+			children = ( AA0000000000000000000001 /* BabyMonster */, AA0000000000000000000002 /* BabyMonsterTests */, AA0000000000000000000004 /* Products */ );
+			sourceTree = "<group>";
+		};
+		AA0000000000000000000004 /* Products */ = {
+			isa = PBXGroup;
+			children = ( AA0000000000000000000040 /* BabyMonster.app */, AA0000000000000000000041 /* BabyMonsterTests.xctest */ );
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXFileReference section */
+		AA0000000000000000000040 /* BabyMonster.app */ = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyMonster.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0000000000000000000041 /* BabyMonsterTests.xctest */ = { isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyMonsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXTargetDependency section */
+		AA0000000000000000000051 /* PBXTargetDependency */ = { isa = PBXTargetDependency; target = AA0000000000000000000020 /* BabyMonster */; targetProxy = AA0000000000000000000052 /* PBXContainerItemProxy */; };
+/* End PBXTargetDependency section */
+
+/* Begin PBXContainerItemProxy section */
+		AA0000000000000000000052 /* PBXContainerItemProxy */ = { isa = PBXContainerItemProxy; containerPortal = AA0000000000000000000000 /* Project object */; proxyType = 1; remoteGlobalIDString = AA0000000000000000000020; remoteInfo = BabyMonster; };
+/* End PBXContainerItemProxy section */
+
+/* Begin XCBuildConfiguration section */
+		AA0000000000000000000060 /* Debug */ = { isa = XCBuildConfiguration; buildSettings = {
+			ALWAYS_SEARCH_USER_PATHS = NO;
+			CLANG_ENABLE_MODULES = YES;
+			ENABLE_STRICT_OBJC_MSGSEND = YES;
+			GCC_C_LANGUAGE_STANDARD = gnu17;
+			IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+			SDKROOT = iphoneos;
+			SWIFT_VERSION = 5.0;
+			ONLY_ACTIVE_ARCH = YES;
+			DEBUG_INFORMATION_FORMAT = dwarf;
+			ENABLE_TESTABILITY = YES;
+			SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+		}; name = Debug; };
+		AA0000000000000000000061 /* Release */ = { isa = XCBuildConfiguration; buildSettings = {
+			ALWAYS_SEARCH_USER_PATHS = NO;
+			CLANG_ENABLE_MODULES = YES;
+			ENABLE_STRICT_OBJC_MSGSEND = YES;
+			GCC_C_LANGUAGE_STANDARD = gnu17;
+			IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+			SDKROOT = iphoneos;
+			SWIFT_VERSION = 5.0;
+			DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+			SWIFT_COMPILATION_MODE = wholemodule;
+		}; name = Release; };
+		AA0000000000000000000062 /* Debug */ = { isa = XCBuildConfiguration; buildSettings = {
+			PRODUCT_BUNDLE_IDENTIFIER = com.wsturkey6.BabyMonster;
+			PRODUCT_NAME = "$(TARGET_NAME)";
+			GENERATE_INFOPLIST_FILE = YES;
+			INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+			INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+			INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait";
+			SWIFT_EMIT_LOC_STRINGS = YES;
+			ENABLE_PREVIEWS = YES;
+			CODE_SIGN_STYLE = Automatic;
+			CURRENT_PROJECT_VERSION = 1;
+			MARKETING_VERSION = 1.0;
+			TARGETED_DEVICE_FAMILY = "1,2";
+		}; name = Debug; };
+		AA0000000000000000000063 /* Release */ = { isa = XCBuildConfiguration; buildSettings = {
+			PRODUCT_BUNDLE_IDENTIFIER = com.wsturkey6.BabyMonster;
+			PRODUCT_NAME = "$(TARGET_NAME)";
+			GENERATE_INFOPLIST_FILE = YES;
+			INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+			INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+			INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait";
+			SWIFT_EMIT_LOC_STRINGS = YES;
+			ENABLE_PREVIEWS = YES;
+			CODE_SIGN_STYLE = Automatic;
+			CURRENT_PROJECT_VERSION = 1;
+			MARKETING_VERSION = 1.0;
+			TARGETED_DEVICE_FAMILY = "1,2";
+		}; name = Release; };
+		AA0000000000000000000064 /* Debug */ = { isa = XCBuildConfiguration; buildSettings = {
+			PRODUCT_BUNDLE_IDENTIFIER = com.wsturkey6.BabyMonsterTests;
+			PRODUCT_NAME = "$(TARGET_NAME)";
+			GENERATE_INFOPLIST_FILE = YES;
+			BUNDLE_LOADER = "$(TEST_HOST)";
+			TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BabyMonster.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BabyMonster";
+			TARGETED_DEVICE_FAMILY = "1,2";
+		}; name = Debug; };
+		AA0000000000000000000065 /* Release */ = { isa = XCBuildConfiguration; buildSettings = {
+			PRODUCT_BUNDLE_IDENTIFIER = com.wsturkey6.BabyMonsterTests;
+			PRODUCT_NAME = "$(TARGET_NAME)";
+			GENERATE_INFOPLIST_FILE = YES;
+			BUNDLE_LOADER = "$(TEST_HOST)";
+			TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BabyMonster.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BabyMonster";
+			TARGETED_DEVICE_FAMILY = "1,2";
+		}; name = Release; };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA0000000000000000000030 /* Build configuration list for PBXNativeTarget "BabyMonster" */ = { isa = XCConfigurationList; buildConfigurations = ( AA0000000000000000000062 /* Debug */, AA0000000000000000000063 /* Release */ ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		AA0000000000000000000031 /* Build configuration list for PBXNativeTarget "BabyMonsterTests" */ = { isa = XCConfigurationList; buildConfigurations = ( AA0000000000000000000064 /* Debug */, AA0000000000000000000065 /* Release */ ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		AA0000000000000000000032 /* Build configuration list for PBXProject "BabyMonster" */ = { isa = XCConfigurationList; buildConfigurations = ( AA0000000000000000000060 /* Debug */, AA0000000000000000000061 /* Release */ ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = AA0000000000000000000000 /* Project object */;
+}
