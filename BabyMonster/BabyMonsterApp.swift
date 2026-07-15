@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 @main
 struct BabyMonsterApp: App {
@@ -6,5 +7,6 @@ struct BabyMonsterApp: App {
         WindowGroup {
             RootTabView()
         }
+        .modelContainer(for: [RecordEntity.self, ProfileEntity.self])
     }
 }
