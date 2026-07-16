@@ -71,6 +71,7 @@ struct RecordEntryForm: View {
                 ToolbarItem(placement: .cancellationAction) { Button("取消") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) { Button("儲存") { save() } }
             }
+            .dismissKeyboardOnTap()
         }
     }
 
