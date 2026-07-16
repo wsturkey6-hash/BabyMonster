@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="armGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.4" stop-color="#2BA8A0"/>
+      <stop offset="1" stop-color="#4FD9C6"/>
+    </linearGradient>
+    <clipPath id="mouthClip">
+      <path d="M 330 592
+               C 400 648, 624 648, 694 592
+               C 712 700, 655 802, 512 802
+               C 369 802, 312 700, 330 592 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- background -->
+  <rect width="1024" height="1024" fill="#FFFFFF"/>
+
+  <!-- legs -->
+  <g fill="#2BA8A0">
+    <path d="M 393 770 h 92 v 112 a 24 24 0 0 1 -24 24 h -44 a 24 24 0 0 1 -24 -24 Z"/>
+    <path d="M 539 770 h 92 v 112 a 24 24 0 0 1 -24 24 h -44 a 24 24 0 0 1 -24 -24 Z"/>
+  </g>
+
+  <!-- arms -->
+  <g fill="url(#armGrad)">
+    <path d="M 288 545 C 230 570, 190 648, 178 708 a 42 42 0 0 0 82 16 C 272 668, 296 608, 322 580 Z"/>
+    <path d="M 736 545 C 794 570, 834 648, 846 708 a 42 42 0 0 1 -82 16 C 752 668, 728 608, 702 580 Z"/>
+  </g>
+
+  <!-- horns/ears: short chunky flaps -->
+  <g fill="#2BA8A0">
+    <path d="M 296 330 C 278 265, 252 222, 212 192 C 282 186, 356 228, 396 300 Z"/>
+    <path d="M 728 330 C 746 265, 772 222, 812 192 C 742 186, 668 228, 628 300 Z"/>
+  </g>
+
+  <!-- body -->
+  <circle cx="512" cy="490" r="330" fill="#2BA8A0"/>
+
+  <!-- eyes -->
+  <g>
+    <circle cx="400" cy="360" r="96" fill="#FFFFFF"/>
+    <circle cx="400" cy="372" r="60" fill="#0E1111"/>
+    <circle cx="381" cy="352" r="19" fill="#FFFFFF"/>
+    <circle cx="412" cy="382" r="9" fill="#FFFFFF"/>
+    <circle cx="624" cy="360" r="96" fill="#FFFFFF"/>
+    <circle cx="624" cy="372" r="60" fill="#0E1111"/>
+    <circle cx="605" cy="352" r="19" fill="#FFFFFF"/>
+    <circle cx="636" cy="382" r="9" fill="#FFFFFF"/>
+  </g>
+
+  <!-- mouth -->
+  <path d="M 330 592
+           C 400 648, 624 648, 694 592
+           C 712 700, 655 802, 512 802
+           C 369 802, 312 700, 330 592 Z" fill="#0E1111"/>
+
+  <g clip-path="url(#mouthClip)">
+    <!-- upper teeth: separated triangles following the lip curve -->
+    <g fill="#FFFFFF">
+      <path d="M 333 590 l 23 60 l 23 -52 Z"/>
+      <path d="M 411 614 l 23 56 l 23 -52 Z"/>
+      <path d="M 489 624 l 23 56 l 23 -56 Z"/>
+      <path d="M 567 618 l 23 52 l 23 -56 Z"/>
+      <path d="M 645 598 l 23 52 l 23 -60 Z"/>
+    </g>
+    <!-- tongue -->
+    <ellipse cx="512" cy="798" rx="180" ry="100" fill="#F06A78"/>
+    <!-- lower teeth on tongue -->
+    <g fill="#FFFFFF">
+      <path d="M 424 802 l 25 -58 l 25 58 Z"/>
+      <path d="M 488 802 l 24 -62 l 24 62 Z"/>
+      <path d="M 550 802 l 25 -58 l 25 58 Z"/>
+    </g>
+  </g>
+</svg>
