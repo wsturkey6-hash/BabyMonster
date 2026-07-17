@@ -14,26 +14,34 @@ struct ShareItem: Identifiable { let id = UUID(); let url: URL }
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var context
-    @Query private var profiles: [ProfileEntity]
+    @Query(sort: \ProfileEntity.birthDate) private var profiles: [ProfileEntity]
     @Query private var records: [RecordEntity]
 
-    @State private var name = "BabyMonster"
-    @State private var birthDate = Date()
     @State private var showingImporter = false
     @State private var shareItem: ShareItem?
     @State private var toast: Toast?
-
-    private var profile: ProfileEntity? { profiles.first }
+    @State private var showingNewBaby = false
+    @State private var babyToDelete: ProfileEntity?
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("寶寶資料") {
-                    TextField("名字", text: $name)
-                    DatePicker("生日", selection: $birthDate, displayedComponents: .date)
-                    Text("目前年齡：\(BabyAgeCalculator.age(birthDate: birthDate, asOf: Date()).displayText)")
-                        .foregroundStyle(.secondary)
-                    Button("儲存寶寶資料") { saveProfile() }
+                Section("寶寶") {
+                    ForEach(profiles, id: \.id) { p in
+                        NavigationLink {
+                            BabyEditView(baby: p)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(p.name)
+                                Text(BabyAgeCalculator.age(birthDate: p.birthDate, asOf: Date()).displayText)
+                                    .font(.caption).foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    .onDelete { indexSet in
+                        if let i = indexSet.first { babyToDelete = profiles[i] }
+                    }
+                    Button("新增寶寶") { showingNewBaby = true }
                         .buttonStyle(.borderedProminent)
                 }
                 Section("資料同步") {
@@ -44,10 +52,20 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("設定")
-            .onAppear { loadProfile() }
             .sheet(item: $shareItem) { item in ShareSheet(items: [item.url]) }
             .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
                 handleImport(result)
+            }
+            .sheet(isPresented: $showingNewBaby) {
+                NavigationStack { BabyEditView(baby: nil) }
+            }
+            .alert(item: $babyToDelete) { baby in
+                let count = records.filter { $0.babyId == baby.id }.count
+                return Alert(
+                    title: Text("刪除「\(baby.name)」？"),
+                    message: Text("將一併刪除該寶寶的 \(count) 筆記錄，此動作無法復原。"),
+                    primaryButton: .destructive(Text("刪除")) { deleteBaby(baby) },
+                    secondaryButton: .cancel(Text("取消")))
             }
             .toast($toast)
             .dismissKeyboardOnTap()
@@ -59,20 +77,17 @@ struct SettingsView: View {
         return "BabyMonster-\(f.string(from: Date()))"
     }
 
-    private func loadProfile() {
-        if let p = profile { name = p.name; birthDate = p.birthDate }
-    }
-
-    private func saveProfile() {
-        if let p = profile { p.name = name; p.birthDate = birthDate }
-        else { context.insert(ProfileEntity(name: name, birthDate: birthDate)) }
-        toast = Toast(text: "已儲存寶寶資料")
+    private func deleteBaby(_ baby: ProfileEntity) {
+        for r in records where r.babyId == baby.id { context.delete(r) }
+        context.delete(baby)
+        toast = Toast(text: "已刪除寶寶")
     }
 
     private func prepareExport() {
-        let payload = BackupPayload(
-            profile: ProfileData(name: name, birthDate: birthDate),
-            records: records.map { $0.data })
+        guard let first = profiles.first else {
+            toast = Toast(text: "尚無寶寶資料可匯出", duration: 2.5); return
+        }
+        let payload = BackupPayload(profile: first.data, records: records.map { $0.data })
         do {
             let data = try DataTransfer.encode(payload)
             let fileURL = FileManager.default.temporaryDirectory
@@ -94,7 +109,7 @@ struct SettingsView: View {
                 let merged = DataTransfer.mergeRecords(local: records.map { $0.data }, incoming: payload.records)
                 let existingIDs = Set(records.map { $0.id })
                 for r in merged where !existingIDs.contains(r.id) { context.insert(RecordEntity(data: r)) }
-                if profile == nil { context.insert(ProfileEntity(data: payload.profile)) }
+                if profiles.isEmpty { context.insert(ProfileEntity(data: payload.profile)) }
                 toast = Toast(text: "已匯入並合併，共 \(merged.count) 筆記錄")
             } catch { toast = Toast(text: "匯入失敗：\(error.localizedDescription)", duration: 2.5) }
         }

@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class ProfileEntity {
+final class ProfileEntity: Identifiable {
     var id: UUID = UUID()
     var name: String
     var birthDate: Date
