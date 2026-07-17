@@ -3,10 +3,19 @@ import SwiftData
 
 struct DailyStatsView: View {
     @Query private var records: [RecordEntity]
+    @Query(sort: \ProfileEntity.birthDate) private var profiles: [ProfileEntity]
+    @AppStorage("currentBabyId") private var currentBabyIdString = ""
     @State private var date = Date()
 
+    private var currentBaby: ProfileEntity? {
+        let resolved = CurrentBaby.resolve(storedId: UUID(uuidString: currentBabyIdString),
+                                           profileIds: profiles.map { $0.id })
+        return profiles.first { $0.id == resolved }
+    }
+
     private var summary: DailySummary {
-        DailyStats.summary(for: date, records: records.map { $0.data })
+        let babyRecords = records.filter { $0.babyId == currentBaby?.id }
+        return DailyStats.summary(for: date, records: babyRecords.map { $0.data })
     }
 
     var body: some View {
@@ -22,6 +31,7 @@ struct DailyStatsView: View {
                 }
             }
             .navigationTitle("每日統計")
+            .toolbar { ToolbarItem(placement: .topBarLeading) { BabyPickerMenu(profiles: profiles) } }
         }
     }
 
