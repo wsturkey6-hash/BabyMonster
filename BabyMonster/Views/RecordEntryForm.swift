@@ -15,6 +15,7 @@ struct RecordEntryForm: View {
     @State private var note = ""
 
     private let existingID: UUID
+    private let existingBabyId: UUID?
 
     init(initial: RecordData? = nil, onSave: @escaping (RecordData) -> Void) {
         self.onSave = onSave
@@ -28,6 +29,7 @@ struct RecordEntryForm: View {
         _weightText = State(initialValue: initial?.weight.map { String($0) } ?? "")
         _note = State(initialValue: initial?.note ?? "")
         self.existingID = initial?.id ?? UUID()
+        self.existingBabyId = initial?.babyId
     }
 
     var body: some View {
@@ -97,7 +99,7 @@ struct RecordEntryForm: View {
     }
 
     private func save() {
-        let data = RecordData(
+        var data = RecordData(
             id: existingID, timestamp: timestamp,
             feedAmount: Double(feedText.trimmingCharacters(in: .whitespaces)),
             stoolColor: stoolColor, stoolAmount: stoolAmount, stoolShape: stoolShape,
@@ -105,6 +107,7 @@ struct RecordEntryForm: View {
             temperature: Double(tempText.trimmingCharacters(in: .whitespaces)),
             weight: Double(weightText.trimmingCharacters(in: .whitespaces)),
             note: note.isEmpty ? nil : note)
+        data.babyId = existingBabyId
         onSave(data)
         dismiss()
     }

@@ -4,18 +4,25 @@ import SwiftData
 struct RecordView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \RecordEntity.timestamp, order: .reverse) private var records: [RecordEntity]
-    @Query private var profiles: [ProfileEntity]
+    @Query(sort: \ProfileEntity.birthDate) private var profiles: [ProfileEntity]
+    @AppStorage("currentBabyId") private var currentBabyIdString = ""
     @State private var showingForm = false
     @State private var editing: RecordEntity?
 
+    private var currentBaby: ProfileEntity? {
+        let resolved = CurrentBaby.resolve(storedId: UUID(uuidString: currentBabyIdString),
+                                           profileIds: profiles.map { $0.id })
+        return profiles.first { $0.id == resolved }
+    }
+
     private var today: [RecordEntity] {
-        records.filter { Calendar.current.isDateInToday($0.timestamp) }
+        records.filter { $0.babyId == currentBaby?.id && Calendar.current.isDateInToday($0.timestamp) }
     }
 
     var body: some View {
         NavigationStack {
             List {
-                if let p = profiles.first {
+                if let p = currentBaby {
                     Section {
                         Text("\(p.name)　\(BabyAgeCalculator.age(birthDate: p.birthDate, asOf: Date()).displayText)")
                             .font(.subheadline).foregroundStyle(.secondary)
@@ -33,17 +40,32 @@ struct RecordView: View {
             }
             .navigationTitle("記錄")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) { BabyPickerMenu(profiles: profiles) }
                 ToolbarItem(placement: .primaryAction) {
                     Button { showingForm = true } label: { Image(systemName: "plus") }
                 }
             }
             .sheet(isPresented: $showingForm) {
-                RecordEntryForm { data in context.insert(RecordEntity(data: data)) }
+                RecordEntryForm { data in
+                    var d = data
+                    d.babyId = ensureCurrentBaby().id
+                    context.insert(RecordEntity(data: d))
+                }
             }
             .sheet(item: $editing) { entity in
                 RecordEntryForm(initial: entity.data) { data in entity.apply(data) }
             }
         }
+    }
+
+    /// 無任何寶寶時自動建預設寶寶，記錄流程不中斷。
+    private func ensureCurrentBaby() -> ProfileEntity {
+        if let c = currentBaby { return c }
+        let p = ProfileEntity(name: "BabyMonster",
+                              birthDate: Calendar.current.startOfDay(for: Date()))
+        context.insert(p)
+        currentBabyIdString = p.id.uuidString
+        return p
     }
 }
 
