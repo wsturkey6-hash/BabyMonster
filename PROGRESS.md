@@ -35,6 +35,15 @@
 ## 派工原則（Orchestrator）
 - Opus 調度；純邏輯 TDD 任務（2–7,10 邏輯）派 **Sonnet**；骨架/視圖接線等機械性任務可派 **Haiku**，較繁複的視圖（Task 8/10/11）派 **Sonnet**。
 
+## 多寶寶功能完成 ✅（feature/multi-baby，8/8 tasks）
+- Task 1–2：ProfileEntity/RecordEntity 多寶寶欄位（`babyId`）+ `LegacyMigration`（v1→v2 一次性歸屬、冪等、id 去重）
+- Task 3：`CurrentBaby.resolve(storedId:profileIds:)` 目前寶寶解析邏輯
+- Task 4：`BackupPayloadV2` + `DataTransfer.encodeV2/decodeAny/mergeBabies`（v1 相容、id/名字對中合併）
+- Task 5–6：`BabyPickerMenu` 切換器（無寶寶時隱藏）+ 記錄/統計/趨勢頁依目前寶寶過濾
+- Task 7：設定頁寶寶清單管理（新增/編輯/刪除，刪除連帶清記錄）
+- Task 8：匯出範圍選擇（全部寶寶／單一寶寶 confirmationDialog）、匯入走 v2 合併並提示「已匯入並合併：寶寶 X 位、共 Y 筆記錄」、`RootTabView` 加 `.task { try? LegacyMigration.run(context:) }` 啟動遷移接線
+- 測試：44/44 全數通過；模擬器 e2e 驗證 4 分頁正常啟動、無 crash
+
 ## 重要決策備忘
 - 單一寶寶、純本機 SwiftData、iOS 17+、Swift Charts、XCTest
 - 手動 JSON 匯出/匯入（LINE 傳輸），以 record id 聯集去重

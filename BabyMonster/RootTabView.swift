@@ -1,6 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct RootTabView: View {
+    @Environment(\.modelContext) private var context
+
     var body: some View {
         TabView {
             RecordView().tabItem { Label("記錄", systemImage: "square.and.pencil") }
@@ -8,5 +11,6 @@ struct RootTabView: View {
             TrendView().tabItem { Label("趨勢", systemImage: "chart.xyaxis.line") }
             SettingsView().tabItem { Label("設定", systemImage: "gearshape") }
         }
+        .task { try? LegacyMigration.run(context: context) }
     }
 }

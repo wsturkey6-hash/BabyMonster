@@ -22,6 +22,7 @@ struct SettingsView: View {
     @State private var toast: Toast?
     @State private var showingNewBaby = false
     @State private var babyToDelete: ProfileEntity?
+    @State private var showingExportOptions = false
 
     var body: some View {
         NavigationStack {
@@ -45,8 +46,14 @@ struct SettingsView: View {
                         .buttonStyle(.borderedProminent)
                 }
                 Section("資料同步") {
-                    Button("匯出資料（分享給家人）") { prepareExport() }
+                    Button("匯出資料（分享給家人）") { showingExportOptions = true }
                         .buttonStyle(.bordered)
+                        .confirmationDialog("選擇匯出範圍", isPresented: $showingExportOptions, titleVisibility: .visible) {
+                            Button("全部寶寶") { prepareExport(baby: nil) }
+                            ForEach(profiles, id: \.id) { p in
+                                Button(p.name) { prepareExport(baby: p) }
+                            }
+                        }
                     Button("匯入資料（合併）") { showingImporter = true }
                         .buttonStyle(.bordered)
                 }
@@ -72,26 +79,31 @@ struct SettingsView: View {
         }
     }
 
-    private var exportFilename: String {
-        let f = DateFormatter(); f.dateFormat = "yyyyMMdd"
-        return "BabyMonster-\(f.string(from: Date()))"
-    }
-
     private func deleteBaby(_ baby: ProfileEntity) {
         for r in records where r.babyId == baby.id { context.delete(r) }
         context.delete(baby)
         toast = Toast(text: "已刪除寶寶")
     }
 
-    private func prepareExport() {
-        guard let first = profiles.first else {
+    private func sanitized(_ s: String) -> String {
+        s.replacingOccurrences(of: "/", with: "-").replacingOccurrences(of: ":", with: "-")
+    }
+
+    private func prepareExport(baby: ProfileEntity?) {
+        let selectedProfiles = baby.map { [$0.data] } ?? profiles.map { $0.data }
+        guard !selectedProfiles.isEmpty else {
             toast = Toast(text: "尚無寶寶資料可匯出", duration: 2.5); return
         }
-        let payload = BackupPayload(profile: first.data, records: records.map { $0.data })
+        let ids = Set(selectedProfiles.map { $0.id })
+        let selectedRecords = records.map { $0.data }
+            .filter { $0.babyId.map(ids.contains) ?? false }
+        let payload = BackupPayloadV2(profiles: selectedProfiles, records: selectedRecords)
         do {
-            let data = try DataTransfer.encode(payload)
+            let data = try DataTransfer.encodeV2(payload)
+            let f = DateFormatter(); f.dateFormat = "yyyyMMdd"
+            let base = baby.map { "BabyMonster-\(sanitized($0.name))" } ?? "BabyMonster"
             let fileURL = FileManager.default.temporaryDirectory
-                .appendingPathComponent("\(exportFilename).json")
+                .appendingPathComponent("\(base)-\(f.string(from: Date())).json")
             try data.write(to: fileURL, options: .atomic)
             shareItem = ShareItem(url: fileURL)
             toast = Toast(text: "已產生匯出檔，可透過分享選單傳給家人（例如 LINE）")
@@ -105,12 +117,21 @@ struct SettingsView: View {
             let needsStop = url.startAccessingSecurityScopedResource()
             defer { if needsStop { url.stopAccessingSecurityScopedResource() } }
             do {
-                let payload = try DataTransfer.decode(try Data(contentsOf: url))
-                let merged = DataTransfer.mergeRecords(local: records.map { $0.data }, incoming: payload.records)
-                let existingIDs = Set(records.map { $0.id })
-                for r in merged where !existingIDs.contains(r.id) { context.insert(RecordEntity(data: r)) }
-                if profiles.isEmpty { context.insert(ProfileEntity(data: payload.profile)) }
-                toast = Toast(text: "已匯入並合併，共 \(merged.count) 筆記錄")
+                let incoming = try DataTransfer.decodeAny(try Data(contentsOf: url))
+                let merged = DataTransfer.mergeBabies(
+                    localProfiles: profiles.map { $0.data },
+                    localRecords: records.map { $0.data },
+                    incomingProfiles: incoming.profiles,
+                    incomingRecords: incoming.records)
+                let existingProfileIds = Set(profiles.map { $0.id })
+                for p in merged.profiles where !existingProfileIds.contains(p.id) {
+                    context.insert(ProfileEntity(data: p))
+                }
+                let existingRecordIds = Set(records.map { $0.id })
+                for r in merged.records where !existingRecordIds.contains(r.id) {
+                    context.insert(RecordEntity(data: r))
+                }
+                toast = Toast(text: "已匯入並合併：寶寶 \(merged.profiles.count) 位、共 \(merged.records.count) 筆記錄")
             } catch { toast = Toast(text: "匯入失敗：\(error.localizedDescription)", duration: 2.5) }
         }
     }
