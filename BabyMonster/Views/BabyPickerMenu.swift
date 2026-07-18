@@ -7,9 +7,7 @@ struct BabyPickerMenu: View {
     @AppStorage("currentBabyId") private var currentBabyIdString = ""
 
     private var current: ProfileEntity? {
-        let resolved = CurrentBaby.resolve(storedId: UUID(uuidString: currentBabyIdString),
-                                           profileIds: profiles.map { $0.id })
-        return profiles.first { $0.id == resolved }
+        CurrentBaby.entity(in: profiles, storedString: currentBabyIdString)
     }
 
     var body: some View {

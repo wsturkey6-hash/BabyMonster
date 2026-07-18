@@ -56,6 +56,8 @@ struct SettingsView: View {
                         }
                     Button("匯入資料（合併）") { showingImporter = true }
                         .buttonStyle(.bordered)
+                    Text("匯入時：同名寶寶會視為同一位合併記錄")
+                        .font(.footnote).foregroundStyle(.secondary)
                 }
             }
             .navigationTitle("設定")
@@ -67,7 +69,7 @@ struct SettingsView: View {
                 NavigationStack { BabyEditView(baby: nil) }
             }
             .alert(item: $babyToDelete) { baby in
-                let count = records.filter { $0.babyId == baby.id }.count
+                let count = BabyRecords.belonging(to: baby.id, in: records.map { $0.data }).count
                 return Alert(
                     title: Text("刪除「\(baby.name)」？"),
                     message: Text("將一併刪除該寶寶的 \(count) 筆記錄，此動作無法復原。"),
@@ -80,7 +82,8 @@ struct SettingsView: View {
     }
 
     private func deleteBaby(_ baby: ProfileEntity) {
-        for r in records where r.babyId == baby.id { context.delete(r) }
+        let doomed = Set(BabyRecords.belonging(to: baby.id, in: records.map { $0.data }).map { $0.id })
+        for r in records where doomed.contains(r.id) { context.delete(r) }
         context.delete(baby)
         toast = Toast(text: "已刪除寶寶")
     }
@@ -95,8 +98,7 @@ struct SettingsView: View {
             toast = Toast(text: "尚無寶寶資料可匯出", duration: 2.5); return
         }
         let ids = Set(selectedProfiles.map { $0.id })
-        let selectedRecords = records.map { $0.data }
-            .filter { $0.babyId.map(ids.contains) ?? false }
+        let selectedRecords = BabyRecords.belonging(to: ids, in: records.map { $0.data })
         let payload = BackupPayloadV2(profiles: selectedProfiles, records: selectedRecords)
         do {
             let data = try DataTransfer.encodeV2(payload)

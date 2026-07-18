@@ -10,9 +10,7 @@ struct RecordView: View {
     @State private var editing: RecordEntity?
 
     private var currentBaby: ProfileEntity? {
-        let resolved = CurrentBaby.resolve(storedId: UUID(uuidString: currentBabyIdString),
-                                           profileIds: profiles.map { $0.id })
-        return profiles.first { $0.id == resolved }
+        CurrentBaby.entity(in: profiles, storedString: currentBabyIdString)
     }
 
     private var today: [RecordEntity] {

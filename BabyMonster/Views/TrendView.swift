@@ -13,9 +13,7 @@ struct TrendView: View {
     private let presets = [7, 14, 30]
 
     private var currentBaby: ProfileEntity? {
-        let resolved = CurrentBaby.resolve(storedId: UUID(uuidString: currentBabyIdString),
-                                           profileIds: profiles.map { $0.id })
-        return profiles.first { $0.id == resolved }
+        CurrentBaby.entity(in: profiles, storedString: currentBabyIdString)
     }
 
     var body: some View {
