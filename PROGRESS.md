@@ -44,6 +44,14 @@
 - Task 8：匯出範圍選擇（全部寶寶／單一寶寶 confirmationDialog）、匯入走 v2 合併並提示「已匯入並合併：寶寶 X 位、共 Y 筆記錄」、`RootTabView` 加 `.task { try? LegacyMigration.run(context:) }` 啟動遷移接線
 - 測試：44/44 全數通過；模擬器 e2e 驗證 4 分頁正常啟動、無 crash
 
+## 網頁版（PWA）進行中 🔨
+- 動機：太太不想開開發者模式側載、不想 7 天重裝 → 純前端 PWA（加入主畫面即像 App、資料持久）
+- Spec：`docs/superpowers/specs/2026-07-18-babymonster-web-design.md`（已核可）
+- Plan：`docs/superpowers/plans/2026-07-18-babymonster-web-implementation.md`（14 Task，React+TS+Vite+Dexie+Recharts，邏輯層 TDD 鏡射 iOS）
+- 關鍵決策：直接做多寶寶 v2（iOS 已同步完成 v2，PR #3）；匯出 ISO 8601 無毫秒（Swift .iso8601 相容）；GitHub Pages 同 repo `web/` 部署
+- [ ] Task 1–14 執行（於 worktree 分支 `feature/web`；完成逐項勾選並附 commit hash）
+- 首次部署需使用者在 repo Settings → Pages 選 Source = GitHub Actions；推送需明確同意
+
 ## 重要決策備忘
 - 單一寶寶、純本機 SwiftData、iOS 17+、Swift Charts、XCTest
 - 手動 JSON 匯出/匯入（LINE 傳輸），以 record id 聯集去重

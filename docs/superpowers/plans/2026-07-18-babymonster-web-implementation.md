@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- **執行環境**：以 `superpowers:using-git-worktrees` 建立隔離 worktree，分支 `feature/web` 基於 `main`。⚠️ 主工作區有另一個 session 在 `feature/multi-baby` 上進行 iOS 多寶寶實作（含未 commit 修改），**絕不可動主工作區的分支或 Swift 檔**。
+- **執行環境**：以 `superpowers:using-git-worktrees` 建立隔離 worktree，分支 `feature/web` 基於 `main`（iOS 多寶寶已於 PR #3 合併，main 上的 `DataTransfer.swift` v2 實作即為相容性對照基準）。不動任何 Swift 檔。
 - 所有網頁程式碼放 `web/`；deploy workflow 放 `.github/workflows/`。
 - Vite `base: '/BabyMonster/'`（GitHub Pages 路徑）。
 - **日期匯出格式**：ISO 8601 UTC 秒級**無毫秒**（`YYYY-MM-DDTHH:mm:ssZ`）；解析時寬鬆（接受毫秒）。
