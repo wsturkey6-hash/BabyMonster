@@ -11,6 +11,7 @@ struct RecordData: Codable, Identifiable, Equatable {
     var temperature: Double?     // °C
     var weight: Double?          // g
     var note: String?
+    var babyId: UUID? = nil      // 所屬寶寶；nil = 遷移前舊資料
 
     var hasStool: Bool { stoolColor != nil }
 }

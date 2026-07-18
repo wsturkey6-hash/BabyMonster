@@ -1,0 +1,78 @@
+import XCTest
+@testable import BabyMonster
+
+final class DataTransferV2Tests: XCTestCase {
+    func rec(_ id: UUID, _ t: TimeInterval, baby: UUID?, feed: Double? = nil) -> RecordData {
+        var r = RecordData(id: id, timestamp: Date(timeIntervalSince1970: t), feedAmount: feed,
+                           stoolColor: nil, stoolAmount: nil, stoolShape: nil, hasUrine: false,
+                           temperature: nil, weight: nil, note: nil)
+        r.babyId = baby
+        return r
+    }
+
+    func testV2RoundTrip() throws {
+        let baby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        let payload = BackupPayloadV2(profiles: [baby],
+                                      records: [rec(UUID(), 1000, baby: baby.id, feed: 100)])
+        let decoded = try DataTransfer.decodeAny(DataTransfer.encodeV2(payload))
+        XCTAssertEqual(decoded, payload)
+    }
+
+    func testDecodeV1FileConvertsToV2() throws {
+        let v1Json = """
+        {"profile":{"name":"Old","birthDate":"2024-05-20T00:00:00Z"},
+         "records":[{"id":"00000000-0000-0000-0000-000000000001",
+                     "timestamp":"2026-01-01T08:00:00Z","hasUrine":true}]}
+        """.data(using: .utf8)!
+        let v2 = try DataTransfer.decodeAny(v1Json)
+        XCTAssertEqual(v2.profiles.count, 1)
+        XCTAssertEqual(v2.profiles.first?.name, "Old")
+        XCTAssertEqual(v2.records.count, 1)
+        XCTAssertEqual(v2.records.first?.babyId, v2.profiles.first?.id) // 全綁該寶寶
+    }
+
+    func testMergeBabiesMatchById() {
+        let baby = ProfileData(name: "同id", birthDate: Date(timeIntervalSince1970: 0))
+        var incomingBaby = baby; incomingBaby.name = "改過名"     // 同 id、不同名 → 本機為準
+        let result = DataTransfer.mergeBabies(
+            localProfiles: [baby], localRecords: [],
+            incomingProfiles: [incomingBaby], incomingRecords: [rec(UUID(), 1, baby: baby.id)])
+        XCTAssertEqual(result.profiles.count, 1)
+        XCTAssertEqual(result.profiles.first?.name, "同id")
+        XCTAssertEqual(result.records.count, 1)
+    }
+
+    func testMergeBabiesMatchByNameRemapsBabyId() {
+        let localBaby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        let remoteBaby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 50)) // 不同 id 同名
+        let r1 = rec(UUID(), 1000, baby: remoteBaby.id, feed: 60)
+        let result = DataTransfer.mergeBabies(
+            localProfiles: [localBaby], localRecords: [],
+            incomingProfiles: [remoteBaby], incomingRecords: [r1])
+        XCTAssertEqual(result.profiles.count, 1)                       // 不新增寶寶
+        XCTAssertEqual(result.records.first?.babyId, localBaby.id)     // babyId 重對映
+    }
+
+    func testMergeBabiesNewBabyAppended() {
+        let localBaby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        let newBaby = ProfileData(name: "小美", birthDate: Date(timeIntervalSince1970: 99))
+        let r1 = rec(UUID(), 1000, baby: newBaby.id)
+        let result = DataTransfer.mergeBabies(
+            localProfiles: [localBaby], localRecords: [],
+            incomingProfiles: [newBaby], incomingRecords: [r1])
+        XCTAssertEqual(result.profiles.count, 2)
+        XCTAssertEqual(result.records.first?.babyId, newBaby.id)       // 不重對映
+    }
+
+    func testMergeBabiesRecordDedupLocalWins() {
+        let baby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        let shared = UUID()
+        let localRec = rec(shared, 1000, baby: baby.id, feed: 100)
+        let incomingRec = rec(shared, 1000, baby: baby.id, feed: 999)
+        let result = DataTransfer.mergeBabies(
+            localProfiles: [baby], localRecords: [localRec],
+            incomingProfiles: [baby], incomingRecords: [incomingRec])
+        XCTAssertEqual(result.records.count, 1)
+        XCTAssertEqual(result.records.first?.feedAmount, 100)
+    }
+}
