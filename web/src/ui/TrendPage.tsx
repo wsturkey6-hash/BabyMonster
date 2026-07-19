@@ -76,7 +76,7 @@ export default function TrendPage({ profiles, currentBaby, onSelectBaby }: PageP
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="label" tick={{ fontSize: 12 }} interval="preserveStartEnd" />
             <YAxis tick={{ fontSize: 12 }} />
-            <Tooltip formatter={(v: number) => [`${v} ${TREND_METRIC_UNITS[metric]}`, TREND_METRIC_NAMES[metric]]} />
+            <Tooltip formatter={(v) => [v == null ? '—' : `${v} ${TREND_METRIC_UNITS[metric]}`, TREND_METRIC_NAMES[metric]]} />
             <Line type="monotone" dataKey="value" stroke="#f4a940" strokeWidth={2} dot={{ r: 3 }} connectNulls={false} />
           </LineChart>
         </ResponsiveContainer>
