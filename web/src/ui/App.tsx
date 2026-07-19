@@ -3,6 +3,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { loadCurrentBabyId, resolveCurrentBaby, saveCurrentBabyId } from '../db/repository';
 import type { ProfileData } from '../logic/types';
+import RecordPage from './RecordPage';
 
 export interface PageProps {
   profiles: ProfileData[];
@@ -31,11 +32,10 @@ export default function App() {
   };
 
   const pageProps: PageProps = { profiles, currentBaby, onSelectBaby };
-  void pageProps; // Task 10–13 接上各頁後移除此行
 
   return (
     <>
-      {tab === 'record' && <main className="page"><p>記錄頁施工中</p></main>}
+      {tab === 'record' && <RecordPage {...pageProps} />}
       {tab === 'stats' && <main className="page"><p>每日統計頁施工中</p></main>}
       {tab === 'trend' && <main className="page"><p>趨勢頁施工中</p></main>}
       {tab === 'settings' && <main className="page"><p>設定頁施工中</p></main>}
