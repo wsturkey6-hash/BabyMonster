@@ -150,3 +150,30 @@ export function decodeAny(text: string): BackupPayloadV2 {
 
   throw new Error('無法辨識的備份檔格式');
 }
+
+// ---- 匯入合併（規則見 spec §7.3–7.4） ----
+
+export function mergeBabies(local: BackupPayloadV2, incoming: BackupPayloadV2): BackupPayloadV2 {
+  const profiles = [...local.profiles];
+  const remap = new Map<string, string>(); // incoming babyId -> local babyId
+
+  for (const p of incoming.profiles) {
+    if (profiles.some((x) => x.id === p.id)) continue; // id 對中：保留本機
+    const byName = profiles.find((x) => x.name === p.name);
+    if (byName) {
+      remap.set(p.id, byName.id); // 名字對中：重對映
+    } else {
+      profiles.push(p); // 全新寶寶
+    }
+  }
+
+  const byId = new Map<string, RecordData>();
+  for (const r of incoming.records) {
+    const mapped = remap.get(r.babyId);
+    byId.set(r.id, mapped ? { ...r, babyId: mapped } : r);
+  }
+  for (const r of local.records) byId.set(r.id, r); // 本機覆蓋 incoming
+
+  const records = [...byId.values()].sort((a, b) => a.timestamp - b.timestamp);
+  return { profiles, records };
+}
