@@ -35,16 +35,20 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
   }
 
   async function saveBaby() {
-    const n = name.trim() || 'BabyMonster';
-    const b = msFromDateInput(birth);
-    if (editingId === 'new') {
-      const p: ProfileData = { id: crypto.randomUUID(), name: n, birthDate: b };
-      await db.profiles.add(p);
-      onSelectBaby(p.id);
-    } else if (editingId) {
-      await db.profiles.update(editingId, { name: n, birthDate: b });
+    try {
+      const n = name.trim() || 'BabyMonster';
+      const b = msFromDateInput(birth);
+      if (editingId === 'new') {
+        const p: ProfileData = { id: crypto.randomUUID(), name: n, birthDate: b };
+        await db.profiles.add(p);
+        onSelectBaby(p.id);
+      } else if (editingId) {
+        await db.profiles.update(editingId, { name: n, birthDate: b });
+      }
+      setEditingId(null);
+    } catch (e) {
+      show(`儲存失敗：${(e as Error).message}`);
     }
-    setEditingId(null);
   }
 
   async function removeBaby(p: ProfileData) {
@@ -80,7 +84,7 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
         a.href = url;
         a.download = filename;
         a.click();
-        URL.revokeObjectURL(url);
+        setTimeout(() => URL.revokeObjectURL(url), 10_000);
       }
       show('已匯出');
     } catch (e) {
