@@ -49,9 +49,11 @@
 - Spec：`docs/superpowers/specs/2026-07-18-babymonster-web-design.md`（已核可）
 - Plan：`docs/superpowers/plans/2026-07-18-babymonster-web-implementation.md`（14 Task，React+TS+Vite+Dexie+Recharts，邏輯層 TDD 鏡射 iOS）
 - 關鍵決策：直接做多寶寶 v2（iOS 已同步完成 v2，PR #3）；匯出 ISO 8601 無毫秒（Swift .iso8601 相容）；GitHub Pages 同 repo `web/` 部署
-- [x] Task 1–14 完成（47/47 tests；詳細 commit 對照見 .superpowers/sdd/progress.md）
-- 部署：GitHub Pages（`.github/workflows/deploy-web.yml`）；首次需在 repo Settings → Pages 選 Source = GitHub Actions（使用者操作）
-- 待使用者同意後推送 GitHub 觸發部署
+- [x] Task 1–14 完成（詳細 commit 對照見 .superpowers/sdd/progress.md）
+- [x] 最終整支 branch 審查（Opus）+ 修正 wave ✅ commit f3239c5（Critical：UUID 大小寫正規化 — Swift 匯出大寫、web 需不分大小寫合併；Important：NaN 日期防護），50/50 tests
+- [x] 已合併回 main（b5975b3）並推送 GitHub（使用者同意）；worktree 與 feature/web 已清理
+- 部署網址：https://wsturkey6-hash.github.io/BabyMonster/ ；首次需在 repo Settings → Pages 選 Source = GitHub Actions（使用者操作），之後 push web/** 自動部署
+- 延後項目（post-merge）：iOS 實匯出檔 fixture 測試、刪寶寶後匯出範圍重設、share 失敗退回下載、totalFeed 小數格式、toast 計時器重疊、PR 觸發 CI、recharts manualChunks
 
 ## 重要決策備忘
 - 單一寶寶、純本機 SwiftData、iOS 17+、Swift Charts、XCTest
