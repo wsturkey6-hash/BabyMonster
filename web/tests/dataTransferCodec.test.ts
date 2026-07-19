@@ -40,6 +40,10 @@ describe('ISO 8601 日期（相容性關鍵）', () => {
     expect(() => msFromIso('2026-07-18')).toThrow();
     expect(() => msFromIso('not a date')).toThrow();
   });
+  it('isoFromMs 對非有限輸入丟出明確錯誤', () => {
+    expect(() => isoFromMs(NaN)).toThrow('無效的時間值');
+    expect(() => isoFromMs(Infinity)).toThrow('無效的時間值');
+  });
 });
 
 describe('encodeV2', () => {
@@ -87,5 +91,25 @@ describe('decodeAny', () => {
   it('無法辨識的格式丟錯', () => {
     expect(() => decodeAny('{"foo":1}')).toThrow();
     expect(() => decodeAny('not json')).toThrow();
+  });
+  it('大寫 UUID（iOS 匯出）解碼後正規化為小寫', () => {
+    const lowerProfileId = 'aabbccdd-1111-1111-1111-111111111111';
+    const lowerRecordId = 'ddeeffab-2222-2222-2222-222222222222';
+    const raw = {
+      version: 2,
+      profiles: [{ id: lowerProfileId.toUpperCase(), name: '小明', birthDate: '2025-11-02T00:00:00Z' }],
+      records: [
+        {
+          id: lowerRecordId.toUpperCase(),
+          babyId: lowerProfileId.toUpperCase(),
+          timestamp: '2026-07-18T04:56:00Z',
+          hasUrine: true,
+        },
+      ],
+    };
+    const v2 = decodeAny(JSON.stringify(raw));
+    expect(v2.profiles[0].id).toBe(lowerProfileId);
+    expect(v2.records[0].id).toBe(lowerRecordId);
+    expect(v2.records[0].babyId).toBe(lowerProfileId);
   });
 });

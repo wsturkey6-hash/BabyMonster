@@ -8,6 +8,7 @@ export interface BackupPayloadV2 {
 // ---- ISO 8601（相容性關鍵：Swift JSONDecoder(.iso8601) 不接受毫秒） ----
 
 export function isoFromMs(ms: number): string {
+  if (!Number.isFinite(ms)) throw new Error('無效的時間值');
   return new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z');
 }
 
@@ -73,7 +74,7 @@ function parseProfile(raw: unknown, where: string): ProfileData {
   const o = raw as Raw;
   if (typeof o.id !== 'string' || o.id === '') fail(where, '缺少 id');
   if (typeof o.name !== 'string') fail(where, '缺少名字');
-  return { id: o.id, name: o.name, birthDate: msFromIso(o.birthDate as string) };
+  return { id: o.id.toLowerCase(), name: o.name, birthDate: msFromIso(o.birthDate as string) };
 }
 
 function optNumber(o: Raw, key: string, where: string): number | undefined {
@@ -87,8 +88,9 @@ function parseRecord(raw: unknown, where: string, forcedBabyId?: string): Record
   if (raw === null || typeof raw !== 'object') fail(where, '記錄不是物件');
   const o = raw as Raw;
   if (typeof o.id !== 'string' || o.id === '') fail(where, '缺少 id');
-  const babyId = forcedBabyId ?? o.babyId;
-  if (typeof babyId !== 'string' || babyId === '') fail(where, '缺少 babyId');
+  const babyIdRaw = forcedBabyId ?? o.babyId;
+  if (typeof babyIdRaw !== 'string' || babyIdRaw === '') fail(where, '缺少 babyId');
+  const babyId = babyIdRaw.toLowerCase();
   if (typeof o.hasUrine !== 'boolean') fail(where, '缺少 hasUrine');
 
   const stoolColor = optNumber(o, 'stoolColor', where);
@@ -104,7 +106,7 @@ function parseRecord(raw: unknown, where: string, forcedBabyId?: string): Record
   if (note !== undefined && typeof note !== 'string') fail(where, 'note 不是字串');
 
   return stripUndefined({
-    id: o.id,
+    id: (o.id as string).toLowerCase(),
     babyId,
     timestamp: msFromIso(o.timestamp as string),
     feedAmount: optNumber(o, 'feedAmount', where),

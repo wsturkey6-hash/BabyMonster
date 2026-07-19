@@ -80,10 +80,11 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
       baby = await createDefaultBaby();
       onSelectBaby(baby.id);
     }
+    const ts = msFromDatetimeLocal(timestamp);
     const rec: RecordData = {
       id: editing?.id ?? crypto.randomUUID(),
       babyId: editing?.babyId ?? baby.id,
-      timestamp: msFromDatetimeLocal(timestamp),
+      timestamp: Number.isFinite(ts) ? ts : Date.now(),
       hasUrine: urine,
       ...(parseNum(feed) !== undefined ? { feedAmount: parseNum(feed) } : {}),
       ...(stoolColor !== null ? { stoolColor } : {}),

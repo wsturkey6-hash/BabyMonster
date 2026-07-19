@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mergeBabies } from '../src/logic/dataTransfer';
+import { decodeAny, mergeBabies } from '../src/logic/dataTransfer';
 import type { RecordData } from '../src/logic/types';
 
 const A = 'aaaaaaaa-0000-0000-0000-000000000001';
@@ -68,5 +68,35 @@ describe('mergeBabies', () => {
     );
     expect(r.profiles).toHaveLength(2);
     expect(r.records.map((x) => x.babyId)).toEqual([A, B]);
+  });
+
+  it('iOS 大寫 id 與本機小寫 id 視為同一筆（去重、id 對中）', () => {
+    const R = 'dddddddd-0000-0000-0000-000000000003';
+    const local = {
+      profiles: [{ id: A, name: '小明', birthDate: 0 }],
+      records: [rec(R, A, 1000, 100)],
+    };
+    // 模擬 iOS 重新匯出：同一份資料，id 一律大寫（Swift JSONEncoder 行為）
+    const incomingRaw = JSON.stringify({
+      version: 2,
+      profiles: [{ id: A.toUpperCase(), name: '改過名', birthDate: '1970-01-01T00:00:00Z' }],
+      records: [
+        {
+          id: R.toUpperCase(),
+          babyId: A.toUpperCase(),
+          timestamp: '1970-01-01T00:00:01Z',
+          feedAmount: 999,
+          hasUrine: false,
+        },
+      ],
+    });
+    const incoming = decodeAny(incomingRaw);
+
+    const r = mergeBabies(local, incoming);
+
+    expect(r.profiles).toHaveLength(1);
+    expect(r.profiles[0].name).toBe('小明'); // 本機優先
+    expect(r.records).toHaveLength(1);
+    expect(r.records[0].feedAmount).toBe(100); // 本機優先，未產生重複記錄
   });
 });

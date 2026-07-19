@@ -38,6 +38,10 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
     try {
       const n = name.trim() || 'BabyMonster';
       const b = msFromDateInput(birth);
+      if (!Number.isFinite(b)) {
+        show('請先選擇生日');
+        return;
+      }
       if (editingId === 'new') {
         const p: ProfileData = { id: crypto.randomUUID(), name: n, birthDate: b };
         await db.profiles.add(p);
