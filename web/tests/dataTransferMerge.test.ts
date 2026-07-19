@@ -54,4 +54,19 @@ describe('mergeBabies', () => {
     );
     expect(r.records.map((x) => x.id)).toEqual(['r1', 'r2']);
   });
+
+  it('同檔兩個同名新寶寶 → 都新增、各自保留 babyId（鏡射 iOS：只對原始 local 比對）', () => {
+    const r = mergeBabies(
+      { profiles: [], records: [] },
+      {
+        profiles: [
+          { id: A, name: '小明', birthDate: 0 },
+          { id: B, name: '小明', birthDate: 50 },
+        ],
+        records: [rec('r1', A, 1000), rec('r2', B, 2000)],
+      },
+    );
+    expect(r.profiles).toHaveLength(2);
+    expect(r.records.map((x) => x.babyId)).toEqual([A, B]);
+  });
 });

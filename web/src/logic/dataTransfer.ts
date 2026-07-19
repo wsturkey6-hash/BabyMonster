@@ -158,8 +158,8 @@ export function mergeBabies(local: BackupPayloadV2, incoming: BackupPayloadV2): 
   const remap = new Map<string, string>(); // incoming babyId -> local babyId
 
   for (const p of incoming.profiles) {
-    if (profiles.some((x) => x.id === p.id)) continue; // id 對中：保留本機
-    const byName = profiles.find((x) => x.name === p.name);
+    if (local.profiles.some((x) => x.id === p.id)) continue; // id 對中：保留本機
+    const byName = local.profiles.find((x) => x.name === p.name);
     if (byName) {
       remap.set(p.id, byName.id); // 名字對中：重對映
     } else {
