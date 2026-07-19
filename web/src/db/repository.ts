@@ -12,15 +12,6 @@ export async function allData(): Promise<BackupPayloadV2> {
 /** 匯入合併：單一 transaction，任何失敗全回滾。 */
 export async function importMerge(incoming: BackupPayloadV2): Promise<void> {
   await db.transaction('rw', db.profiles, db.records, async () => {
-    // Validate incoming data for duplicate IDs
-    const incomingIds = new Set<string>();
-    for (const r of incoming.records) {
-      if (incomingIds.has(r.id)) {
-        throw new Error(`Duplicate record ID in incoming data: ${r.id}`);
-      }
-      incomingIds.add(r.id);
-    }
-
     const local = {
       profiles: await db.profiles.toArray(),
       records: await db.records.toArray(),

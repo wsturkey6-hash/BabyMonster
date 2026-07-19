@@ -47,12 +47,24 @@ describe('importMerge', () => {
 
   it('匯入失敗 → 回滾，現有資料不動', async () => {
     await db.profiles.add(baby(A, '小明'));
-    // incoming 內部 record id 重複 → bulkAdd 觸發 ConstraintError → transaction 中止
-    const dupRecords = [rec('same', A, 1), rec('same', A, 2)];
-    await expect(importMerge({ profiles: [], records: dupRecords })).rejects.toThrow();
+    await db.records.add(rec('r1', A, 1000));
+    // 同 id、不同名字的兩個 profile 會通過 mergeBabies（比對僅針對原始 local，鏡射 iOS），
+    // 在 transaction 內 clear 之後的 profiles.bulkAdd 觸發 ConstraintError → 全回滾
+    const dupProfiles = [baby(B, '小美'), { ...baby(B, '小強') }];
+    await expect(importMerge({ profiles: dupProfiles, records: [] })).rejects.toThrow();
     const d = await allData();
     expect(d.profiles).toHaveLength(1);
-    expect(d.records).toHaveLength(0);
+    expect(d.profiles[0].name).toBe('小明');
+    expect(d.records).toHaveLength(1);
+  });
+
+  it('incoming 內部重複 record id → 由 mergeBabies 去重，匯入成功存 1 筆', async () => {
+    await importMerge({
+      profiles: [baby(A, '小明')],
+      records: [rec('same', A, 1), rec('same', A, 2)],
+    });
+    const d = await allData();
+    expect(d.records).toHaveLength(1);
   });
 });
 
