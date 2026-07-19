@@ -6,6 +6,7 @@ import type { ProfileData } from '../logic/types';
 import RecordPage from './RecordPage';
 import DailyStatsPage from './DailyStatsPage';
 import TrendPage from './TrendPage';
+import SettingsPage from './SettingsPage';
 
 export interface PageProps {
   profiles: ProfileData[];
@@ -40,7 +41,7 @@ export default function App() {
       {tab === 'record' && <RecordPage {...pageProps} />}
       {tab === 'stats' && <DailyStatsPage {...pageProps} />}
       {tab === 'trend' && <TrendPage {...pageProps} />}
-      {tab === 'settings' && <main className="page"><p>設定頁施工中</p></main>}
+      {tab === 'settings' && <SettingsPage {...pageProps} />}
       <nav className="tabbar">
         {TABS.map((t) => (
           <button key={t.key} className={'tab' + (tab === t.key ? ' active' : '')} onClick={() => setTab(t.key)}>
