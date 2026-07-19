@@ -2,10 +2,12 @@
 
 > 每完成一個任務就更新此檔。SessionStart 會自動載入本檔，撞到用量上限 reset 後可據此接續。
 
-## 目前狀態
-- 階段：**準備執行**（brainstorming + writing-plans 完成）
-- Spec：`docs/superpowers/specs/2026-07-14-babymonster-design.md`（已核可）
-- Plan：`docs/superpowers/plans/2026-07-15-babymonster-implementation.md`（12 個 Task）
+## 目前狀態（2026-07-20 更新）
+- 階段：**三大里程碑全部完成** — iOS 版（12 tasks）、多寶寶 v2（8 tasks）、網頁版 PWA（14 tasks）皆已實作、審查、修正並合併至 main
+- main 最新 commit：2e34254（進度紀錄）；已推送 GitHub
+- 工作目錄乾淨，僅 `.claude/launch.json` 未追蹤（本機 preview 設定，可不入版控）
+- 下一步候選：處理網頁版延後項目（見下方「延後項目」清單）、確認 GitHub Pages 部署正常、或依使用者新需求開展
+- 原始 Spec：`docs/superpowers/specs/2026-07-14-babymonster-design.md`；Plan：`docs/superpowers/plans/2026-07-15-babymonster-implementation.md`
 
 ## 已完成
 - [x] 需求釐清與設計（brainstorming）
