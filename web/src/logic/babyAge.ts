@@ -12,7 +12,7 @@ export function babyAge(birthMs: number, asOfMs: number): BabyAge {
   const a = new Date(asOfMs);
 
   let totalMonths = (a.getFullYear() - b.getFullYear()) * 12 + (a.getMonth() - b.getMonth());
-  if (a.getDate() < b.getDate()) totalMonths -= 1;
+  if (a.getDate() < Math.min(b.getDate(), daysInMonth(a.getFullYear(), a.getMonth()))) totalMonths -= 1;
   if (totalMonths < 0) return { years: 0, months: 0, days: 0 };
 
   const anchorY = b.getFullYear() + Math.floor((b.getMonth() + totalMonths) / 12);
