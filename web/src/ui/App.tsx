@@ -5,6 +5,7 @@ import { loadCurrentBabyId, resolveCurrentBaby, saveCurrentBabyId } from '../db/
 import type { ProfileData } from '../logic/types';
 import RecordPage from './RecordPage';
 import DailyStatsPage from './DailyStatsPage';
+import TrendPage from './TrendPage';
 
 export interface PageProps {
   profiles: ProfileData[];
@@ -38,7 +39,7 @@ export default function App() {
     <>
       {tab === 'record' && <RecordPage {...pageProps} />}
       {tab === 'stats' && <DailyStatsPage {...pageProps} />}
-      {tab === 'trend' && <main className="page"><p>趨勢頁施工中</p></main>}
+      {tab === 'trend' && <TrendPage {...pageProps} />}
       {tab === 'settings' && <main className="page"><p>設定頁施工中</p></main>}
       <nav className="tabbar">
         {TABS.map((t) => (
