@@ -1,0 +1,115 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "PingFang TC", "Noto Sans TC", sans-serif;
+  background: #faf7f2;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+#root { min-height: 100dvh; display: flex; flex-direction: column; }
+
+.page {
+  flex: 1;
+  padding: 12px 16px calc(72px + env(safe-area-inset-bottom));
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+}
+.page-header {
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  padding: calc(8px + env(safe-area-inset-top)) 0 8px;
+}
+.page-header h1 { font-size: 20px; margin: 0; }
+.page-header .age { color: #888; font-size: 13px; }
+
+.card {
+  background: #fff; border-radius: 12px; padding: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); margin-bottom: 14px;
+}
+.card h2 { font-size: 15px; margin: 0 0 10px; color: #666; }
+
+.field { margin-bottom: 12px; }
+.field-label { display: block; font-size: 13px; color: #888; margin-bottom: 4px; }
+.field input[type="number"], .field input[type="text"], .field input[type="date"],
+.field input[type="datetime-local"], .field select, .field textarea {
+  width: 100%; padding: 10px; font-size: 16px;
+  border: 1px solid #ddd; border-radius: 8px; background: #fff; color: #333;
+}
+.field textarea { resize: vertical; min-height: 56px; }
+
+.seg { display: flex; gap: 6px; flex-wrap: wrap; }
+.seg button {
+  padding: 8px 14px; font-size: 15px; border: 1px solid #ddd; border-radius: 999px;
+  background: #fff; color: #333;
+}
+.seg button.selected { background: #f4a940; border-color: #f4a940; color: #fff; }
+
+.stool-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.stool-cell {
+  aspect-ratio: 1; border-radius: 10px; border: 2px solid transparent;
+  font-size: 18px; font-weight: 700;
+}
+.stool-cell.selected { border-color: #e2574c; box-shadow: 0 0 0 2px rgba(226, 87, 76, 0.3); }
+
+.warn {
+  background: #fdecea; color: #b3261e; border-radius: 8px;
+  padding: 10px; font-size: 14px; margin: 10px 0 0;
+}
+.hint { color: #888; font-size: 13px; margin: 8px 0 0; }
+
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline-item {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 0; border-bottom: 1px solid #f0ece5;
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-item .time { color: #888; font-size: 13px; min-width: 44px; padding-top: 2px; }
+.timeline-item .body { flex: 1; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  background: #f6f1e7; border-radius: 6px; padding: 3px 8px; font-size: 13px;
+}
+.chip.abnormal { background: #fdecea; color: #b3261e; }
+
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-card { background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.stat-card .label { color: #888; font-size: 13px; }
+.stat-value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+.stat-value .unit { font-size: 13px; font-weight: 400; color: #888; margin-left: 2px; }
+
+.list-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 10px 0; border-bottom: 1px solid #f0ece5;
+}
+.list-row:last-child { border-bottom: none; }
+
+.btn {
+  padding: 10px 16px; font-size: 15px; border: 1px solid #ddd;
+  border-radius: 8px; background: #fff; color: #333;
+}
+.btn-primary { background: #f4a940; border-color: #f4a940; color: #fff; font-weight: 600; width: 100%; }
+.btn-danger { color: #b3261e; border-color: #f2c6c2; }
+
+.tabbar {
+  position: fixed; bottom: 0; left: 0; right: 0; display: flex;
+  background: #fff; border-top: 1px solid #e8e2d8;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tab {
+  flex: 1; padding: 8px 0 6px; text-align: center; font-size: 12px;
+  color: #999; background: none; border: none;
+}
+.tab .icon { display: block; font-size: 20px; margin-bottom: 2px; }
+.tab.active { color: #f4a940; font-weight: 600; }
+
+.toast {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(84px + env(safe-area-inset-bottom));
+  background: rgba(50, 50, 50, 0.92); color: #fff; padding: 10px 16px;
+  border-radius: 999px; font-size: 14px; max-width: 90vw; z-index: 10;
+}
+
+select.baby-switcher {
+  border: 1px solid #eadfcc; background: #fff8ec; color: #7a5c1e;
+  border-radius: 999px; padding: 4px 10px; font-size: 14px;
+}
