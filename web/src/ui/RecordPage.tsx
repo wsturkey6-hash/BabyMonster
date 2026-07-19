@@ -14,6 +14,11 @@ import type { PageProps } from './App';
 const BRISTOL_TYPES: BristolType[] = [1, 2, 3, 4, 5, 6, 7];
 const AMOUNTS: StoolAmount[] = ['few', 'medium', 'many'];
 
+const parseNum = (s: string): number | undefined => {
+  const n = Number(s);
+  return s.trim() !== '' && Number.isFinite(n) ? n : undefined;
+};
+
 export default function RecordPage({ profiles, currentBaby, onSelectBaby }: PageProps) {
   const [editing, setEditing] = useState<RecordData | null>(null);
   const [timestamp, setTimestamp] = useState(() => datetimeLocalValue(Date.now()));
@@ -64,6 +69,11 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setNote('');
   }
 
+  useEffect(() => {
+    reset();
+    // 切換寶寶時放棄草稿，避免把編輯中的記錄存到另一個寶寶名下
+  }, [currentBaby?.id]);
+
   async function save() {
     let baby = currentBaby;
     if (!baby) {
@@ -75,12 +85,12 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
       babyId: editing?.babyId ?? baby.id,
       timestamp: msFromDatetimeLocal(timestamp),
       hasUrine: urine,
-      ...(feed !== '' ? { feedAmount: Number(feed) } : {}),
+      ...(parseNum(feed) !== undefined ? { feedAmount: parseNum(feed) } : {}),
       ...(stoolColor !== null ? { stoolColor } : {}),
       ...(stoolColor !== null && stoolAmount !== null ? { stoolAmount } : {}),
       ...(stoolColor !== null && stoolShape !== null ? { stoolShape } : {}),
-      ...(temp !== '' ? { temperature: Number(temp) } : {}),
-      ...(weight !== '' ? { weight: Number(weight) } : {}),
+      ...(parseNum(temp) !== undefined ? { temperature: parseNum(temp) } : {}),
+      ...(parseNum(weight) !== undefined ? { weight: parseNum(weight) } : {}),
       ...(note.trim() !== '' ? { note: note.trim() } : {}),
     };
     await db.records.put(rec);
@@ -114,7 +124,10 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
         </div>
         <div className="field">
           <label className="field-label">大便顏色（大便卡 1–9 號，1–6 異常）</label>
-          <StoolColorPicker value={stoolColor} onChange={setStoolColor} />
+          <StoolColorPicker value={stoolColor} onChange={(v) => {
+            setStoolColor(v);
+            if (v === null) { setStoolAmount(null); setStoolShape(null); }
+          }} />
         </div>
         {stoolColor !== null && (
           <>
