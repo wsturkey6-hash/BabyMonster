@@ -8,7 +8,9 @@
   - 延後項目 7/7（4fdea17）：iOS 實匯出檔 fixture 測試（用真 Swift 程式碼編譯產生 fixture、雙向相容驗證、修 v1 profile id 保留）、totalFeed 小數格式（formatNumber）、刪寶寶後匯出範圍重設、share 失敗退回下載、toast 計時器、PR 觸發 CI（web-ci.yml）、recharts 獨立 chunk + TrendPage lazy load（主 bundle 641kB→121kB）
   - UI 暖色黏土風改版（f0fa6bf，ui-ux-pro-max）：暖橘色 token、愛心/星星/雲朵背景、Fredoka + Nunito + Huninn 圓體、SVG tab icon + 自繪寶寶臉、clay 卡片按鈕、reduced-motion
   - web-design-guidelines 修正（b65c80b）：label htmlFor、aria-live/pressed/alert、div onClick→button、tab hash 深連結、touch-action、hover 狀態等
-- 測試 60/60；Pages 部署驗證正常：https://wsturkey6-hash.github.io/BabyMonster/
+  - iOS 小怪獸 icon 套用到 web（9659093）：sips 產 192/512/apple-touch/favicon，補 favicon link，刪無用 icon.svg
+  - 大便色卡依實體卡照片重新取樣（8b577a1）：web+iOS 同步，8 號綠→橘黃、9 號棕→黃綠，全黑字；web 61/61、iOS 47/47
+- 測試 web 61/61、iOS 47/47；Pages 部署驗證正常：https://wsturkey6-hash.github.io/BabyMonster/
 - 原始 Spec：`docs/superpowers/specs/2026-07-14-babymonster-design.md`；Plan：`docs/superpowers/plans/2026-07-15-babymonster-implementation.md`
 
 ## 已完成
