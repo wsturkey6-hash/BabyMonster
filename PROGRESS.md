@@ -3,10 +3,12 @@
 > 每完成一個任務就更新此檔。SessionStart 會自動載入本檔，撞到用量上限 reset 後可據此接續。
 
 ## 目前狀態（2026-07-20 更新）
-- 階段：**三大里程碑全部完成** — iOS 版（12 tasks）、多寶寶 v2（8 tasks）、網頁版 PWA（14 tasks）皆已實作、審查、修正並合併至 main
-- main 最新 commit：2e34254（進度紀錄）；已推送 GitHub
-- 工作目錄乾淨，僅 `.claude/launch.json` 未追蹤（本機 preview 設定，可不入版控）
-- 下一步候選：處理網頁版延後項目（見下方「延後項目」清單）、確認 GitHub Pages 部署正常、或依使用者新需求開展
+- 階段：**三大里程碑 + 延後項目 + UI 可愛改版全部完成**
+- 2026-07-20 完成：
+  - 延後項目 7/7（4fdea17）：iOS 實匯出檔 fixture 測試（用真 Swift 程式碼編譯產生 fixture、雙向相容驗證、修 v1 profile id 保留）、totalFeed 小數格式（formatNumber）、刪寶寶後匯出範圍重設、share 失敗退回下載、toast 計時器、PR 觸發 CI（web-ci.yml）、recharts 獨立 chunk + TrendPage lazy load（主 bundle 641kB→121kB）
+  - UI 暖色黏土風改版（f0fa6bf，ui-ux-pro-max）：暖橘色 token、愛心/星星/雲朵背景、Fredoka + Nunito + Huninn 圓體、SVG tab icon + 自繪寶寶臉、clay 卡片按鈕、reduced-motion
+  - web-design-guidelines 修正（b65c80b）：label htmlFor、aria-live/pressed/alert、div onClick→button、tab hash 深連結、touch-action、hover 狀態等
+- 測試 60/60；Pages 部署驗證正常：https://wsturkey6-hash.github.io/BabyMonster/
 - 原始 Spec：`docs/superpowers/specs/2026-07-14-babymonster-design.md`；Plan：`docs/superpowers/plans/2026-07-15-babymonster-implementation.md`
 
 ## 已完成
@@ -55,7 +57,7 @@
 - [x] 最終整支 branch 審查（Opus）+ 修正 wave ✅ commit f3239c5（Critical：UUID 大小寫正規化 — Swift 匯出大寫、web 需不分大小寫合併；Important：NaN 日期防護），50/50 tests
 - [x] 已合併回 main（b5975b3）並推送 GitHub（使用者同意）；worktree 與 feature/web 已清理
 - 部署網址：https://wsturkey6-hash.github.io/BabyMonster/ ；首次需在 repo Settings → Pages 選 Source = GitHub Actions（使用者操作），之後 push web/** 自動部署
-- 延後項目（post-merge）：iOS 實匯出檔 fixture 測試、刪寶寶後匯出範圍重設、share 失敗退回下載、totalFeed 小數格式、toast 計時器重疊、PR 觸發 CI、recharts manualChunks
+- 延後項目（post-merge）：全部完成 ✅（2026-07-20，commit 4fdea17）
 
 ## 重要決策備忘
 - 單一寶寶、純本機 SwiftData、iOS 17+、Swift Charts、XCTest
