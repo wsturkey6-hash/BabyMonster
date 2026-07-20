@@ -27,8 +27,8 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
 
       <div className="card">
         <div className="field">
-          <label className="field-label">日期</label>
-          <input type="date" value={dateStr} onChange={(e) => setDateStr(e.target.value)} />
+          <label className="field-label" htmlFor="stats-date">日期</label>
+          <input id="stats-date" name="statsDate" type="date" value={dateStr} onChange={(e) => setDateStr(e.target.value)} />
         </div>
       </div>
 

@@ -117,15 +117,15 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
       <section className="card">
         <h2>{editing ? '編輯記錄' : '新增記錄'}</h2>
         <div className="field">
-          <label className="field-label">時間</label>
-          <input type="datetime-local" value={timestamp} onChange={(e) => setTimestamp(e.target.value)} />
+          <label className="field-label" htmlFor="rec-time">時間</label>
+          <input id="rec-time" name="timestamp" type="datetime-local" value={timestamp} onChange={(e) => setTimestamp(e.target.value)} />
         </div>
         <div className="field">
-          <label className="field-label">喝奶量（ml）</label>
-          <input type="number" inputMode="decimal" placeholder="例：120" value={feed} onChange={(e) => setFeed(e.target.value)} />
+          <label className="field-label" htmlFor="rec-feed">喝奶量（ml）</label>
+          <input id="rec-feed" name="feedAmount" autoComplete="off" type="number" inputMode="decimal" placeholder="例：120" value={feed} onChange={(e) => setFeed(e.target.value)} />
         </div>
         <div className="field">
-          <label className="field-label">大便顏色（大便卡 1–9 號，1–6 異常）</label>
+          <span className="field-label">大便顏色（大便卡 1–9 號，1–6 異常）</span>
           <StoolColorPicker value={stoolColor} onChange={(v) => {
             setStoolColor(v);
             if (v === null) { setStoolAmount(null); setStoolShape(null); }
@@ -134,10 +134,11 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
         {stoolColor !== null && (
           <>
             <div className="field">
-              <label className="field-label">大便量</label>
+              <span className="field-label">大便量</span>
               <div className="seg">
                 {AMOUNTS.map((a) => (
                   <button key={a} type="button" className={stoolAmount === a ? 'selected' : ''}
+                    aria-pressed={stoolAmount === a}
                     onClick={() => setStoolAmount(stoolAmount === a ? null : a)}>
                     {STOOL_AMOUNT_NAMES[a]}
                   </button>
@@ -145,8 +146,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
               </div>
             </div>
             <div className="field">
-              <label className="field-label">大便形狀（布里斯托分類）</label>
-              <select value={stoolShape ?? ''} onChange={(e) => setStoolShape(e.target.value === '' ? null : (Number(e.target.value) as BristolType))}>
+              <label className="field-label" htmlFor="rec-shape">大便形狀（布里斯托分類）</label>
+              <select id="rec-shape" name="stoolShape" value={stoolShape ?? ''} onChange={(e) => setStoolShape(e.target.value === '' ? null : (Number(e.target.value) as BristolType))}>
                 <option value="">不記錄</option>
                 {BRISTOL_TYPES.map((t) => (
                   <option key={t} value={t}>{BRISTOL_NAMES[t]}</option>
@@ -157,24 +158,24 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
           </>
         )}
         <div className="field">
-          <label className="field-label">小便</label>
+          <span className="field-label">小便</span>
           <div className="seg">
-            <button type="button" className={urine ? 'selected' : ''} onClick={() => setUrine(!urine)}>
+            <button type="button" className={urine ? 'selected' : ''} aria-pressed={urine} onClick={() => setUrine(!urine)}>
               {urine ? '有小便 ✓' : '有小便？'}
             </button>
           </div>
         </div>
         <div className="field">
-          <label className="field-label">體溫（°C）</label>
-          <input type="number" inputMode="decimal" placeholder="例：36.5" value={temp} onChange={(e) => setTemp(e.target.value)} />
+          <label className="field-label" htmlFor="rec-temp">體溫（°C）</label>
+          <input id="rec-temp" name="temperature" autoComplete="off" type="number" inputMode="decimal" placeholder="例：36.5" value={temp} onChange={(e) => setTemp(e.target.value)} />
         </div>
         <div className="field">
-          <label className="field-label">體重（g）</label>
-          <input type="number" inputMode="decimal" placeholder="例：4000" value={weight} onChange={(e) => setWeight(e.target.value)} />
+          <label className="field-label" htmlFor="rec-weight">體重（g）</label>
+          <input id="rec-weight" name="weight" autoComplete="off" type="number" inputMode="decimal" placeholder="例：4000" value={weight} onChange={(e) => setWeight(e.target.value)} />
         </div>
         <div className="field">
-          <label className="field-label">備註</label>
-          <textarea value={note} onChange={(e) => setNote(e.target.value)} />
+          <label className="field-label" htmlFor="rec-note">備註</label>
+          <textarea id="rec-note" name="note" value={note} onChange={(e) => setNote(e.target.value)} />
         </div>
         <button className="btn btn-primary" type="button" onClick={() => void save()}>
           {editing ? '儲存變更' : '儲存記錄'}
@@ -193,8 +194,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
           {todayRecords.map((r) => (
             <li key={r.id} className="timeline-item">
               <span className="time">{timeHM(r.timestamp)}</span>
-              <div className="body" onClick={() => setEditing(r)}>
-                <div className="chips">
+              <button type="button" className="body" aria-label="編輯這筆記錄" onClick={() => setEditing(r)}>
+                <span className="chips">
                   {r.feedAmount != null && <span className="chip">🍼 {r.feedAmount} ml</span>}
                   {r.stoolColor != null && (
                     <span className={'chip' + (isAbnormalStoolColor(r.stoolColor) ? ' abnormal' : '')}>
@@ -207,8 +208,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
                   {r.temperature != null && <span className="chip">🌡 {r.temperature} °C</span>}
                   {r.weight != null && <span className="chip">⚖️ {r.weight} g</span>}
                   {r.note && <span className="chip">📝 {r.note}</span>}
-                </div>
-              </div>
+                </span>
+              </button>
               <button className="btn btn-danger" type="button" onClick={() => void remove(r)}>刪除</button>
             </li>
           ))}

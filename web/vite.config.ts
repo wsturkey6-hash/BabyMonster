@@ -15,7 +15,7 @@ export default defineConfig({
         short_name: 'BabyMonster',
         lang: 'zh-Hant',
         display: 'standalone',
-        theme_color: '#f97316',
+        theme_color: '#fff7ed',
         background_color: '#fff7ed',
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },

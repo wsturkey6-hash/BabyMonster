@@ -15,6 +15,8 @@ export function StoolColorPicker({ value, onChange }: Props) {
             type="button"
             className={'stool-cell' + (value === n ? ' selected' : '')}
             style={{ background: stoolColorHex(n), color: stoolTextHex(n) }}
+            aria-label={`大便卡 ${n} 號`}
+            aria-pressed={value === n}
             onClick={() => onChange(value === n ? null : n)}
           >
             {n}
@@ -22,7 +24,7 @@ export function StoolColorPicker({ value, onChange }: Props) {
         ))}
       </div>
       {value !== null && isAbnormalStoolColor(value) && (
-        <p className="warn">
+        <p className="warn" role="alert">
           ⚠️ {value} 號屬異常（白陶土色系），可能是膽道閉鎖等警訊，請儘速就醫確認。
         </p>
       )}

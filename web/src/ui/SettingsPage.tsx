@@ -132,10 +132,10 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
         <h2>寶寶</h2>
         {profiles.map((p) => (
           <div key={p.id} className="list-row">
-            <div onClick={() => startEdit(p)}>
-              <div>{p.name}</div>
-              <div className="hint" style={{ margin: 0 }}>{ageDisplayText(babyAge(p.birthDate, Date.now()))}</div>
-            </div>
+            <button type="button" className="list-row-main" aria-label={`編輯 ${p.name}`} onClick={() => startEdit(p)}>
+              <span className="row-name">{p.name}</span>
+              <span className="hint" style={{ margin: 0, display: 'block' }}>{ageDisplayText(babyAge(p.birthDate, Date.now()))}</span>
+            </button>
             <button className="btn btn-danger" type="button" onClick={() => void removeBaby(p)}>刪除</button>
           </div>
         ))}
@@ -144,12 +144,12 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
         {editingId !== null ? (
           <div style={{ marginTop: 12 }}>
             <div className="field">
-              <label className="field-label">名字</label>
-              <input type="text" placeholder="BabyMonster" value={name} onChange={(e) => setName(e.target.value)} />
+              <label className="field-label" htmlFor="baby-name">名字</label>
+              <input id="baby-name" name="babyName" autoComplete="off" type="text" placeholder="BabyMonster" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
             <div className="field">
-              <label className="field-label">生日</label>
-              <input type="date" value={birth} onChange={(e) => setBirth(e.target.value)} />
+              <label className="field-label" htmlFor="baby-birth">生日</label>
+              <input id="baby-birth" name="babyBirth" type="date" value={birth} onChange={(e) => setBirth(e.target.value)} />
             </div>
             <button className="btn btn-primary" type="button" onClick={() => void saveBaby()}>
               {editingId === 'new' ? '新增寶寶' : '儲存變更'}
@@ -168,8 +168,8 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
       <section className="card">
         <h2>匯出資料</h2>
         <div className="field">
-          <label className="field-label">範圍</label>
-          <select value={exportScope} onChange={(e) => setExportScope(e.target.value)}>
+          <label className="field-label" htmlFor="export-scope">範圍</label>
+          <select id="export-scope" value={exportScope} onChange={(e) => setExportScope(e.target.value)}>
             <option value="all">全部寶寶</option>
             {profiles.map((p) => (
               <option key={p.id} value={p.id}>只有 {p.name}</option>
@@ -188,6 +188,7 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
           ref={fileRef}
           type="file"
           accept=".json,application/json"
+          aria-label="選擇備份檔案（JSON）"
           onChange={(e) => void onImportFile(e.target.files?.[0])}
         />
         <p className="hint">

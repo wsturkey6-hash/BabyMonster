@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { loadCurrentBabyId, resolveCurrentBaby, saveCurrentBabyId } from '../db/repository';
@@ -19,6 +19,14 @@ export interface PageProps {
 
 type Tab = 'record' | 'stats' | 'trend' | 'settings';
 
+const TAB_KEYS = ['record', 'stats', 'trend', 'settings'] as const;
+
+/** 分頁狀態同步到 URL hash：重新整理、上一頁都能回到原分頁。 */
+function tabFromHash(): Tab {
+  const h = window.location.hash.replace('#', '');
+  return (TAB_KEYS as readonly string[]).includes(h) ? (h as Tab) : 'record';
+}
+
 const TABS: { key: Tab; label: string; icon: () => JSX.Element }[] = [
   { key: 'record', label: '記錄', icon: PencilIcon },
   { key: 'stats', label: '每日統計', icon: ChartIcon },
@@ -27,7 +35,18 @@ const TABS: { key: Tab; label: string; icon: () => JSX.Element }[] = [
 ];
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>('record');
+  const [tab, setTab] = useState<Tab>(tabFromHash);
+
+  useEffect(() => {
+    const onHashChange = () => setTab(tabFromHash());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  const selectTab = (t: Tab) => {
+    setTab(t);
+    history.replaceState(null, '', '#' + t);
+  };
   const profiles = useLiveQuery(() => db.profiles.toArray(), [], [] as ProfileData[]);
   const [storedBabyId, setStoredBabyId] = useState<string | null>(loadCurrentBabyId);
   const currentBaby = resolveCurrentBaby(profiles, storedBabyId);
@@ -55,7 +74,7 @@ export default function App() {
             key={t.key}
             className={'tab' + (tab === t.key ? ' active' : '')}
             aria-current={tab === t.key ? 'page' : undefined}
-            onClick={() => setTab(t.key)}
+            onClick={() => selectTab(t.key)}
           >
             <span className="icon"><t.icon /></span>
             {t.label}
