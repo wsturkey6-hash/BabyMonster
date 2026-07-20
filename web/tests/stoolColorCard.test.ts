@@ -27,9 +27,14 @@ describe('stoolColorCard', () => {
     expect(stoolLabel(8)).toBe('8 號（正常）');
   });
 
-  it('深色卡（8、9）用白字，其餘黑字', () => {
-    expect(stoolTextHex(8)).toBe('#ffffff');
-    expect(stoolTextHex(9)).toBe('#ffffff');
-    expect(stoolTextHex(7)).toBe('#000000');
+  it('實卡配色皆為中亮色，全部用黑字', () => {
+    for (const n of STOOL_NUMBERS) {
+      expect(stoolTextHex(n)).toBe('#000000');
+    }
+  });
+
+  it('7–9 號對應實卡的金黃/橘黃/黃綠（非舊版的綠與棕）', () => {
+    expect(stoolColorHex(8)).not.toBe('#738c40');
+    expect(stoolColorHex(9)).not.toBe('#734d26');
   });
 });

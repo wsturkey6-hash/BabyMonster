@@ -5,26 +5,26 @@ export function isAbnormalStoolColor(n: number): boolean {
   return n >= 1 && n <= 6;
 }
 
-/** 近似色（實體大便卡為最終判讀依據）。 */
+/** 近似色，依實體大便卡照片取樣（實體卡為最終判讀依據）。 */
 const HEX: Record<number, string> = {
-  1: '#e6e0cc', // 灰白/陶土
-  2: '#ebe6c7', // 淺灰黃
-  3: '#f2edbf', // 淺黃白
-  4: '#f5e699', // 淡黃
-  5: '#d9db8c', // 淺黃綠
-  6: '#b3cc8c', // 淡綠
-  7: '#e6b340', // 黃
-  8: '#738c40', // 綠
-  9: '#734d26', // 棕褐
+  1: '#f0e8d1', // 淡奶油白
+  2: '#eaddc8', // 淺米灰
+  3: '#f4e4bd', // 奶油黃
+  4: '#ece289', // 淺亮黃
+  5: '#e9d2a0', // 淺卡其
+  6: '#f1e3d3', // 淡粉白
+  7: '#f3c42d', // 金黃
+  8: '#e8a01d', // 橘黃
+  9: '#a5a233', // 黃綠
 };
 
 export function stoolColorHex(n: number): string {
   return HEX[n] ?? '#999999';
 }
 
-/** 依卡片底色明暗選擇對比較佳的數字顏色。 */
-export function stoolTextHex(n: number): string {
-  return n === 8 || n === 9 ? '#ffffff' : '#000000';
+/** 實卡九色皆為中亮色，黑字對比全數 ≥ 4.5:1。 */
+export function stoolTextHex(_n: number): string {
+  return '#000000';
 }
 
 export function stoolLabel(n: number): string {
