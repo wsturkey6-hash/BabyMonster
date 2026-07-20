@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { loadCurrentBabyId, resolveCurrentBaby, saveCurrentBabyId } from '../db/repository';
 import type { ProfileData } from '../logic/types';
 import RecordPage from './RecordPage';
 import DailyStatsPage from './DailyStatsPage';
-import TrendPage from './TrendPage';
 import SettingsPage from './SettingsPage';
+
+// 趨勢頁 lazy load：recharts 獨立 chunk（見 vite.config manualChunks），開啟趨勢分頁才下載
+const TrendPage = lazy(() => import('./TrendPage'));
 
 export interface PageProps {
   profiles: ProfileData[];
@@ -40,7 +42,11 @@ export default function App() {
     <>
       {tab === 'record' && <RecordPage {...pageProps} />}
       {tab === 'stats' && <DailyStatsPage {...pageProps} />}
-      {tab === 'trend' && <TrendPage {...pageProps} />}
+      {tab === 'trend' && (
+        <Suspense fallback={<main className="page"><p className="hint">載入圖表中…</p></main>}>
+          <TrendPage {...pageProps} />
+        </Suspense>
+      )}
       {tab === 'settings' && <SettingsPage {...pageProps} />}
       <nav className="tabbar">
         {TABS.map((t) => (

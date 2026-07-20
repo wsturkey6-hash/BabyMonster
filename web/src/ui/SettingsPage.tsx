@@ -9,6 +9,15 @@ import { Toast } from './components/Toast';
 import { dateInputValue, msFromDateInput, ymdCompact } from './format';
 import type { PageProps } from './App';
 
+function downloadFile(file: File, filename: string) {
+  const url = URL.createObjectURL(file);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+}
+
 export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: PageProps) {
   const [editingId, setEditingId] = useState<string | null>(null); // 'new' = 新增
   const [name, setName] = useState('');
@@ -16,10 +25,12 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
   const [exportScope, setExportScope] = useState('all');
   const [toast, setToast] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout>>();
 
   function show(msg: string) {
+    clearTimeout(toastTimer.current); // 連續顯示時，避免前一個計時器提早清掉新訊息
     setToast(msg);
-    setTimeout(() => setToast(null), 4000);
+    toastTimer.current = setTimeout(() => setToast(null), 4000);
   }
 
   function startEdit(p: ProfileData) {
@@ -60,6 +71,7 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
     if (confirm(`將一併刪除「${p.name}」的 ${count} 筆記錄，確定刪除？`)) {
       await deleteBabyCascade(p.id);
       if (editingId === p.id) setEditingId(null);
+      if (exportScope === p.id) setExportScope('all');
     }
   }
 
@@ -81,18 +93,18 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
       const file = new File([json], filename, { type: 'application/json' });
 
       if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], title: 'BabyMonster 備份' });
+        try {
+          await navigator.share({ files: [file], title: 'BabyMonster 備份' });
+        } catch (e) {
+          if ((e as Error).name === 'AbortError') return; // 使用者取消分享
+          downloadFile(file, filename); // 分享失敗（權限、瀏覽器限制）退回下載
+        }
       } else {
-        const url = URL.createObjectURL(file);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(url), 10_000);
+        downloadFile(file, filename);
       }
       show('已匯出');
     } catch (e) {
-      if ((e as Error).name !== 'AbortError') show(`匯出失敗：${(e as Error).message}`);
+      show(`匯出失敗：${(e as Error).message}`);
     }
   }
 

@@ -1,0 +1,36 @@
+{
+  "profiles" : [
+    {
+      "birthDate" : "2025-11-02T00:00:00Z",
+      "id" : "AAAAAAAA-1111-2222-3333-444444444444",
+      "name" : "小寶"
+    },
+    {
+      "birthDate" : "2026-03-15T00:00:00Z",
+      "id" : "BBBBBBBB-5555-6666-7777-888888888888",
+      "name" : "二寶"
+    }
+  ],
+  "records" : [
+    {
+      "babyId" : "AAAAAAAA-1111-2222-3333-444444444444",
+      "feedAmount" : 120,
+      "hasUrine" : true,
+      "id" : "11111111-AAAA-BBBB-CCCC-DDDDDDDDDDDD",
+      "note" : "備註：喝完睡著",
+      "stoolAmount" : "medium",
+      "stoolColor" : 7,
+      "stoolShape" : 4,
+      "temperature" : 36.5,
+      "timestamp" : "2026-07-18T04:56:00Z",
+      "weight" : 4321
+    },
+    {
+      "babyId" : "BBBBBBBB-5555-6666-7777-888888888888",
+      "hasUrine" : false,
+      "id" : "22222222-EEEE-FFFF-0000-999999999999",
+      "timestamp" : "2026-07-19T21:30:00Z"
+    }
+  ],
+  "version" : 2
+}

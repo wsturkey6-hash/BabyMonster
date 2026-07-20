@@ -24,5 +24,12 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: { recharts: ['recharts'] }, // 圖表庫獨立 chunk，非趨勢頁先不用下載
+      },
+    },
+  },
   test: { environment: 'node' },
 });

@@ -29,6 +29,12 @@ export function timeHM(ms: number): string {
   return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
 }
 
+/** 統計值顯示：null → 破折號；捨入到 digits 位並去掉多餘的 .0（避免浮點加總誤差）。 */
+export function formatNumber(v: number | null, digits = 1): string {
+  if (v === null) return '—';
+  return v.toFixed(digits).replace(/\.0$/, '');
+}
+
 export function monthDay(ms: number): string {
   const d = new Date(ms);
   return `${d.getMonth() + 1}/${d.getDate()}`;

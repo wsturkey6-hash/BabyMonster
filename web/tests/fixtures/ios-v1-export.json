@@ -1,0 +1,21 @@
+{
+  "profile" : {
+    "birthDate" : "2025-11-02T00:00:00Z",
+    "id" : "AAAAAAAA-1111-2222-3333-444444444444",
+    "name" : "小寶"
+  },
+  "records" : [
+    {
+      "feedAmount" : 120,
+      "hasUrine" : true,
+      "id" : "11111111-AAAA-BBBB-CCCC-DDDDDDDDDDDD",
+      "note" : "備註：喝完睡著",
+      "stoolAmount" : "medium",
+      "stoolColor" : 7,
+      "stoolShape" : 4,
+      "temperature" : 36.5,
+      "timestamp" : "2026-07-18T04:56:00Z",
+      "weight" : 4321
+    }
+  ]
+}

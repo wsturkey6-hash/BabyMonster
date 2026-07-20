@@ -137,12 +137,13 @@ export function decodeAny(text: string): BackupPayloadV2 {
   }
 
   if (o.profile !== undefined && Array.isArray(o.records)) {
-    // v1（現行 iOS 匯出檔）：單一 profile 無 id → 產生新 id，records 全綁定
+    // v1（單寶寶 iOS 匯出檔）：records 全綁定該 profile。
+    // 鏡射 iOS decodeIfPresent：檔內有 profile id 就保留，沒有才產生新 id。
     const p = o.profile as Raw;
     if (p === null || typeof p !== 'object' || typeof p.name !== 'string')
       throw new Error('v1 寶寶資料不合法');
     const profile: ProfileData = {
-      id: crypto.randomUUID(),
+      id: typeof p.id === 'string' && p.id !== '' ? p.id.toLowerCase() : crypto.randomUUID(),
       name: p.name,
       birthDate: msFromIso(p.birthDate as string),
     };
