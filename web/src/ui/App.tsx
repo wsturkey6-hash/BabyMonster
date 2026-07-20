@@ -6,6 +6,7 @@ import type { ProfileData } from '../logic/types';
 import RecordPage from './RecordPage';
 import DailyStatsPage from './DailyStatsPage';
 import SettingsPage from './SettingsPage';
+import { ChartIcon, PencilIcon, SettingsIcon, TrendIcon } from './components/icons';
 
 // 趨勢頁 lazy load：recharts 獨立 chunk（見 vite.config manualChunks），開啟趨勢分頁才下載
 const TrendPage = lazy(() => import('./TrendPage'));
@@ -18,11 +19,11 @@ export interface PageProps {
 
 type Tab = 'record' | 'stats' | 'trend' | 'settings';
 
-const TABS: { key: Tab; label: string; icon: string }[] = [
-  { key: 'record', label: '記錄', icon: '📝' },
-  { key: 'stats', label: '每日統計', icon: '📊' },
-  { key: 'trend', label: '趨勢', icon: '📈' },
-  { key: 'settings', label: '設定', icon: '⚙️' },
+const TABS: { key: Tab; label: string; icon: () => JSX.Element }[] = [
+  { key: 'record', label: '記錄', icon: PencilIcon },
+  { key: 'stats', label: '每日統計', icon: ChartIcon },
+  { key: 'trend', label: '趨勢', icon: TrendIcon },
+  { key: 'settings', label: '設定', icon: SettingsIcon },
 ];
 
 export default function App() {
@@ -50,8 +51,13 @@ export default function App() {
       {tab === 'settings' && <SettingsPage {...pageProps} />}
       <nav className="tabbar">
         {TABS.map((t) => (
-          <button key={t.key} className={'tab' + (tab === t.key ? ' active' : '')} onClick={() => setTab(t.key)}>
-            <span className="icon">{t.icon}</span>
+          <button
+            key={t.key}
+            className={'tab' + (tab === t.key ? ' active' : '')}
+            aria-current={tab === t.key ? 'page' : undefined}
+            onClick={() => setTab(t.key)}
+          >
+            <span className="icon"><t.icon /></span>
             {t.label}
           </button>
         ))}

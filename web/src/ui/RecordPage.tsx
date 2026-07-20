@@ -7,6 +7,7 @@ import { ageDisplayText, babyAge } from '../logic/babyAge';
 import { BRISTOL_NAMES, STOOL_AMOUNT_NAMES, type BristolType, type RecordData, type StoolAmount } from '../logic/types';
 import { isAbnormalStoolColor } from '../logic/stoolColorCard';
 import { BabySwitcher } from './BabySwitcher';
+import { BabyFaceIcon } from './components/icons';
 import { StoolColorPicker } from './components/StoolColorPicker';
 import { datetimeLocalValue, msFromDatetimeLocal, timeHM } from './format';
 import type { PageProps } from './App';
@@ -108,7 +109,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
   return (
     <main className="page">
       <header className="page-header">
-        <h1>{currentBaby?.name ?? 'BabyMonster'}</h1>
+        <h1><span className="h1-icon"><BabyFaceIcon /></span>{currentBaby?.name ?? 'BabyMonster'}</h1>
         {currentBaby && <span className="age">{ageDisplayText(babyAge(currentBaby.birthDate, Date.now()))}</span>}
         <BabySwitcher profiles={profiles} currentBaby={currentBaby} onSelect={onSelectBaby} />
       </header>

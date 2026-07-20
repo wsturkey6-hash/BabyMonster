@@ -15,11 +15,30 @@ export default defineConfig({
         short_name: 'BabyMonster',
         lang: 'zh-Hant',
         display: 'standalone',
-        theme_color: '#f4a940',
-        background_color: '#faf7f2',
+        theme_color: '#f97316',
+        background_color: '#fff7ed',
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
+        ],
+      },
+      workbox: {
+        // Google Fonts 離線快取：CSS 用 SWR、字型檔長期 CacheFirst
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'StaleWhileRevalidate',
+            options: { cacheName: 'google-fonts-css' },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-files',
+              expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
         ],
       },
     }),
