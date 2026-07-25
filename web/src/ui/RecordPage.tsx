@@ -7,9 +7,10 @@ import { ageDisplayText, babyAge } from '../logic/babyAge';
 import { BRISTOL_NAMES, STOOL_AMOUNT_NAMES, type BristolType, type RecordData, type StoolAmount } from '../logic/types';
 import { isAbnormalStoolColor } from '../logic/stoolColorCard';
 import { BabySwitcher } from './BabySwitcher';
+import { ConfirmDialog } from './components/ConfirmDialog';
 import { BabyFaceIcon } from './components/icons';
 import { StoolColorPicker } from './components/StoolColorPicker';
-import { datetimeLocalValue, msFromDatetimeLocal, timeHM } from './format';
+import { dateInputValue, datetimeLocalValue, monthDay, msFromDatetimeLocal, timeHM } from './format';
 import type { PageProps } from './App';
 
 const BRISTOL_TYPES: BristolType[] = [1, 2, 3, 4, 5, 6, 7];
@@ -22,6 +23,7 @@ const parseNum = (s: string): number | undefined => {
 
 export default function RecordPage({ profiles, currentBaby, onSelectBaby }: PageProps) {
   const [editing, setEditing] = useState<RecordData | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<RecordData | null>(null);
   const [timestamp, setTimestamp] = useState(() => datetimeLocalValue(Date.now()));
   const [feed, setFeed] = useState('');
   const [stoolColor, setStoolColor] = useState<number | null>(null);
@@ -32,15 +34,20 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
   const [weight, setWeight] = useState('');
   const [note, setNote] = useState('');
 
-  const todayRecords = useLiveQuery(
+  // 下方時間軸跟著表單「時間」欄位走：選到前幾天就看那天的逐筆記錄
+  const selectedMs = msFromDatetimeLocal(timestamp);
+  const viewDay = Number.isFinite(selectedMs) ? selectedMs : Date.now();
+  const isViewingToday = sameLocalDay(viewDay, Date.now());
+
+  const dayRecords = useLiveQuery(
     async () => {
       if (!currentBaby) return [] as RecordData[];
       const recs = await db.records.where('babyId').equals(currentBaby.id).toArray();
       return recs
-        .filter((r) => sameLocalDay(r.timestamp, Date.now()))
+        .filter((r) => sameLocalDay(r.timestamp, viewDay))
         .sort((a, b) => b.timestamp - a.timestamp);
     },
-    [currentBaby?.id],
+    [currentBaby?.id, dateInputValue(viewDay)], // 只在「日」變動時重查，改時／分不必重查
     [] as RecordData[],
   );
 
@@ -57,9 +64,10 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setNote(editing.note ?? '');
   }, [editing]);
 
-  function reset() {
+  /** keepTimestamp：補登前幾天的資料時保留剛才選的日期，方便連續補同一天。 */
+  function reset(keepTimestamp = false) {
     setEditing(null);
-    setTimestamp(datetimeLocalValue(Date.now()));
+    if (!keepTimestamp) setTimestamp(datetimeLocalValue(Date.now()));
     setFeed('');
     setStoolColor(null);
     setStoolAmount(null);
@@ -96,14 +104,16 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
       ...(note.trim() !== '' ? { note: note.trim() } : {}),
     };
     await db.records.put(rec);
-    reset();
+    // 記在今天就把時間更新成現在；補登其他日期則留在那天，繼續補下一筆
+    reset(!sameLocalDay(rec.timestamp, Date.now()));
   }
 
-  async function remove(r: RecordData) {
-    if (confirm('刪除這筆記錄？')) {
-      await db.records.delete(r.id);
-      if (editing?.id === r.id) reset();
-    }
+  async function confirmDelete() {
+    const r = pendingDelete;
+    setPendingDelete(null);
+    if (!r) return;
+    await db.records.delete(r.id);
+    if (editing?.id === r.id) reset();
   }
 
   return (
@@ -181,17 +191,19 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
           {editing ? '儲存變更' : '儲存記錄'}
         </button>
         {editing && (
-          <button className="btn" type="button" style={{ width: '100%', marginTop: 8 }} onClick={reset}>
+          <button className="btn" type="button" style={{ width: '100%', marginTop: 8 }} onClick={() => reset()}>
             取消編輯
           </button>
         )}
       </section>
 
       <section className="card">
-        <h2>今日記錄</h2>
-        {todayRecords.length === 0 && <p className="hint">今天還沒有記錄。</p>}
+        <h2>{isViewingToday ? '今日記錄' : `${monthDay(viewDay)} 記錄`}</h2>
+        {dayRecords.length === 0 && (
+          <p className="hint">{isViewingToday ? '今天還沒有記錄。' : `${monthDay(viewDay)} 沒有記錄。`}</p>
+        )}
         <ul className="timeline">
-          {todayRecords.map((r) => (
+          {dayRecords.map((r) => (
             <li key={r.id} className="timeline-item">
               <span className="time">{timeHM(r.timestamp)}</span>
               <button type="button" className="body" aria-label="編輯這筆記錄" onClick={() => setEditing(r)}>
@@ -210,11 +222,20 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
                   {r.note && <span className="chip">📝 {r.note}</span>}
                 </span>
               </button>
-              <button className="btn btn-danger" type="button" onClick={() => void remove(r)}>刪除</button>
+              <button className="btn btn-danger" type="button" onClick={() => setPendingDelete(r)}>刪除</button>
             </li>
           ))}
         </ul>
       </section>
+
+      {pendingDelete && (
+        <ConfirmDialog
+          message="刪除這筆記錄？"
+          confirmLabel="刪除"
+          onConfirm={() => void confirmDelete()}
+          onCancel={() => setPendingDelete(null)}
+        />
+      )}
     </main>
   );
 }

@@ -5,6 +5,7 @@ import { decodeAny, encodeV2 } from '../logic/dataTransfer';
 import { ageDisplayText, babyAge } from '../logic/babyAge';
 import type { ProfileData } from '../logic/types';
 import { BabySwitcher } from './BabySwitcher';
+import { ConfirmDialog } from './components/ConfirmDialog';
 import { Toast } from './components/Toast';
 import { dateInputValue, msFromDateInput, ymdCompact } from './format';
 import type { PageProps } from './App';
@@ -24,6 +25,7 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
   const [birth, setBirth] = useState(() => dateInputValue(Date.now()));
   const [exportScope, setExportScope] = useState('all');
   const [toast, setToast] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<{ profile: ProfileData; count: number } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout>>();
 
@@ -66,13 +68,18 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
     }
   }
 
-  async function removeBaby(p: ProfileData) {
+  async function askRemoveBaby(p: ProfileData) {
     const count = await db.records.where('babyId').equals(p.id).count();
-    if (confirm(`將一併刪除「${p.name}」的 ${count} 筆記錄，確定刪除？`)) {
-      await deleteBabyCascade(p.id);
-      if (editingId === p.id) setEditingId(null);
-      if (exportScope === p.id) setExportScope('all');
-    }
+    setPendingDelete({ profile: p, count });
+  }
+
+  async function confirmRemoveBaby() {
+    const target = pendingDelete;
+    setPendingDelete(null);
+    if (!target) return;
+    await deleteBabyCascade(target.profile.id);
+    if (editingId === target.profile.id) setEditingId(null);
+    if (exportScope === target.profile.id) setExportScope('all');
   }
 
   async function doExport() {
@@ -136,7 +143,7 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
               <span className="row-name">{p.name}</span>
               <span className="hint" style={{ margin: 0, display: 'block' }}>{ageDisplayText(babyAge(p.birthDate, Date.now()))}</span>
             </button>
-            <button className="btn btn-danger" type="button" onClick={() => void removeBaby(p)}>刪除</button>
+            <button className="btn btn-danger" type="button" onClick={() => void askRemoveBaby(p)}>刪除</button>
           </div>
         ))}
         {profiles.length === 0 && <p className="hint">尚未建立寶寶；第一筆記錄儲存時會自動建立。</p>}
@@ -195,6 +202,15 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
           支援本 App（v2）與 iOS 版（v1）匯出檔。以記錄 id 聯集合併，重複記錄保留本機版本；驗證失敗不會變動現有資料。
         </p>
       </section>
+
+      {pendingDelete && (
+        <ConfirmDialog
+          message={`將一併刪除「${pendingDelete.profile.name}」的 ${pendingDelete.count} 筆記錄，確定刪除？`}
+          confirmLabel="刪除"
+          onConfirm={() => void confirmRemoveBaby()}
+          onCancel={() => setPendingDelete(null)}
+        />
+      )}
 
       <Toast message={toast} />
     </main>
