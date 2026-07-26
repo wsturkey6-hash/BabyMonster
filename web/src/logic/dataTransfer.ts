@@ -1,4 +1,4 @@
-import type { BristolType, ProfileData, RecordData, StoolAmount } from './types';
+import type { Amount, BristolType, ProfileData, RecordData } from './types';
 
 export interface BackupPayloadV2 {
   profiles: ProfileData[];
@@ -50,6 +50,7 @@ export function encodeV2(p: BackupPayloadV2): string {
         stoolAmount: r.stoolAmount,
         stoolShape: r.stoolShape,
         hasUrine: r.hasUrine,
+        urineAmount: r.urineAmount,
         temperature: r.temperature,
         weight: r.weight,
         note: r.note,
@@ -63,10 +64,17 @@ export function encodeV2(p: BackupPayloadV2): string {
 
 type Raw = Record<string, unknown>;
 
-const STOOL_AMOUNTS: readonly string[] = ['few', 'medium', 'many'];
+const AMOUNTS: readonly string[] = ['few', 'medium', 'many'];
 
 function fail(where: string, msg: string): never {
   throw new Error(`${where}：${msg}`);
+}
+
+function optAmount(o: Raw, key: string, where: string): Amount | undefined {
+  const v = o[key];
+  if (v === undefined || v === null) return undefined;
+  if (typeof v !== 'string' || !AMOUNTS.includes(v)) fail(where, `${key} 不合法`);
+  return v as Amount;
 }
 
 function parseProfile(raw: unknown, where: string): ProfileData {
@@ -99,9 +107,8 @@ function parseRecord(raw: unknown, where: string, forcedBabyId?: string): Record
   const stoolShape = optNumber(o, 'stoolShape', where);
   if (stoolShape !== undefined && (!Number.isInteger(stoolShape) || stoolShape < 1 || stoolShape > 7))
     fail(where, 'stoolShape 需為 1–7');
-  const stoolAmount = o.stoolAmount === undefined || o.stoolAmount === null ? undefined : o.stoolAmount;
-  if (stoolAmount !== undefined && (typeof stoolAmount !== 'string' || !STOOL_AMOUNTS.includes(stoolAmount)))
-    fail(where, 'stoolAmount 不合法');
+  const stoolAmount = optAmount(o, 'stoolAmount', where);
+  const urineAmount = optAmount(o, 'urineAmount', where);
   const note = o.note === undefined || o.note === null ? undefined : o.note;
   if (note !== undefined && typeof note !== 'string') fail(where, 'note 不是字串');
 
@@ -111,9 +118,10 @@ function parseRecord(raw: unknown, where: string, forcedBabyId?: string): Record
     timestamp: msFromIso(o.timestamp as string),
     feedAmount: optNumber(o, 'feedAmount', where),
     stoolColor,
-    stoolAmount: stoolAmount as StoolAmount | undefined,
+    stoolAmount,
     stoolShape: stoolShape as BristolType | undefined,
     hasUrine: o.hasUrine,
+    urineAmount,
     temperature: optNumber(o, 'temperature', where),
     weight: optNumber(o, 'weight', where),
     note,

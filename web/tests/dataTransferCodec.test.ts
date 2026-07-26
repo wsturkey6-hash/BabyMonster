@@ -18,6 +18,7 @@ function payload(): BackupPayloadV2 {
         stoolAmount: 'medium',
         stoolShape: 4,
         hasUrine: true,
+        urineAmount: 'many',
         temperature: 36.5,
         weight: 4000,
         note: '備註',
@@ -87,6 +88,16 @@ describe('decodeAny', () => {
     const bad = JSON.parse(encodeV2(payload()));
     delete bad.records[0].hasUrine;
     expect(() => decodeAny(JSON.stringify(bad))).toThrow();
+  });
+  it('urineAmount 不合法 → 整檔拒絕', () => {
+    const bad = JSON.parse(encodeV2(payload()));
+    bad.records[0].urineAmount = 'lots';
+    expect(() => decodeAny(JSON.stringify(bad))).toThrow();
+  });
+  it('舊檔沒有 urineAmount 仍可解碼（欄位維持未定義）', () => {
+    const old = JSON.parse(encodeV2(payload()));
+    delete old.records[0].urineAmount;
+    expect(decodeAny(JSON.stringify(old)).records[0].urineAmount).toBeUndefined();
   });
   it('無法辨識的格式丟錯', () => {
     expect(() => decodeAny('{"foo":1}')).toThrow();

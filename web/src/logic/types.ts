@@ -1,6 +1,7 @@
-export type StoolAmount = 'few' | 'medium' | 'many';
+/** 量的多寡刻度，大便量與小便量共用（wire 值 few/medium/many 與 iOS StoolAmount 相同）。 */
+export type Amount = 'few' | 'medium' | 'many';
 
-export const STOOL_AMOUNT_NAMES: Record<StoolAmount, string> = {
+export const AMOUNT_NAMES: Record<Amount, string> = {
   few: '少',
   medium: '中',
   many: '多',
@@ -30,9 +31,10 @@ export interface RecordData {
   timestamp: number; // epoch ms
   feedAmount?: number; // ml
   stoolColor?: number; // 1–9
-  stoolAmount?: StoolAmount;
+  stoolAmount?: Amount;
   stoolShape?: BristolType;
   hasUrine: boolean;
+  urineAmount?: Amount; // 只有 hasUrine 為 true 時才有意義
   temperature?: number; // °C
   weight?: number; // g
   note?: string;

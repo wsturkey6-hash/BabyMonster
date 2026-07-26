@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { createDefaultBaby } from '../db/repository';
 import { sameLocalDay } from '../logic/dailyStats';
 import { ageDisplayText, babyAge } from '../logic/babyAge';
-import { BRISTOL_NAMES, STOOL_AMOUNT_NAMES, type BristolType, type RecordData, type StoolAmount } from '../logic/types';
+import { AMOUNT_NAMES, BRISTOL_NAMES, type Amount, type BristolType, type RecordData } from '../logic/types';
 import { isAbnormalStoolColor } from '../logic/stoolColorCard';
 import { BabySwitcher } from './BabySwitcher';
 import { ConfirmDialog } from './components/ConfirmDialog';
@@ -14,7 +14,7 @@ import { dateInputValue, datetimeLocalValue, monthDay, msFromDatetimeLocal, time
 import type { PageProps } from './App';
 
 const BRISTOL_TYPES: BristolType[] = [1, 2, 3, 4, 5, 6, 7];
-const AMOUNTS: StoolAmount[] = ['few', 'medium', 'many'];
+const AMOUNTS: Amount[] = ['few', 'medium', 'many'];
 
 const parseNum = (s: string): number | undefined => {
   const n = Number(s);
@@ -27,9 +27,10 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
   const [timestamp, setTimestamp] = useState(() => datetimeLocalValue(Date.now()));
   const [feed, setFeed] = useState('');
   const [stoolColor, setStoolColor] = useState<number | null>(null);
-  const [stoolAmount, setStoolAmount] = useState<StoolAmount | null>(null);
+  const [stoolAmount, setStoolAmount] = useState<Amount | null>(null);
   const [stoolShape, setStoolShape] = useState<BristolType | null>(null);
   const [urine, setUrine] = useState(false);
+  const [urineAmount, setUrineAmount] = useState<Amount | null>(null);
   const [temp, setTemp] = useState('');
   const [weight, setWeight] = useState('');
   const [note, setNote] = useState('');
@@ -59,6 +60,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setStoolAmount(editing.stoolAmount ?? null);
     setStoolShape(editing.stoolShape ?? null);
     setUrine(editing.hasUrine);
+    setUrineAmount(editing.urineAmount ?? null);
     setTemp(editing.temperature != null ? String(editing.temperature) : '');
     setWeight(editing.weight != null ? String(editing.weight) : '');
     setNote(editing.note ?? '');
@@ -73,14 +75,20 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setStoolAmount(null);
     setStoolShape(null);
     setUrine(false);
+    setUrineAmount(null);
     setTemp('');
     setWeight('');
     setNote('');
   }
 
+  const prevBabyId = useRef(currentBaby?.id);
   useEffect(() => {
-    reset();
-    // 切換寶寶時放棄草稿，避免把編輯中的記錄存到另一個寶寶名下
+    const prev = prevBabyId.current;
+    prevBabyId.current = currentBaby?.id;
+    // 切換寶寶時放棄草稿，避免把編輯中的記錄存到另一個寶寶名下。
+    // 「無寶寶 → 有寶寶」不算切換：第一筆記錄存檔時會自動建檔，
+    // 那時清掉草稿會把使用者剛選好的日期一起洗掉。
+    if (prev !== undefined && prev !== currentBaby?.id) reset();
   }, [currentBaby?.id]);
 
   async function save() {
@@ -95,6 +103,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
       babyId: editing?.babyId ?? baby.id,
       timestamp: Number.isFinite(ts) ? ts : Date.now(),
       hasUrine: urine,
+      ...(urine && urineAmount !== null ? { urineAmount } : {}),
       ...(parseNum(feed) !== undefined ? { feedAmount: parseNum(feed) } : {}),
       ...(stoolColor !== null ? { stoolColor } : {}),
       ...(stoolColor !== null && stoolAmount !== null ? { stoolAmount } : {}),
@@ -150,7 +159,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
                   <button key={a} type="button" className={stoolAmount === a ? 'selected' : ''}
                     aria-pressed={stoolAmount === a}
                     onClick={() => setStoolAmount(stoolAmount === a ? null : a)}>
-                    {STOOL_AMOUNT_NAMES[a]}
+                    {AMOUNT_NAMES[a]}
                   </button>
                 ))}
               </div>
@@ -170,11 +179,28 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
         <div className="field">
           <span className="field-label">小便</span>
           <div className="seg">
-            <button type="button" className={urine ? 'selected' : ''} aria-pressed={urine} onClick={() => setUrine(!urine)}>
+            <button type="button" className={urine ? 'selected' : ''} aria-pressed={urine} onClick={() => {
+              setUrine(!urine);
+              if (urine) setUrineAmount(null); // 取消小便時一併清掉量
+            }}>
               {urine ? '有小便 ✓' : '有小便？'}
             </button>
           </div>
         </div>
+        {urine && (
+          <div className="field">
+            <span className="field-label">小便量</span>
+            <div className="seg">
+              {AMOUNTS.map((a) => (
+                <button key={a} type="button" className={urineAmount === a ? 'selected' : ''}
+                  aria-pressed={urineAmount === a}
+                  onClick={() => setUrineAmount(urineAmount === a ? null : a)}>
+                  {AMOUNT_NAMES[a]}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="field">
           <label className="field-label" htmlFor="rec-temp">體溫（°C）</label>
           <input id="rec-temp" name="temperature" autoComplete="off" type="number" inputMode="decimal" placeholder="例：36.5" value={temp} onChange={(e) => setTemp(e.target.value)} />
@@ -212,11 +238,13 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
                   {r.stoolColor != null && (
                     <span className={'chip' + (isAbnormalStoolColor(r.stoolColor) ? ' abnormal' : '')}>
                       💩 {r.stoolColor} 號
-                      {r.stoolAmount ? `・${STOOL_AMOUNT_NAMES[r.stoolAmount]}` : ''}
+                      {r.stoolAmount ? `・${AMOUNT_NAMES[r.stoolAmount]}` : ''}
                       {r.stoolShape ? `・第${r.stoolShape}型` : ''}
                     </span>
                   )}
-                  {r.hasUrine && <span className="chip">💧 小便</span>}
+                  {r.hasUrine && (
+                    <span className="chip">💧 小便{r.urineAmount ? `・${AMOUNT_NAMES[r.urineAmount]}` : ''}</span>
+                  )}
                   {r.temperature != null && <span className="chip">🌡 {r.temperature} °C</span>}
                   {r.weight != null && <span className="chip">⚖️ {r.weight} g</span>}
                   {r.note && <span className="chip">📝 {r.note}</span>}
