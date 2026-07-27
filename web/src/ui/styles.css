@@ -105,6 +105,15 @@ h1, h2 { text-wrap: balance; }
   outline: none;
 }
 .field textarea { resize: vertical; min-height: 56px; }
+/* iOS Safari 的日期控制項會依在地化字串（「2026年7月26日 下午1:50」）算出內建最小寬度，
+   width:100% 壓不下去，框就撐出卡片外。關掉原生外觀並解除 min-width 才收得回來。 */
+.field input[type="date"], .field input[type="datetime-local"] {
+  -webkit-appearance: none;
+  appearance: none;
+  min-width: 0;
+  max-width: 100%;
+  text-align: left;
+}
 
 .seg { display: flex; gap: 8px; flex-wrap: wrap; }
 .seg button {
@@ -173,6 +182,11 @@ h1, h2 { text-wrap: balance; }
   overflow-wrap: anywhere;
 }
 .chip.abnormal { background: var(--color-danger-soft); color: var(--color-danger); font-weight: 700; }
+.note-text {
+  flex: 1; min-width: 0; padding-top: 2px;
+  font-size: 15px; line-height: 1.5;
+  overflow-wrap: anywhere; white-space: pre-wrap;
+}
 
 .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .stat-card {

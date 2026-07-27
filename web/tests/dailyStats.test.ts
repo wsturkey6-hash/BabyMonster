@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dailySummary, sameLocalDay } from '../src/logic/dailyStats';
+import { dailySummary, dayNotes, sameLocalDay } from '../src/logic/dailyStats';
 import type { RecordData } from '../src/logic/types';
 
 const d = (y: number, m: number, day: number, h = 12) => new Date(y, m - 1, day, h).getTime();
@@ -41,6 +41,40 @@ describe('dailySummary', () => {
       rec(d(2026, 7, 16, 0), { feedAmount: 999 }),
     ];
     expect(dailySummary(d(2026, 7, 15), records).totalFeed).toBe(100);
+  });
+});
+
+describe('dayNotes', () => {
+  it('只取當天有備註的記錄，依時間由早到晚', () => {
+    const morning = rec(d(2026, 7, 15, 8), { note: '早上精神很好' });
+    const evening = rec(d(2026, 7, 15, 18), { note: '晚上有點鬧' });
+    const records = [
+      evening,
+      morning,
+      rec(d(2026, 7, 15, 12), { feedAmount: 100 }), // 沒備註
+      rec(d(2026, 7, 14, 23), { note: '前一天' }),
+      rec(d(2026, 7, 16, 0), { note: '隔天' }),
+    ];
+    expect(dayNotes(d(2026, 7, 15), records)).toEqual([
+      { id: morning.id, timestamp: morning.timestamp, note: '早上精神很好' },
+      { id: evening.id, timestamp: evening.timestamp, note: '晚上有點鬧' },
+    ]);
+  });
+
+  it('同一分鐘的兩筆備註都保留，id 各自不同', () => {
+    const a = rec(d(2026, 7, 15, 9), { note: '第一件事' });
+    const b = rec(d(2026, 7, 15, 9), { note: '第二件事' });
+    const out = dayNotes(d(2026, 7, 15), [a, b]);
+    expect(out).toHaveLength(2);
+    expect(new Set(out.map((n) => n.id)).size).toBe(2);
+  });
+
+  it('沒有備註時回傳空陣列', () => {
+    expect(dayNotes(d(2026, 7, 15), [rec(d(2026, 7, 15, 8), { feedAmount: 100 })])).toEqual([]);
+  });
+
+  it('空字串備註不算', () => {
+    expect(dayNotes(d(2026, 7, 15), [rec(d(2026, 7, 15, 8), { note: '' })])).toEqual([]);
   });
 });
 

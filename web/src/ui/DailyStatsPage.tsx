@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
-import { dailySummary } from '../logic/dailyStats';
+import { dailySummary, dayNotes } from '../logic/dailyStats';
 import type { RecordData } from '../logic/types';
 import { BabySwitcher } from './BabySwitcher';
-import { dateInputValue, formatNumber, msFromDateInput } from './format';
+import { dateInputValue, formatNumber, msFromDateInput, timeHM } from './format';
 import type { PageProps } from './App';
 
 export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: PageProps) {
@@ -16,7 +16,9 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
     [] as RecordData[],
   );
 
-  const s = dailySummary(msFromDateInput(dateStr), records);
+  const dayMs = msFromDateInput(dateStr);
+  const s = dailySummary(dayMs, records);
+  const notes = dayNotes(dayMs, records);
 
   return (
     <main className="page">
@@ -54,6 +56,22 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
           <div className="stat-value">{formatNumber(s.averageWeight, 0)}<span className="unit">g</span></div>
         </div>
       </div>
+
+      <section className="card" style={{ marginTop: 16 }}>
+        <h2>當日備註</h2>
+        {notes.length === 0 ? (
+          <p className="hint">這天沒有寫備註。</p>
+        ) : (
+          <ul className="timeline">
+            {notes.map((n) => (
+              <li key={n.id} className="timeline-item">
+                <span className="time">{timeHM(n.timestamp)}</span>
+                <span className="note-text">{n.note}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </main>
   );
 }
