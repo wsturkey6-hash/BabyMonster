@@ -7,7 +7,7 @@ struct RecordEntryForm: View {
     @State private var timestamp: Date
     @State private var feedText = ""
     @State private var stoolColor: Int? = nil
-    @State private var stoolAmount: StoolAmount? = nil
+    @State private var stoolAmount: Amount? = nil
     @State private var stoolShape: BristolType? = nil
     @State private var hasUrine = false
     @State private var tempText = ""
@@ -48,8 +48,8 @@ struct RecordEntryForm: View {
                             .foregroundStyle(.orange).font(.footnote)
                     }
                     Picker("量", selection: $stoolAmount) {
-                        Text("未選").tag(StoolAmount?.none)
-                        ForEach(StoolAmount.allCases) { Text($0.displayName).tag(StoolAmount?.some($0)) }
+                        Text("未選").tag(Amount?.none)
+                        ForEach(Amount.allCases) { Text($0.displayName).tag(Amount?.some($0)) }
                     }
                     Picker("形狀（布里斯托）", selection: $stoolShape) {
                         Text("未選").tag(BristolType?.none)

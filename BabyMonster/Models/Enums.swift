@@ -1,6 +1,7 @@
 import Foundation
 
-enum StoolAmount: String, Codable, CaseIterable, Identifiable {
+/// 量的多寡刻度，大便量與小便量共用。rawValue 與網頁版一致。
+enum Amount: String, Codable, CaseIterable, Identifiable {
     case few, medium, many
     var id: String { rawValue }
     var displayName: String {

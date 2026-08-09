@@ -64,6 +64,39 @@ final class DataTransferV2Tests: XCTestCase {
         XCTAssertEqual(result.records.first?.babyId, newBaby.id)       // 不重對映
     }
 
+    func testUrineAmountRoundTripsThroughV2() throws {
+        let baby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        var r = rec(UUID(), 1000, baby: baby.id, feed: 100)
+        r.hasUrine = true
+        r.urineAmount = .many
+        let payload = BackupPayloadV2(profiles: [baby], records: [r])
+        let decoded = try DataTransfer.decodeAny(DataTransfer.encodeV2(payload))
+        XCTAssertEqual(decoded.records.first?.urineAmount, .many)
+    }
+
+    func testUrineAmountUsesWebCompatibleJSONKeyAndValue() throws {
+        let baby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        var r = rec(UUID(), 1000, baby: baby.id)
+        r.hasUrine = true
+        r.urineAmount = .medium
+        let json = String(data: try DataTransfer.encodeV2(
+            BackupPayloadV2(profiles: [baby], records: [r])), encoding: .utf8)!
+        XCTAssertTrue(json.contains("\"urineAmount\" : \"medium\""))
+    }
+
+    func testDecodesFileWithoutUrineAmount() throws {
+        let json = """
+        {"version":2,
+         "profiles":[{"id":"11111111-1111-1111-1111-111111111111","name":"小明",
+                      "birthDate":"2025-11-02T00:00:00Z"}],
+         "records":[{"id":"22222222-2222-2222-2222-222222222222",
+                     "babyId":"11111111-1111-1111-1111-111111111111",
+                     "timestamp":"2026-01-01T08:00:00Z","hasUrine":true}]}
+        """.data(using: .utf8)!
+        let v2 = try DataTransfer.decodeAny(json)
+        XCTAssertNil(v2.records.first?.urineAmount)
+    }
+
     func testMergeBabiesRecordDedupLocalWins() {
         let baby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
         let shared = UUID()
