@@ -97,6 +97,15 @@ final class DataTransferV2Tests: XCTestCase {
         XCTAssertNil(v2.records.first?.urineAmount)
     }
 
+    func testSleepRoundTripsWithWebCompatibleValue() throws {
+        let baby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        var r = rec(UUID(), 1000, baby: baby.id)
+        r.sleep = .start
+        let data = try DataTransfer.encodeV2(BackupPayloadV2(profiles: [baby], records: [r]))
+        XCTAssertTrue(String(data: data, encoding: .utf8)!.contains("\"sleep\" : \"start\""))
+        XCTAssertEqual(try DataTransfer.decodeAny(data).records.first?.sleep, .start)
+    }
+
     func testMergeBabiesRecordDedupLocalWins() {
         let baby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
         let shared = UUID()

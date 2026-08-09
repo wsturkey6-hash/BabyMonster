@@ -28,3 +28,21 @@ enum BristolType: Int, Codable, CaseIterable, Identifiable {
         }
     }
 }
+
+/// 睡眠以事件記錄：入睡一筆、起床一筆，配對後才算出時長。
+enum SleepEvent: String, Codable, CaseIterable, Identifiable {
+    case start, end
+    var id: String { rawValue }
+    var displayName: String {
+        switch self {
+        case .start: return "入睡"
+        case .end: return "起床"
+        }
+    }
+    var systemImage: String {
+        switch self {
+        case .start: return "moon.zzz.fill"
+        case .end: return "sun.max.fill"
+        }
+    }
+}
