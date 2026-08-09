@@ -15,8 +15,8 @@ final class StoolColorTests: XCTestCase {
     func testAllHasNineCards() {
         XCTAssertEqual(StoolColorCard.all, Array(1...9))
     }
-    func testStoolAmountCases() {
-        XCTAssertEqual(StoolAmount.allCases.count, 3)
+    func testAmountCases() {
+        XCTAssertEqual(Amount.allCases.count, 3)
     }
     func testBristolRange() {
         XCTAssertEqual(BristolType.allCases.first?.rawValue, 1)

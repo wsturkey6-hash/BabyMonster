@@ -1,6 +1,7 @@
 import Foundation
 
-enum StoolAmount: String, Codable, CaseIterable, Identifiable {
+/// 量的多寡刻度，大便量與小便量共用。rawValue 與網頁版一致。
+enum Amount: String, Codable, CaseIterable, Identifiable {
     case few, medium, many
     var id: String { rawValue }
     var displayName: String {
@@ -24,6 +25,24 @@ enum BristolType: Int, Codable, CaseIterable, Identifiable {
         case .type5: return "第5型：柔軟塊狀，邊緣清楚"
         case .type6: return "第6型：蓬鬆糊狀，邊緣不規則"
         case .type7: return "第7型：水狀，無固體塊（腹瀉）"
+        }
+    }
+}
+
+/// 睡眠以事件記錄：入睡一筆、起床一筆，配對後才算出時長。
+enum SleepEvent: String, Codable, CaseIterable, Identifiable {
+    case start, end
+    var id: String { rawValue }
+    var displayName: String {
+        switch self {
+        case .start: return "入睡"
+        case .end: return "起床"
+        }
+    }
+    var systemImage: String {
+        switch self {
+        case .start: return "moon.zzz.fill"
+        case .end: return "sun.max.fill"
         }
     }
 }

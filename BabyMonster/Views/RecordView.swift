@@ -8,14 +8,20 @@ struct RecordView: View {
     @AppStorage("currentBabyId") private var currentBabyIdString = ""
     @State private var showingForm = false
     @State private var editing: RecordEntity?
+    @State private var viewDate = Date()
 
     private var currentBaby: ProfileEntity? {
         CurrentBaby.entity(in: profiles, storedString: currentBabyIdString)
     }
 
-    private var today: [RecordEntity] {
-        records.filter { $0.babyId == currentBaby?.id && Calendar.current.isDateInToday($0.timestamp) }
+    private var dayRecords: [RecordEntity] {
+        records.filter {
+            $0.babyId == currentBaby?.id
+                && Calendar.current.isDate($0.timestamp, inSameDayAs: viewDate)
+        }
     }
+
+    private var isViewingToday: Bool { Calendar.current.isDateInToday(viewDate) }
 
     var body: some View {
         NavigationStack {
@@ -26,13 +32,21 @@ struct RecordView: View {
                             .font(.subheadline).foregroundStyle(.secondary)
                     }
                 }
-                Section("今日記錄（\(today.count) 筆）") {
-                    ForEach(today) { entity in
+                Section { DatePicker("日期", selection: $viewDate, displayedComponents: .date) }
+
+                Section(isViewingToday
+                        ? "今日記錄（\(dayRecords.count) 筆）"
+                        : "\(viewDate.formatted(.dateTime.month().day())) 記錄（\(dayRecords.count) 筆）") {
+                    if dayRecords.isEmpty {
+                        Text(isViewingToday ? "今天還沒有記錄。" : "這天沒有記錄。")
+                            .foregroundStyle(.secondary)
+                    }
+                    ForEach(dayRecords) { entity in
                         Button { editing = entity } label: { RecordRow(data: entity.data) }
                             .buttonStyle(.plain)
                     }
                     .onDelete { indexSet in
-                        for i in indexSet { context.delete(today[i]) }
+                        for i in indexSet { context.delete(dayRecords[i]) }
                     }
                 }
             }
@@ -44,7 +58,7 @@ struct RecordView: View {
                 }
             }
             .sheet(isPresented: $showingForm) {
-                RecordEntryForm { data in
+                RecordEntryForm(defaultDate: defaultFormDate) { data in
                     var d = data
                     d.babyId = ensureCurrentBaby().id
                     context.insert(RecordEntity(data: d))
@@ -54,6 +68,12 @@ struct RecordView: View {
                 RecordEntryForm(initial: entity.data) { data in entity.apply(data) }
             }
         }
+    }
+
+    /// 看今天就用現在時刻；看往前幾天則落在那天的中午，方便再調時間。
+    private var defaultFormDate: Date {
+        isViewingToday ? Date()
+            : Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: viewDate) ?? viewDate
     }
 
     /// 無任何寶寶時自動建預設寶寶，記錄流程不中斷。
@@ -78,9 +98,13 @@ struct RecordRow: View {
                     Label("\(c)號", systemImage: "circle.fill")
                         .foregroundStyle(StoolColorCard.isAbnormal(c) ? .orange : .primary)
                 }
-                if data.hasUrine { Label("小便", systemImage: "toilet.fill") }
+                if data.hasUrine {
+                    Label(data.urineAmount.map { "小便・\($0.displayName)" } ?? "小便",
+                          systemImage: "toilet.fill")
+                }
                 if let t = data.temperature { Label(String(format: "%.1f°C", t), systemImage: "thermometer") }
                 if let w = data.weight { Label("\(Int(w))g", systemImage: "scalemass") }
+                if let s = data.sleep { Label(s.displayName, systemImage: s.systemImage) }
             }.font(.caption).labelStyle(.titleAndIcon)
         }
     }

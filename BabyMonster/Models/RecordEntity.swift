@@ -10,18 +10,21 @@ final class RecordEntity {
     var stoolAmountRaw: String?
     var stoolShapeRaw: Int?
     var hasUrine: Bool
+    var urineAmountRaw: String?
     var temperature: Double?
     var weight: Double?
     var note: String?
     var babyId: UUID?
+    var sleepRaw: String?
 
     init(id: UUID, timestamp: Date, feedAmount: Double?, stoolColor: Int?,
          stoolAmountRaw: String?, stoolShapeRaw: Int?, hasUrine: Bool,
-         temperature: Double?, weight: Double?, note: String?, babyId: UUID? = nil) {
+         temperature: Double?, weight: Double?, note: String?, babyId: UUID? = nil,
+         urineAmountRaw: String? = nil, sleepRaw: String? = nil) {
         self.id = id; self.timestamp = timestamp; self.feedAmount = feedAmount
         self.stoolColor = stoolColor; self.stoolAmountRaw = stoolAmountRaw; self.stoolShapeRaw = stoolShapeRaw
         self.hasUrine = hasUrine; self.temperature = temperature; self.weight = weight; self.note = note
-        self.babyId = babyId
+        self.babyId = babyId; self.urineAmountRaw = urineAmountRaw; self.sleepRaw = sleepRaw
     }
 
     convenience init(data: RecordData) {
@@ -29,21 +32,27 @@ final class RecordEntity {
                   stoolColor: data.stoolColor, stoolAmountRaw: data.stoolAmount?.rawValue,
                   stoolShapeRaw: data.stoolShape?.rawValue, hasUrine: data.hasUrine,
                   temperature: data.temperature, weight: data.weight, note: data.note,
-                  babyId: data.babyId)
+                  babyId: data.babyId,
+                  urineAmountRaw: data.urineAmount?.rawValue,
+                  sleepRaw: data.sleep?.rawValue)
     }
 
     func apply(_ data: RecordData) {
         timestamp = data.timestamp; feedAmount = data.feedAmount; stoolColor = data.stoolColor
         stoolAmountRaw = data.stoolAmount?.rawValue; stoolShapeRaw = data.stoolShape?.rawValue
         hasUrine = data.hasUrine; temperature = data.temperature; weight = data.weight; note = data.note
-        babyId = data.babyId
+        babyId = data.babyId; urineAmountRaw = data.urineAmount?.rawValue
+        sleepRaw = data.sleep?.rawValue
     }
 
     var data: RecordData {
         RecordData(id: id, timestamp: timestamp, feedAmount: feedAmount, stoolColor: stoolColor,
-                   stoolAmount: stoolAmountRaw.flatMap(StoolAmount.init(rawValue:)),
+                   stoolAmount: stoolAmountRaw.flatMap(Amount.init(rawValue:)),
                    stoolShape: stoolShapeRaw.flatMap(BristolType.init(rawValue:)),
-                   hasUrine: hasUrine, temperature: temperature, weight: weight, note: note,
+                   hasUrine: hasUrine,
+                   urineAmount: urineAmountRaw.flatMap(Amount.init(rawValue:)),
+                   temperature: temperature, weight: weight, note: note,
+                   sleep: sleepRaw.flatMap(SleepEvent.init(rawValue:)),
                    babyId: babyId)
     }
 }
