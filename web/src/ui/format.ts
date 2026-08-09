@@ -35,6 +35,11 @@ export function formatNumber(v: number | null, digits = 1): string {
   return v.toFixed(digits).replace(/\.0$/, '');
 }
 
+export function ymdSlash(ms: number): string {
+  const d = new Date(ms);
+  return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+}
+
 export function monthDay(ms: number): string {
   const d = new Date(ms);
   return `${d.getMonth() + 1}/${d.getDate()}`;

@@ -6,7 +6,8 @@ import type { ProfileData } from '../logic/types';
 import RecordPage from './RecordPage';
 import DailyStatsPage from './DailyStatsPage';
 import SettingsPage from './SettingsPage';
-import { ChartIcon, PencilIcon, SettingsIcon, TrendIcon } from './components/icons';
+import VaccinePage from './VaccinePage';
+import { ChartIcon, PencilIcon, SettingsIcon, SyringeIcon, TrendIcon } from './components/icons';
 
 // 趨勢頁 lazy load：recharts 獨立 chunk（見 vite.config manualChunks），開啟趨勢分頁才下載
 const TrendPage = lazy(() => import('./TrendPage'));
@@ -17,9 +18,9 @@ export interface PageProps {
   onSelectBaby: (id: string) => void;
 }
 
-type Tab = 'record' | 'stats' | 'trend' | 'settings';
+type Tab = 'record' | 'stats' | 'trend' | 'vaccine' | 'settings';
 
-const TAB_KEYS = ['record', 'stats', 'trend', 'settings'] as const;
+const TAB_KEYS = ['record', 'stats', 'trend', 'vaccine', 'settings'] as const;
 
 /** 分頁狀態同步到 URL hash：重新整理、上一頁都能回到原分頁。 */
 function tabFromHash(): Tab {
@@ -31,6 +32,7 @@ const TABS: { key: Tab; label: string; icon: () => JSX.Element }[] = [
   { key: 'record', label: '記錄', icon: PencilIcon },
   { key: 'stats', label: '每日統計', icon: ChartIcon },
   { key: 'trend', label: '趨勢', icon: TrendIcon },
+  { key: 'vaccine', label: '疫苗', icon: SyringeIcon },
   { key: 'settings', label: '設定', icon: SettingsIcon },
 ];
 
@@ -67,6 +69,7 @@ export default function App() {
           <TrendPage {...pageProps} />
         </Suspense>
       )}
+      {tab === 'vaccine' && <VaccinePage {...pageProps} />}
       {tab === 'settings' && <SettingsPage {...pageProps} />}
       <nav className="tabbar">
         {TABS.map((t) => (
