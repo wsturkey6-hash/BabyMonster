@@ -4,7 +4,7 @@ import { db } from '../db/db';
 import { createDefaultBaby } from '../db/repository';
 import { sameLocalDay } from '../logic/dailyStats';
 import { ageDisplayText, babyAge } from '../logic/babyAge';
-import { AMOUNT_NAMES, BRISTOL_NAMES, type Amount, type BristolType, type RecordData } from '../logic/types';
+import { AMOUNT_NAMES, BRISTOL_NAMES, SLEEP_EVENT_NAMES, type Amount, type BristolType, type RecordData, type SleepEvent } from '../logic/types';
 import { isAbnormalStoolColor } from '../logic/stoolColorCard';
 import { BabySwitcher } from './BabySwitcher';
 import { ConfirmDialog } from './components/ConfirmDialog';
@@ -15,6 +15,7 @@ import type { PageProps } from './App';
 
 const BRISTOL_TYPES: BristolType[] = [1, 2, 3, 4, 5, 6, 7];
 const AMOUNTS: Amount[] = ['few', 'medium', 'many'];
+const SLEEP_EVENTS: SleepEvent[] = ['start', 'end'];
 
 const parseNum = (s: string): number | undefined => {
   const n = Number(s);
@@ -31,6 +32,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
   const [stoolShape, setStoolShape] = useState<BristolType | null>(null);
   const [urine, setUrine] = useState(false);
   const [urineAmount, setUrineAmount] = useState<Amount | null>(null);
+  const [sleep, setSleep] = useState<SleepEvent | null>(null);
   const [temp, setTemp] = useState('');
   const [weight, setWeight] = useState('');
   const [note, setNote] = useState('');
@@ -61,6 +63,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setStoolShape(editing.stoolShape ?? null);
     setUrine(editing.hasUrine);
     setUrineAmount(editing.urineAmount ?? null);
+    setSleep(editing.sleep ?? null);
     setTemp(editing.temperature != null ? String(editing.temperature) : '');
     setWeight(editing.weight != null ? String(editing.weight) : '');
     setNote(editing.note ?? '');
@@ -76,6 +79,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setStoolShape(null);
     setUrine(false);
     setUrineAmount(null);
+    setSleep(null);
     setTemp('');
     setWeight('');
     setNote('');
@@ -104,6 +108,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
       timestamp: Number.isFinite(ts) ? ts : Date.now(),
       hasUrine: urine,
       ...(urine && urineAmount !== null ? { urineAmount } : {}),
+      ...(sleep !== null ? { sleep } : {}),
       ...(parseNum(feed) !== undefined ? { feedAmount: parseNum(feed) } : {}),
       ...(stoolColor !== null ? { stoolColor } : {}),
       ...(stoolColor !== null && stoolAmount !== null ? { stoolAmount } : {}),
@@ -202,6 +207,19 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
           </div>
         )}
         <div className="field">
+          <span className="field-label">睡眠</span>
+          <div className="seg">
+            {SLEEP_EVENTS.map((s) => (
+              <button key={s} type="button" className={sleep === s ? 'selected' : ''}
+                aria-pressed={sleep === s}
+                onClick={() => setSleep(sleep === s ? null : s)}>
+                {SLEEP_EVENT_NAMES[s]}
+              </button>
+            ))}
+          </div>
+          <p className="hint">放下去睡時記一筆入睡，醒來時記一筆起床，統計頁會自動算出當天睡了多久。</p>
+        </div>
+        <div className="field">
           <label className="field-label" htmlFor="rec-temp">體溫（°C）</label>
           <input id="rec-temp" name="temperature" autoComplete="off" type="number" inputMode="decimal" placeholder="例：36.5" value={temp} onChange={(e) => setTemp(e.target.value)} />
         </div>
@@ -245,6 +263,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
                   {r.hasUrine && (
                     <span className="chip">💧 小便{r.urineAmount ? `・${AMOUNT_NAMES[r.urineAmount]}` : ''}</span>
                   )}
+                  {r.sleep && <span className="chip">{SLEEP_EVENT_NAMES[r.sleep]}</span>}
                   {r.temperature != null && <span className="chip">🌡 {r.temperature} °C</span>}
                   {r.weight != null && <span className="chip">⚖️ {r.weight} g</span>}
                   {r.note && <span className="chip">📝 {r.note}</span>}

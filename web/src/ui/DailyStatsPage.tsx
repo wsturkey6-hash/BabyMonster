@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { dailySummary, dayNotes } from '../logic/dailyStats';
+import { dailySleepMinutes } from '../logic/sleep';
 import type { RecordData } from '../logic/types';
 import { BabySwitcher } from './BabySwitcher';
 import { dateInputValue, formatNumber, msFromDateInput, timeHM } from './format';
@@ -19,6 +20,7 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
   const dayMs = msFromDateInput(dateStr);
   const s = dailySummary(dayMs, records);
   const notes = dayNotes(dayMs, records);
+  const sleepMinutes = dailySleepMinutes(dayMs, records);
 
   return (
     <main className="page">
@@ -54,6 +56,10 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
         <div className="stat-card">
           <div className="label">平均體重</div>
           <div className="stat-value">{formatNumber(s.averageWeight, 0)}<span className="unit">g</span></div>
+        </div>
+        <div className="stat-card">
+          <div className="label">睡眠時間</div>
+          <div className="stat-value">{formatNumber(sleepMinutes / 60)}<span className="unit">小時</span></div>
         </div>
       </div>
 

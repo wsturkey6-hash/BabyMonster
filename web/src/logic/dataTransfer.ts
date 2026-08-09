@@ -1,4 +1,4 @@
-import type { Amount, BristolType, ProfileData, RecordData } from './types';
+import type { Amount, BristolType, ProfileData, RecordData, SleepEvent } from './types';
 
 export interface BackupPayloadV2 {
   profiles: ProfileData[];
@@ -51,6 +51,7 @@ export function encodeV2(p: BackupPayloadV2): string {
         stoolShape: r.stoolShape,
         hasUrine: r.hasUrine,
         urineAmount: r.urineAmount,
+        sleep: r.sleep,
         temperature: r.temperature,
         weight: r.weight,
         note: r.note,
@@ -65,6 +66,7 @@ export function encodeV2(p: BackupPayloadV2): string {
 type Raw = Record<string, unknown>;
 
 const AMOUNTS: readonly string[] = ['few', 'medium', 'many'];
+const SLEEP_EVENTS: readonly string[] = ['start', 'end'];
 
 function fail(where: string, msg: string): never {
   throw new Error(`${where}：${msg}`);
@@ -109,6 +111,9 @@ function parseRecord(raw: unknown, where: string, forcedBabyId?: string): Record
     fail(where, 'stoolShape 需為 1–7');
   const stoolAmount = optAmount(o, 'stoolAmount', where);
   const urineAmount = optAmount(o, 'urineAmount', where);
+  const sleep = o.sleep === undefined || o.sleep === null ? undefined : o.sleep;
+  if (sleep !== undefined && (typeof sleep !== 'string' || !SLEEP_EVENTS.includes(sleep)))
+    fail(where, 'sleep 不合法');
   const note = o.note === undefined || o.note === null ? undefined : o.note;
   if (note !== undefined && typeof note !== 'string') fail(where, 'note 不是字串');
 
@@ -122,6 +127,7 @@ function parseRecord(raw: unknown, where: string, forcedBabyId?: string): Record
     stoolShape: stoolShape as BristolType | undefined,
     hasUrine: o.hasUrine,
     urineAmount,
+    sleep: sleep as SleepEvent | undefined,
     temperature: optNumber(o, 'temperature', where),
     weight: optNumber(o, 'weight', where),
     note,

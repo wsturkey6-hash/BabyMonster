@@ -7,6 +7,14 @@ export const AMOUNT_NAMES: Record<Amount, string> = {
   many: '多',
 };
 
+/** 睡眠以事件記錄：入睡一筆、起床一筆，配對後才算出時長。 */
+export type SleepEvent = 'start' | 'end';
+
+export const SLEEP_EVENT_NAMES: Record<SleepEvent, string> = {
+  start: '😴 入睡',
+  end: '☀️ 起床',
+};
+
 export type BristolType = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export const BRISTOL_NAMES: Record<BristolType, string> = {
@@ -35,6 +43,7 @@ export interface RecordData {
   stoolShape?: BristolType;
   hasUrine: boolean;
   urineAmount?: Amount; // 只有 hasUrine 為 true 時才有意義
+  sleep?: SleepEvent;
   temperature?: number; // °C
   weight?: number; // g
   note?: string;
