@@ -10,6 +10,8 @@ struct RecordEntryForm: View {
     @State private var stoolAmount: Amount? = nil
     @State private var stoolShape: BristolType? = nil
     @State private var hasUrine = false
+    @State private var urineAmount: Amount? = nil
+    @State private var sleep: SleepEvent? = nil
     @State private var tempText = ""
     @State private var weightText = ""
     @State private var note = ""
@@ -25,6 +27,8 @@ struct RecordEntryForm: View {
         _stoolAmount = State(initialValue: initial?.stoolAmount)
         _stoolShape = State(initialValue: initial?.stoolShape)
         _hasUrine = State(initialValue: initial?.hasUrine ?? false)
+        _urineAmount = State(initialValue: initial?.urineAmount)
+        _sleep = State(initialValue: initial?.sleep)
         _tempText = State(initialValue: initial?.temperature.map { String($0) } ?? "")
         _weightText = State(initialValue: initial?.weight.map { String($0) } ?? "")
         _note = State(initialValue: initial?.note ?? "")
@@ -59,7 +63,24 @@ struct RecordEntryForm: View {
                         .font(.footnote).foregroundStyle(.secondary)
                 }
 
-                Section("小便") { Toggle("有小便", isOn: $hasUrine) }
+                Section("小便") {
+                    Toggle("有小便", isOn: $hasUrine)
+                    if hasUrine {
+                        Picker("量", selection: $urineAmount) {
+                            Text("未選").tag(Amount?.none)
+                            ForEach(Amount.allCases) { Text($0.displayName).tag(Amount?.some($0)) }
+                        }
+                    }
+                }
+
+                Section("睡眠") {
+                    Picker("這筆記錄", selection: $sleep) {
+                        Text("不是睡眠記錄").tag(SleepEvent?.none)
+                        ForEach(SleepEvent.allCases) { Text($0.displayName).tag(SleepEvent?.some($0)) }
+                    }
+                    Text("放下去睡時記一筆入睡，醒來時記一筆起床，統計頁會自動算出當天睡了多久。")
+                        .font(.footnote).foregroundStyle(.secondary)
+                }
 
                 Section("生命徵象") {
                     TextField("體溫 (°C)", text: $tempText).keyboardType(.decimalPad)
@@ -107,6 +128,8 @@ struct RecordEntryForm: View {
             temperature: Double(tempText.trimmingCharacters(in: .whitespaces)),
             weight: Double(weightText.trimmingCharacters(in: .whitespaces)),
             note: note.isEmpty ? nil : note)
+        data.urineAmount = hasUrine ? urineAmount : nil
+        data.sleep = sleep
         data.babyId = existingBabyId
         onSave(data)
         dismiss()
