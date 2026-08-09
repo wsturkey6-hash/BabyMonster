@@ -2,7 +2,23 @@
 
 > 每完成一個任務就更新此檔。SessionStart 會自動載入本檔，撞到用量上限 reset 後可據此接續。
 
-## 目前狀態（2026-07-20 更新）
+## 目前狀態（2026-08-09 更新）
+- 階段：**iOS 已追平網頁版功能**（feature/ios-parity，9/9 tasks）
+- Plan：`docs/superpowers/plans/2026-08-09-ios-feature-parity.md`
+- 補上的五項：小便量（`urineAmount`）、睡眠追蹤（`sleep` 事件 + 當日總時數）、當日備註、記錄頁可切換到往前任一天、疫苗分頁
+- iOS 測試數 **47 → 78**，全數通過
+- 兩個刻意的平台差異（不是缺漏）：
+  1. 記錄清單用自己的日期選擇器（iOS 表單是 modal sheet，無法像網頁版跟著表單時間走）
+  2. 月底出生的接種日，iOS 用 `Calendar` 夾到月底（1/31 + 1 月 → 2/28），網頁版 JS 會溢位成 3/3；iOS 行為較合理，刻意不對齊
+- 疫苗資料版本：公費 **疾管署 11401 版（114 年 1 月）**、自費 **SIMBA 2026.03 版**
+  - ⚠️ 疾管署更新時，`BabyMonster/Logic/Vaccines.swift` 與 `web/src/logic/vaccines.ts` **兩處都要改**（本次已逐劑比對，兩邊 15 支疫苗的 id／劑次／月齡／公費自費完全一致）
+- 模擬器實機驗證（因 iOS Simulator MCP 被 xcode-select 檢查擋住，改用 `xcrun simctl` + sqlite3 塞舊 schema 資料）：
+  - **SwiftData 輕量遷移通過**：用改動前的 build 建出舊 schema 資料庫、塞 1 寶寶 3 記錄，覆蓋安裝新版後 `ZSLEEPRAW`／`ZURINEAMOUNTRAW` 自動加上，舊資料與備註全部保留、無 crash
+  - 統計頁睡眠 7 小時 30 分（跨夜午夜切分 6 小時 + 午睡 1.5 小時）正確
+  - 疫苗頁：生日 2025-09-01 → 「滿 1 歲 / Sep 1, 2026（還有 23 天）」、公費三項、兩週間隔提醒皆正確
+- 仍存在的已知落差（網頁版也沒有，非本次缺漏）：五合一/六合一並列不互斥、流感不逐年提醒、疫苗沒有「已完成」勾選、疫苗資料寫死需手動同步兩平台
+
+## 前一階段狀態（2026-07-20 更新）
 - 階段：**三大里程碑 + 延後項目 + UI 可愛改版全部完成**
 - 2026-07-20 完成：
   - 延後項目 7/7（4fdea17）：iOS 實匯出檔 fixture 測試（用真 Swift 程式碼編譯產生 fixture、雙向相容驗證、修 v1 profile id 保留）、totalFeed 小數格式（formatNumber）、刪寶寶後匯出範圍重設、share 失敗退回下載、toast 計時器、PR 觸發 CI（web-ci.yml）、recharts 獨立 chunk + TrendPage lazy load（主 bundle 641kB→121kB）
