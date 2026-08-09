@@ -34,6 +34,34 @@ final class DailyStatsTests: XCTestCase {
         XCTAssertEqual(s.averageWeight!, 4050, accuracy: 0.001)
     }
 
+    func recWithNote(_ date: Date, _ note: String?) -> RecordData {
+        RecordData(id: UUID(), timestamp: date, feedAmount: nil, stoolColor: nil,
+                   stoolAmount: nil, stoolShape: nil, hasUrine: false,
+                   temperature: nil, weight: nil, note: note)
+    }
+
+    func testNotesOnlyForSelectedDaySortedEarliestFirst() {
+        let morning = recWithNote(makeDate(2026, 7, 15, 8), "早上精神很好")
+        let evening = recWithNote(makeDate(2026, 7, 15, 18), "晚上有點鬧")
+        let records = [evening, morning,
+                       recWithNote(makeDate(2026, 7, 15, 12), nil),
+                       recWithNote(makeDate(2026, 7, 14, 23), "前一天"),
+                       recWithNote(makeDate(2026, 7, 16, 0), "隔天")]
+        let notes = DailyStats.notes(for: makeDate(2026, 7, 15), records: records, calendar: cal)
+        XCTAssertEqual(notes.map(\.note), ["早上精神很好", "晚上有點鬧"])
+        XCTAssertEqual(notes.map(\.id), [morning.id, evening.id])
+    }
+
+    func testEmptyNoteIsNotCounted() {
+        let records = [recWithNote(makeDate(2026, 7, 15, 8), "")]
+        XCTAssertTrue(DailyStats.notes(for: makeDate(2026, 7, 15), records: records, calendar: cal).isEmpty)
+    }
+
+    func testNoNotesReturnsEmpty() {
+        let records = [recWithNote(makeDate(2026, 7, 15, 8), nil)]
+        XCTAssertTrue(DailyStats.notes(for: makeDate(2026, 7, 15), records: records, calendar: cal).isEmpty)
+    }
+
     func testOnlyCountsSelectedDay() {
         let day = makeDate(2026, 7, 15)
         let records = [

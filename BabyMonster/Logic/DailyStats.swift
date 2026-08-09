@@ -8,6 +8,12 @@ struct DailySummary: Equatable {
     var averageWeight: Double?
 }
 
+struct DayNote: Identifiable, Equatable {
+    let id: UUID
+    let timestamp: Date
+    let note: String
+}
+
 enum DailyStats {
     static func summary(for date: Date, records: [RecordData], calendar: Calendar = .current) -> DailySummary {
         let dayRecords = records.filter { calendar.isDate($0.timestamp, inSameDayAs: date) }
@@ -23,5 +29,17 @@ enum DailyStats {
 
         return DailySummary(stoolCount: stoolCount, urineCount: urineCount,
                             totalFeed: totalFeed, averageTemperature: avgTemp, averageWeight: avgWeight)
+    }
+
+    /// 當天有寫備註的記錄，依時間由早到晚，方便回頭讀完整天發生的事。
+    static func notes(for date: Date, records: [RecordData],
+                      calendar: Calendar = .current) -> [DayNote] {
+        records
+            .filter { calendar.isDate($0.timestamp, inSameDayAs: date) }
+            .compactMap { r in
+                guard let n = r.note, !n.isEmpty else { return nil }
+                return DayNote(id: r.id, timestamp: r.timestamp, note: n)
+            }
+            .sorted { $0.timestamp < $1.timestamp }
     }
 }
