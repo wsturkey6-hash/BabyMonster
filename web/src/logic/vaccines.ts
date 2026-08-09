@@ -205,7 +205,14 @@ export interface ScheduledDose {
 export interface Milestone {
   ageMonths: number;
   doses: ScheduledDose[];
+  /** 同一個月齡內、劑次之間的接種間隔提醒。 */
+  note?: string;
 }
+
+/** 同一次回診要打的疫苗彼此需要間隔時，註記在該月齡上。 */
+const MILESTONE_NOTES: Record<number, string> = {
+  12: '水痘第一劑與 13 價結合型肺炎鏈球菌第三劑需間隔兩週',
+};
 
 /** 所有疫苗依接種月齡分組，由小到大；組內公費排在自費前面，其餘維持疫苗定義順序。 */
 export function scheduleMilestones(vaccines: Vaccine[] = VACCINES): Milestone[] {
@@ -222,6 +229,7 @@ export function scheduleMilestones(vaccines: Vaccine[] = VACCINES): Milestone[] 
     .map(([ageMonths, doses]) => ({
       ageMonths,
       doses: doses.sort((a, b) => Number(a.dose.funding === 'self') - Number(b.dose.funding === 'self')),
+      ...(MILESTONE_NOTES[ageMonths] ? { note: MILESTONE_NOTES[ageMonths] } : {}),
     }));
 }
 

@@ -79,6 +79,7 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
                 </div>
               );
             })}
+            {upcoming.note && <p className="milestone-note">{upcoming.note}</p>}
           </>
         )}
       </section>
@@ -91,6 +92,7 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
             <li key={m.ageMonths} className="schedule-step">
               <span className="schedule-age">{ageMonthsLabel(m.ageMonths)}</span>
               <div className="vaccine-chips">{m.doses.map(vaccineButton)}</div>
+              {m.note && <p className="milestone-note">{m.note}</p>}
             </li>
           ))}
         </ol>

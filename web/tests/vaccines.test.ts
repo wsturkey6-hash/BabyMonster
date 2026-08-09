@@ -97,6 +97,14 @@ describe('scheduleMilestones', () => {
     ]);
   });
 
+  it('滿 1 歲帶出水痘與肺炎鏈球菌的間隔提醒，其他月齡沒有', () => {
+    const ms = scheduleMilestones();
+    expect(ms.find((m) => m.ageMonths === 12)!.note).toBe(
+      '水痘第一劑與 13 價結合型肺炎鏈球菌第三劑需間隔兩週',
+    );
+    expect(ms.find((m) => m.ageMonths === 2)!.note).toBeUndefined();
+  });
+
   it('滿 5 歲那組同時有公費與自費（水痘第二劑自費）', () => {
     const preschool = scheduleMilestones().find((m) => m.ageMonths === 60)!;
     expect(preschool.doses.map((d) => `${d.vaccine.id}:${d.dose.funding}`)).toEqual([

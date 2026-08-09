@@ -367,6 +367,12 @@ h1, h2 { text-wrap: balance; }
   padding: 12px 0; border-bottom: 2px dashed var(--color-border-soft);
 }
 .schedule-step:last-child { border-bottom: none; }
+.milestone-note {
+  margin: 8px 0 0; padding: 7px 11px;
+  font-size: 13px; line-height: 1.5;
+  color: var(--color-text); background: var(--color-primary-soft);
+  border-radius: var(--radius-md); overflow-wrap: anywhere;
+}
 .schedule-age {
   display: block; margin-bottom: 8px;
   font-family: var(--font-display); font-size: 15px; font-weight: 600;
