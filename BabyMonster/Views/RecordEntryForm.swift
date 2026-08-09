@@ -19,9 +19,10 @@ struct RecordEntryForm: View {
     private let existingID: UUID
     private let existingBabyId: UUID?
 
-    init(initial: RecordData? = nil, onSave: @escaping (RecordData) -> Void) {
+    init(initial: RecordData? = nil, defaultDate: Date = Date(),
+         onSave: @escaping (RecordData) -> Void) {
         self.onSave = onSave
-        _timestamp = State(initialValue: initial?.timestamp ?? Date())
+        _timestamp = State(initialValue: initial?.timestamp ?? defaultDate)
         _feedText = State(initialValue: initial?.feedAmount.map { String($0) } ?? "")
         _stoolColor = State(initialValue: initial?.stoolColor)
         _stoolAmount = State(initialValue: initial?.stoolAmount)
