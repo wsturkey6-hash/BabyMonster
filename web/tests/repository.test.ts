@@ -118,6 +118,12 @@ describe('接種紀錄', () => {
     expect(all[0].date).toBe(march15);
   });
 
+  it('setVaccineDose 把時間切到當地 00:00', async () => {
+    await setVaccineDose(A, 'hepb', '第一劑', new Date(2026, 2, 15, 14, 30).getTime());
+    const all = await db.vaccineDoses.toArray();
+    expect(all[0].date).toBe(march15);
+  });
+
   it('同一劑重複寫入是覆蓋而不是新增一筆', async () => {
     await setVaccineDose(A, 'hepb', '第一劑', march15);
     await setVaccineDose(A, 'hepb', '第一劑', new Date(2026, 2, 20).getTime());

@@ -1,6 +1,7 @@
 import { db } from './db';
 import { mergeBabies, type BackupPayloadV2 } from '../logic/dataTransfer';
 import { doseRecordKey, makeDoseRecord } from '../logic/vaccineLog';
+import { startOfDay } from '../logic/vaccines';
 import type { ProfileData } from '../logic/types';
 
 export async function allData(): Promise<BackupPayloadV2> {
@@ -38,14 +39,14 @@ export async function deleteBabyCascade(babyId: string): Promise<void> {
   });
 }
 
-/** 記錄某一劑的施打日期（同一劑重複寫入為覆蓋）。 */
+/** 記錄某一劑的施打日期（同一劑重複寫入為覆蓋）。日期在這裡切到當地 00:00。 */
 export async function setVaccineDose(
   babyId: string,
   vaccineId: string,
   doseLabel: string,
   date: number,
 ): Promise<void> {
-  await db.vaccineDoses.put(makeDoseRecord(babyId, vaccineId, doseLabel, date));
+  await db.vaccineDoses.put(makeDoseRecord(babyId, vaccineId, doseLabel, startOfDay(date)));
 }
 
 /** 把某一劑改回「尚未施打」。 */

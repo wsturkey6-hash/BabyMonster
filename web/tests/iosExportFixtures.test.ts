@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { decodeAny } from '../src/logic/dataTransfer';
+import { decodeAny, encodeV2 } from '../src/logic/dataTransfer';
 
 // fixture 由 repo 內真正的 iOS 程式碼（Models + DataTransfer, JSONEncoder
 // .prettyPrinted/.sortedKeys/.iso8601）編譯產生，驗證 iOS → web 匯入相容性。
@@ -60,5 +60,33 @@ describe('iOS 實匯出檔（v1 單寶寶）', () => {
     const v1 = decodeAny(legacy);
     expect(v1.profiles[0].id).toMatch(/^[0-9a-f-]{36}$/);
     expect(v1.records[0].babyId).toBe(v1.profiles[0].id);
+  });
+});
+
+describe('iOS 實匯出檔（含接種紀錄）', () => {
+  const raw = fixture('ios-v2-export-vaccines.json');
+  const p = decodeAny(raw);
+
+  it('接種紀錄全數解析，babyId 由大寫 UUID 正規化為小寫', () => {
+    expect(p.vaccineDoses).toHaveLength(3);
+    expect(p.vaccineDoses!.map((d) => d.babyId)).toEqual([BABY_A, BABY_A, BABY_B]);
+    expect(p.vaccineDoses!.map((d) => `${d.vaccineId}|${d.doseLabel}`)).toEqual([
+      'hepb|第一劑', 'dtap-hib-ipv|第二劑', 'bcg|一劑',
+    ]);
+  });
+
+  it('key 由 babyId|vaccineId|劑次 重新組出來', () => {
+    expect(p.vaccineDoses![0].key).toBe(`${BABY_A}|hepb|第一劑`);
+  });
+
+  // 只比對值：Swift JSONEncoder 排版是 "key" : value，JS 是 "key": value，
+  // 差在空格不在內容。唯一的內容差異是 UUID 大小寫（web 一律正規化為小寫，
+  // 見 parseProfile/parseRecord），所以比對前先把原檔的 id 也轉小寫。
+  // 因為解碼不再對日期做時區正規化，這條在任何執行時區都成立。
+  it('再編碼回去與 iOS 原檔內容相同（雙向相容，且不受執行時區影響）', () => {
+    const original = JSON.parse(raw);
+    for (const x of original.profiles) x.id = x.id.toLowerCase();
+    for (const d of original.vaccineDoses) d.babyId = d.babyId.toLowerCase();
+    expect(JSON.parse(encodeV2(p))).toEqual(original);
   });
 });

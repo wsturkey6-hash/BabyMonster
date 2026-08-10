@@ -42,9 +42,10 @@ describe('doseRecordKey', () => {
 });
 
 describe('makeDoseRecord', () => {
-  it('日期切到當地 00:00、babyId 小寫、key 自動組好', () => {
-    const r = makeDoseRecord(BABY, 'hepb', '第一劑', new Date(2026, 6, 22, 14, 30).getTime());
-    expect(r.date).toBe(new Date(2026, 6, 22).getTime());
+  it('babyId 小寫、key 自動組好，date 原封不動（正規化留給 setVaccineDose）', () => {
+    const raw = new Date(2026, 6, 22, 14, 30).getTime();
+    const r = makeDoseRecord(BABY, 'hepb', '第一劑', raw);
+    expect(r.date).toBe(raw);
     expect(r.babyId).toBe(LOWER);
     expect(r.vaccineId).toBe('hepb');
     expect(r.doseLabel).toBe('第一劑');

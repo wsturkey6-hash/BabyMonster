@@ -20,6 +20,11 @@ export function doseRecordKey(babyId: string, vaccineId: string, doseLabel: stri
   return `${babyId.toLowerCase()}|${vaccineId}|${doseLabel}`;
 }
 
+/**
+ * 組出一筆紀錄。**不動 date**：切到當地 00:00 只發生在使用者輸入的那一刻
+ * （見 repository.setVaccineDose），匯出匯入一律原值進出，
+ * 否則跨時區解碼會把日期推移一天。
+ */
 export function makeDoseRecord(
   babyId: string,
   vaccineId: string,
@@ -31,7 +36,7 @@ export function makeDoseRecord(
     babyId: babyId.toLowerCase(),
     vaccineId,
     doseLabel,
-    date: startOfDay(date),
+    date,
   };
 }
 
