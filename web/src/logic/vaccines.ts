@@ -191,6 +191,12 @@ export function ageMonthsLabel(ageMonths: number): string {
   return `滿 ${ageMonths} 個月`;
 }
 
+/** 把時間戳切到當地日期的 00:00。日期比較一律先過這一層，避免時分秒影響結果。 */
+export function startOfDay(ms: number): number {
+  const d = new Date(ms);
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+}
+
 /** 出生日往後推 N 個月的日期（月底溢位由 Date 自行進位）。 */
 export function doseDate(birthDate: number, ageMonths: number): number {
   const d = new Date(birthDate);
