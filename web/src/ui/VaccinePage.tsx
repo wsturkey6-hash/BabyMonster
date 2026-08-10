@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
 import {
   FUNDING_NAMES,
   SCHEDULE_SOURCES,
+  VACCINES,
   ageMonthsLabel,
   doseDate,
   nextMilestone,
@@ -10,9 +12,12 @@ import {
   type ScheduledDose,
   type Vaccine,
 } from '../logic/vaccines';
+import { doneMap, doseRecordKey, type VaccineDoseRecord } from '../logic/vaccineLog';
+import { db } from '../db/db';
+import { clearVaccineDose, setVaccineDose } from '../db/repository';
 import { BabySwitcher } from './BabySwitcher';
 import { InfoDialog } from './components/InfoDialog';
-import { ymdSlash } from './format';
+import { dateInputValue, msFromDateInput, ymdSlash } from './format';
 import type { PageProps } from './App';
 
 const FUNDING_ORDER: Funding[] = ['public', 'self'];
@@ -28,23 +33,56 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
   const [selected, setSelected] = useState<Vaccine | null>(null);
   const now = Date.now();
 
+  const babyId = currentBaby?.id ?? null;
+  const logged = useLiveQuery(
+    () =>
+      babyId
+        ? db.vaccineDoses.where('babyId').equals(babyId).toArray()
+        : Promise.resolve<VaccineDoseRecord[]>([]),
+    [babyId],
+    [] as VaccineDoseRecord[],
+  );
+  const done = doneMap(logged);
+
+  /** 某一劑的施打日期；沒有寶寶或沒紀錄回傳 undefined。 */
+  const doneDate = (vaccineId: string, doseLabel: string): number | undefined =>
+    babyId ? done.get(doseRecordKey(babyId, vaccineId, doseLabel)) : undefined;
+  const isDone = (d: ScheduledDose) => doneDate(d.vaccine.id, d.dose.label) !== undefined;
+
   const milestones = scheduleMilestones();
-  const upcoming = currentBaby ? nextMilestone(currentBaby.birthDate, now) : null;
+  const upcoming = currentBaby ? nextMilestone(currentBaby.birthDate, now, VACCINES, isDone) : null;
 
   const byFunding = (doses: ScheduledDose[], funding: Funding) =>
     doses.filter((d) => d.dose.funding === funding);
 
-  const vaccineButton = (d: ScheduledDose) => (
-    <button
-      key={`${d.vaccine.id}-${d.dose.label}`}
-      type="button"
-      className={'vaccine-chip ' + d.dose.funding}
-      onClick={() => setSelected(d.vaccine)}
-    >
-      <span className="vaccine-name">{d.vaccine.name}</span>
-      <span className="vaccine-dose">{d.dose.label}・{FUNDING_NAMES[d.dose.funding]}</span>
-    </button>
-  );
+  const vaccineButton = (d: ScheduledDose) => {
+    const date = doneDate(d.vaccine.id, d.dose.label);
+    return (
+      <button
+        key={`${d.vaccine.id}-${d.dose.label}`}
+        type="button"
+        className={'vaccine-chip ' + d.dose.funding + (date ? ' done' : '')}
+        onClick={() => setSelected(d.vaccine)}
+      >
+        <span className="vaccine-name">{d.vaccine.name}</span>
+        <span className="vaccine-dose">
+          {date
+            ? `✓ ${d.dose.label}・${ymdSlash(date)}`
+            : `${d.dose.label}・${FUNDING_NAMES[d.dose.funding]}`}
+        </span>
+      </button>
+    );
+  };
+
+  async function saveDose(vaccineId: string, doseLabel: string, date: number) {
+    if (!babyId) return;
+    await setVaccineDose(babyId, vaccineId, doseLabel, date);
+  }
+
+  async function removeDose(vaccineId: string, doseLabel: string) {
+    if (!babyId) return;
+    await clearVaccineDose(babyId, vaccineId, doseLabel);
+  }
 
   return (
     <main className="page">
@@ -117,13 +155,55 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
           onClose={() => setSelected(null)}
         >
           <p>{selected.description}</p>
-          <p className="doses">
-            接種時程：
-            {selected.doses
-              .map((d) => `${ageMonthsLabel(d.ageMonths)} ${d.label}（${FUNDING_NAMES[d.funding]}）`)
-              .join('、')}
-            {selected.recurring ? `，${selected.recurring}` : ''}
-          </p>
+          <ul className="dose-log">
+            {selected.doses.map((dose) => {
+              const date = doneDate(selected.id, dose.label);
+              const inputId = `dose-${selected.id}-${dose.ageMonths}`;
+              const planned = currentBaby ? doseDate(currentBaby.birthDate, dose.ageMonths) : 0;
+              return (
+                <li key={dose.label} className="dose-log-row">
+                  <label htmlFor={inputId}>
+                    {ageMonthsLabel(dose.ageMonths)}・{dose.label}・{FUNDING_NAMES[dose.funding]}
+                  </label>
+                  <div className="dose-log-controls">
+                    <input
+                      id={inputId}
+                      type="date"
+                      value={date ? dateInputValue(date) : ''}
+                      disabled={!currentBaby}
+                      onChange={(e) =>
+                        e.target.value
+                          ? saveDose(selected.id, dose.label, msFromDateInput(e.target.value))
+                          : removeDose(selected.id, dose.label)
+                      }
+                    />
+                    {currentBaby && date === undefined && (
+                      <button
+                        type="button"
+                        className="btn btn-soft"
+                        onClick={() => saveDose(selected.id, dose.label, planned)}
+                      >
+                        預計 {ymdSlash(planned)}
+                      </button>
+                    )}
+                    {date !== undefined && (
+                      <button
+                        type="button"
+                        className="btn btn-soft"
+                        onClick={() => removeDose(selected.id, dose.label)}
+                      >
+                        清除
+                      </button>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          {!currentBaby && (
+            <p className="hint">尚未建立寶寶，請先到設定頁新增，才能記錄施打日期。</p>
+          )}
+          {selected.recurring && <p className="doses">{selected.recurring}</p>}
           {selected.note && <p className="doses">附註：{selected.note}</p>}
         </InfoDialog>
       )}
