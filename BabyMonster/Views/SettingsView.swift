@@ -16,6 +16,7 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \ProfileEntity.birthDate) private var profiles: [ProfileEntity]
     @Query private var records: [RecordEntity]
+    @Query private var doseLogs: [VaccineDoseEntity]
 
     @State private var showingImporter = false
     @State private var shareItem: ShareItem?
@@ -84,6 +85,7 @@ struct SettingsView: View {
     private func deleteBaby(_ baby: ProfileEntity) {
         let doomed = Set(BabyRecords.belonging(to: baby.id, in: records.map { $0.data }).map { $0.id })
         for r in records where doomed.contains(r.id) { context.delete(r) }
+        for d in doseLogs where d.babyId == baby.id { context.delete(d) }
         context.delete(baby)
         toast = Toast(text: "已刪除寶寶")
     }
@@ -99,7 +101,9 @@ struct SettingsView: View {
         }
         let ids = Set(selectedProfiles.map { $0.id })
         let selectedRecords = BabyRecords.belonging(to: ids, in: records.map { $0.data })
-        let payload = BackupPayloadV2(profiles: selectedProfiles, records: selectedRecords)
+        let selectedDoses = doseLogs.map { $0.data }.filter { ids.contains($0.babyId) }
+        let payload = BackupPayloadV2(profiles: selectedProfiles, records: selectedRecords,
+                                      vaccineDoses: selectedDoses)
         do {
             let data = try DataTransfer.encodeV2(payload)
             let f = DateFormatter(); f.dateFormat = "yyyyMMdd"
@@ -124,7 +128,9 @@ struct SettingsView: View {
                     localProfiles: profiles.map { $0.data },
                     localRecords: records.map { $0.data },
                     incomingProfiles: incoming.profiles,
-                    incomingRecords: incoming.records)
+                    incomingRecords: incoming.records,
+                    localVaccineDoses: doseLogs.map { $0.data },
+                    incomingVaccineDoses: incoming.vaccineDoses)
                 let existingProfileIds = Set(profiles.map { $0.id })
                 for p in merged.profiles where !existingProfileIds.contains(p.id) {
                     context.insert(ProfileEntity(data: p))
@@ -132,6 +138,10 @@ struct SettingsView: View {
                 let existingRecordIds = Set(records.map { $0.id })
                 for r in merged.records where !existingRecordIds.contains(r.id) {
                     context.insert(RecordEntity(data: r))
+                }
+                let existingDoseKeys = Set(doseLogs.map { $0.key })
+                for d in merged.vaccineDoses where !existingDoseKeys.contains(d.key) {
+                    context.insert(VaccineDoseEntity(data: d))
                 }
                 toast = Toast(text: "已匯入並合併：寶寶 \(merged.profiles.count) 位、共 \(merged.records.count) 筆記錄")
             } catch { toast = Toast(text: "匯入失敗：\(error.localizedDescription)", duration: 2.5) }
