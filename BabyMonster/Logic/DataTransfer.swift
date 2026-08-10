@@ -34,6 +34,35 @@ struct BackupPayloadV2: Codable, Equatable {
     var version: Int = 2
     var profiles: [ProfileData]
     var records: [RecordData]
+    /// 選填：舊檔沒有這一段。空陣列時不寫進檔案，讓沒用這個功能的匯出結果與舊版相同。
+    var vaccineDoses: [VaccineDoseData] = []
+
+    init(version: Int = 2, profiles: [ProfileData], records: [RecordData],
+         vaccineDoses: [VaccineDoseData] = []) {
+        self.version = version
+        self.profiles = profiles
+        self.records = records
+        self.vaccineDoses = vaccineDoses
+    }
+
+    private enum CodingKeys: String, CodingKey { case version, profiles, records, vaccineDoses }
+
+    /// profiles 用硬性 decode，v1 舊檔（只有單數的 profile）才會落到 decodeAny 的 v1 分支。
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        version = try c.decodeIfPresent(Int.self, forKey: .version) ?? 2
+        profiles = try c.decode([ProfileData].self, forKey: .profiles)
+        records = try c.decode([RecordData].self, forKey: .records)
+        vaccineDoses = try c.decodeIfPresent([VaccineDoseData].self, forKey: .vaccineDoses) ?? []
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(version, forKey: .version)
+        try c.encode(profiles, forKey: .profiles)
+        try c.encode(records, forKey: .records)
+        if !vaccineDoses.isEmpty { try c.encode(vaccineDoses, forKey: .vaccineDoses) }
+    }
 }
 
 extension DataTransfer {
@@ -57,10 +86,14 @@ extension DataTransfer {
     }
 
     /// 寶寶合併：id 對中 → 本機為準；名字對中 → 重對映進來記錄的 babyId；都沒中 → 新增。
-    /// 記錄再走 mergeRecords（id 聯集去重、本機優先、依 timestamp 排序）。
+    /// 記錄走 mergeRecords（id 聯集去重、本機優先、依 timestamp 排序）；
+    /// 接種紀錄以 key 去重、本機優先、依 key 排序（key = babyId|vaccineId|劑次，
+    /// 等同依這三層排序）。
     static func mergeBabies(localProfiles: [ProfileData], localRecords: [RecordData],
-                            incomingProfiles: [ProfileData], incomingRecords: [RecordData])
-        -> (profiles: [ProfileData], records: [RecordData]) {
+                            incomingProfiles: [ProfileData], incomingRecords: [RecordData],
+                            localVaccineDoses: [VaccineDoseData] = [],
+                            incomingVaccineDoses: [VaccineDoseData] = [])
+        -> (profiles: [ProfileData], records: [RecordData], vaccineDoses: [VaccineDoseData]) {
         var profiles = localProfiles
         var idRemap: [UUID: UUID] = [:]
         for p in incomingProfiles {
@@ -76,6 +109,14 @@ extension DataTransfer {
             if let bid = r.babyId, let mapped = idRemap[bid] { r.babyId = mapped }
             return r
         }
-        return (profiles, mergeRecords(local: localRecords, incoming: remapped))
+        var byKey: [String: VaccineDoseData] = [:]
+        for d in incomingVaccineDoses {
+            var d = d
+            if let mapped = idRemap[d.babyId] { d.babyId = mapped }
+            byKey[d.key] = d
+        }
+        for d in localVaccineDoses { byKey[d.key] = d } // 本機覆蓋 incoming
+        let doses = byKey.values.sorted { $0.key < $1.key }
+        return (profiles, mergeRecords(local: localRecords, incoming: remapped), doses)
     }
 }
