@@ -2,7 +2,28 @@
 
 > 每完成一個任務就更新此檔。SessionStart 會自動載入本檔，撞到用量上限 reset 後可據此接續。
 
-## 目前狀態（2026-08-09 更新）
+## 目前狀態（2026-08-10 更新）
+- 階段：**疫苗施打紀錄完成**（feature/vaccine-dose-log，11/11 tasks，web + iOS 同步）
+- Spec：`docs/superpowers/specs/2026-08-10-vaccine-dose-log-design.md`；Plan：`docs/superpowers/plans/2026-08-10-vaccine-dose-log.md`
+- 功能：點疫苗可逐劑填施打日期 → 時程表該劑轉綠底 + ✓ + 日期；接種日已過又沒紀錄的列在「接下來要打的疫苗」上方，分公費／自費兩組（自費多半是刻意跳過，混在一起會變雜訊）
+- 測試數：web **109 → 132**、iOS **78 → 97**，全數通過
+- 新資料表（獨立，不動既有記錄流）：Dexie `vaccineDoses`（schema v1→v2）／SwiftData `VaccineDoseEntity`
+  - 主鍵 `babyId|vaccineId|劑次`；web 一律小寫 babyId、iOS 用 `UUID.uuidString`（大寫）。key **只存本機、不寫進備份檔**
+- 備份檔相容策略：**`version` 維持 2**，只加選填的 `vaccineDoses`；空陣列時整個鍵不輸出
+  - 舊版 App 讀新檔會忽略這段而非整檔拒絕；新版讀舊檔缺欄位當空陣列
+- 三個一併修掉的既有問題：
+  1. `nextMilestone`／`Vaccines.next` 原本用「> 現在」，今天到期的那劑過午夜就從畫面消失又還沒算逾期。改成以「今天 00:00」切，今天到期顯示「還有 0 天」
+  2. **`BabyMonsterApp` 自己寫死一份 model 清單**，沒用 `AppModelContainer.schema`，導致新 entity 只進測試容器、正式 App 不建表（模擬器實測才抓到）。兩邊已統一
+  3. 施打日期原本在**解碼時**做 `startOfDay`，值會隨讀取端時區位移（台北寫、UTC 讀差一天）。正規化改成只發生在使用者輸入時；web 測試在 Asia/Taipei／UTC／America/New_York 三時區都通過
+- 跨平台驗證（兩個方向都做）：
+  - iOS → web：用 repo 內真 Swift 程式碼編譯產生 `web/tests/fixtures/ios-v2-export-vaccines.json`，`iosExportFixtures.test.ts` 驗證解析與往返（任一邊 wire format 走鐘就會紅）
+  - web → iOS：web 產出的 JSON 用真 iOS 程式碼解碼，日期與劑次正確，再編碼回去除 UUID 大小寫外完全一致
+  - SwiftData 輕量遷移：用 `4647faf` 的 build 建舊 schema 資料庫並塞 1 寶寶 1 記錄，覆蓋安裝新版後 `ZVACCINEDOSEENTITY` 自動建表、舊資料與備註全保留、無 crash
+- 模擬器仍走 `xcrun simctl`（iOS Simulator MCP 被 xcode-select 檢查擋住，需 `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`；osascript 輔助取用也沒開，無法注入點擊）
+- 這次刻意不做：「這劑決定不打」的第三種狀態（六合一/五合一擇一）、流感每年提醒、疫苗廠牌／批號／副作用
+  - 逾期清單分公費／自費已能壓住雜訊；若之後自費清單還是太吵，再考慮加「不打」狀態
+
+## 前一階段狀態（2026-08-09 更新）
 - 階段：**iOS 已追平網頁版功能**（feature/ios-parity，9/9 tasks）
 - Plan：`docs/superpowers/plans/2026-08-09-ios-feature-parity.md`
 - 補上的五項：小便量（`urineAmount`）、睡眠追蹤（`sleep` 事件 + 當日總時數）、當日備註、記錄頁可切換到往前任一天、疫苗分頁
@@ -16,9 +37,9 @@
   - **SwiftData 輕量遷移通過**：用改動前的 build 建出舊 schema 資料庫、塞 1 寶寶 3 記錄，覆蓋安裝新版後 `ZSLEEPRAW`／`ZURINEAMOUNTRAW` 自動加上，舊資料與備註全部保留、無 crash
   - 統計頁睡眠 7 小時 30 分（跨夜午夜切分 6 小時 + 午睡 1.5 小時）正確
   - 疫苗頁：生日 2025-09-01 → 「滿 1 歲 / Sep 1, 2026（還有 23 天）」、公費三項、兩週間隔提醒皆正確
-- 仍存在的已知落差（網頁版也沒有，非本次缺漏）：五合一/六合一並列不互斥、流感不逐年提醒、疫苗沒有「已完成」勾選、疫苗資料寫死需手動同步兩平台
+- 仍存在的已知落差（網頁版也沒有，非本次缺漏）：五合一/六合一並列不互斥、流感不逐年提醒、疫苗沒有「已完成」勾選（**已於 2026-08-10 補上**）、疫苗資料寫死需手動同步兩平台
 
-## 前一階段狀態（2026-07-20 更新）
+## 前前一階段狀態（2026-07-20 更新）
 - 階段：**三大里程碑 + 延後項目 + UI 可愛改版全部完成**
 - 2026-07-20 完成：
   - 延後項目 7/7（4fdea17）：iOS 實匯出檔 fixture 測試（用真 Swift 程式碼編譯產生 fixture、雙向相容驗證、修 v1 profile id 保留）、totalFeed 小數格式（formatNumber）、刪寶寶後匯出範圍重設、share 失敗退回下載、toast 計時器、PR 觸發 CI（web-ci.yml）、recharts 獨立 chunk + TrendPage lazy load（主 bundle 641kB→121kB）

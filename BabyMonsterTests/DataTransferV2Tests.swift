@@ -117,4 +117,64 @@ final class DataTransferV2Tests: XCTestCase {
         XCTAssertEqual(result.records.count, 1)
         XCTAssertEqual(result.records.first?.feedAmount, 100)
     }
+
+    // MARK: - 接種紀錄
+
+    private func dose(_ babyId: UUID, _ vaccineId: String, _ label: String,
+                      _ date: Date) -> VaccineDoseData {
+        VaccineDoseData(babyId: babyId, vaccineId: vaccineId, doseLabel: label, date: date)
+    }
+
+    func testEmptyVaccineDosesAreOmittedFromTheFile() throws {
+        let p = BackupPayloadV2(profiles: [], records: [])
+        let json = String(data: try DataTransfer.encodeV2(p), encoding: .utf8)!
+        XCTAssertFalse(json.contains("vaccineDoses"))
+    }
+
+    func testVaccineDosesRoundTrip() throws {
+        let baby = UUID()
+        let d = dose(baby, "dtap-hib-ipv", "第一劑", Date(timeIntervalSince1970: 1_770_000_000))
+        let data = try DataTransfer.encodeV2(BackupPayloadV2(profiles: [], records: [],
+                                                             vaccineDoses: [d]))
+        XCTAssertEqual(try DataTransfer.decodeAny(data).vaccineDoses, [d])
+    }
+
+    func testFileWithoutVaccineDosesDecodesToEmpty() throws {
+        let json = """
+        {"version":2,"profiles":[],"records":[]}
+        """.data(using: .utf8)!
+        XCTAssertEqual(try DataTransfer.decodeAny(json).vaccineDoses, [])
+    }
+
+    func testMergeKeepsLocalDoseOnConflict() {
+        let baby = UUID()
+        let local = dose(baby, "hepb", "第一劑", Date(timeIntervalSince1970: 1_000_000))
+        let incoming = dose(baby, "hepb", "第一劑", Date(timeIntervalSince1970: 2_000_000))
+        let r = DataTransfer.mergeBabies(
+            localProfiles: [], localRecords: [], incomingProfiles: [], incomingRecords: [],
+            localVaccineDoses: [local], incomingVaccineDoses: [incoming])
+        XCTAssertEqual(r.vaccineDoses, [local])
+    }
+
+    func testMergeRemapsDoseBabyIdWhenProfilesMatchByName() {
+        let localBaby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        let remoteBaby = ProfileData(name: "小明", birthDate: Date(timeIntervalSince1970: 0))
+        let d = dose(remoteBaby.id, "hepb", "第一劑", Date(timeIntervalSince1970: 1_000_000))
+        let r = DataTransfer.mergeBabies(
+            localProfiles: [localBaby], localRecords: [],
+            incomingProfiles: [remoteBaby], incomingRecords: [],
+            localVaccineDoses: [], incomingVaccineDoses: [d])
+        XCTAssertEqual(r.profiles.count, 1)
+        XCTAssertEqual(r.vaccineDoses.first?.babyId, localBaby.id)
+    }
+
+    func testMergeSortsDosesByKey() {
+        let baby = UUID()
+        let first = dose(baby, "hepb", "第一劑", Date(timeIntervalSince1970: 1_000_000))
+        let second = dose(baby, "hepb", "第二劑", Date(timeIntervalSince1970: 2_000_000))
+        let r = DataTransfer.mergeBabies(
+            localProfiles: [], localRecords: [], incomingProfiles: [], incomingRecords: [],
+            localVaccineDoses: [second], incomingVaccineDoses: [first])
+        XCTAssertEqual(r.vaccineDoses.map(\.doseLabel), ["第一劑", "第二劑"])
+    }
 }

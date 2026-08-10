@@ -177,11 +177,18 @@ enum Vaccines {
         }
     }
 
-    /// 最接近、且還沒到的接種時間；全部都過了回傳 nil。
+    /// 最接近、還沒過的接種時間；全部都過了回傳 nil。
+    ///
+    /// 邊界以「今天 00:00」切：接種日就是今天時仍算即將接種（顯示還有 0 天），
+    /// 早於今天才歸為逾期（見 VaccineLog.overdue），兩者剛好接合、不留空隙。
+    /// isDone 回報某一劑是否已有施打紀錄；整組都打完的月齡直接跳過。
     static func next(birthDate: Date, asOf now: Date, calendar: Calendar = .current,
-                     vaccines: [Vaccine] = all) -> Milestone? {
-        milestones(vaccines: vaccines).first {
-            doseDate(birthDate: birthDate, ageMonths: $0.ageMonths, calendar: calendar) > now
+                     vaccines: [Vaccine] = all,
+                     isDone: (ScheduledDose) -> Bool = { _ in false }) -> Milestone? {
+        let today = calendar.startOfDay(for: now)
+        return milestones(vaccines: vaccines).first { m in
+            let due = doseDate(birthDate: birthDate, ageMonths: m.ageMonths, calendar: calendar)
+            return calendar.startOfDay(for: due) >= today && !m.doses.allSatisfy(isDone)
         }
     }
 }

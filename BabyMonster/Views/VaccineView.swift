@@ -3,6 +3,7 @@ import SwiftData
 
 struct VaccineView: View {
     @Query(sort: \ProfileEntity.birthDate) private var profiles: [ProfileEntity]
+    @Query private var doseLogs: [VaccineDoseEntity]
     @AppStorage("currentBabyId") private var currentBabyIdString = ""
     @State private var selected: Vaccine?
 
@@ -10,9 +11,27 @@ struct VaccineView: View {
         CurrentBaby.entity(in: profiles, storedString: currentBabyIdString)
     }
 
+    /// 目前寶寶的施打紀錄：key → 施打日期。
+    private var done: [String: Date] {
+        guard let baby = currentBaby else { return [:] }
+        return VaccineLog.doneKeys(doseLogs.filter { $0.babyId == baby.id }.map(\.data))
+    }
+
+    private func doneDate(_ vaccineId: String, _ doseLabel: String) -> Date? {
+        guard let baby = currentBaby else { return nil }
+        return done[VaccineLog.key(babyId: baby.id, vaccineId: vaccineId, doseLabel: doseLabel)]
+    }
+
     private var upcoming: Milestone? {
         guard let baby = currentBaby else { return nil }
-        return Vaccines.next(birthDate: baby.birthDate, asOf: Date())
+        return Vaccines.next(birthDate: baby.birthDate, asOf: Date(),
+                             isDone: { doneDate($0.vaccine.id, $0.dose.label) != nil })
+    }
+
+    private var overdue: [ScheduledDose] {
+        guard let baby = currentBaby else { return [] }
+        return VaccineLog.overdue(birthDate: baby.birthDate, asOf: Date(),
+                                  babyId: baby.id, done: done)
     }
 
     var body: some View {
@@ -24,13 +43,24 @@ struct VaccineView: View {
             }
             .navigationTitle("疫苗")
             .toolbar { ToolbarItem(placement: .topBarLeading) { BabyPickerMenu(profiles: profiles) } }
-            .sheet(item: $selected) { vaccine in VaccineDetailSheet(vaccine: vaccine) }
+            .sheet(item: $selected) { vaccine in
+                VaccineDetailSheet(vaccine: vaccine, baby: currentBaby)
+            }
         }
     }
 
     @ViewBuilder
     private var upcomingSection: some View {
         Section("接下來要打的疫苗") {
+            if !overdue.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("這幾劑的接種日已經過了，還沒記錄施打日期")
+                        .font(.footnote.bold()).foregroundStyle(.red)
+                    overdueGroup(.publicFunded, title: "公費")
+                    overdueGroup(.selfPaid, title: "自費（依醫師建議選擇性接種）")
+                }
+                .padding(.vertical, 2)
+            }
             if currentBaby == nil {
                 Text("尚未建立寶寶，請先到設定頁新增，才能依生日推算接種時間。")
                     .foregroundStyle(.secondary)
@@ -95,18 +125,53 @@ struct VaccineView: View {
     }
 
     private func vaccineButton(_ d: ScheduledDose) -> some View {
-        Button { selected = d.vaccine } label: {
+        let date = doneDate(d.vaccine.id, d.dose.label)
+        return Button { selected = d.vaccine } label: {
             HStack {
                 VStack(alignment: .leading, spacing: 1) {
                     Text(d.vaccine.name).font(.subheadline)
-                    Text("\(d.dose.label)・\(d.dose.funding.displayName)")
-                        .font(.caption).foregroundStyle(.secondary)
+                    if let date {
+                        Text("\(d.dose.label)・\(date, format: .dateTime.year().month().day())")
+                            .font(.caption).foregroundStyle(Color.doseDoneText)
+                    } else {
+                        Text("\(d.dose.label)・\(d.dose.funding.displayName)")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
                 }
                 Spacer()
-                Image(systemName: "info.circle").foregroundStyle(.tint)
+                Image(systemName: date != nil ? "checkmark.circle.fill" : "info.circle")
+                    .foregroundStyle(date != nil ? Color.doseDoneText : Color.accentColor)
             }
+            .padding(8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(date != nil ? Color.doseDoneFill : Color.clear)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private func overdueGroup(_ funding: Funding, title: String) -> some View {
+        let items = overdue.filter { $0.dose.funding == funding }
+        if !items.isEmpty, let baby = currentBaby {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title).font(.caption.bold())
+                    .foregroundStyle(funding == .publicFunded ? Color.red : Color.secondary)
+                ForEach(items) { d in
+                    let due = Vaccines.doseDate(birthDate: baby.birthDate,
+                                                ageMonths: d.dose.ageMonths)
+                    Button { selected = d.vaccine } label: {
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text("\(d.vaccine.name) \(d.dose.label)").font(.subheadline)
+                            Text("預計 \(due, format: .dateTime.year().month().day())・逾期 \(-daysUntil(due)) 天")
+                                .font(.caption).foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
     }
 
     private func noteText(_ note: String) -> some View {
@@ -127,21 +192,27 @@ struct VaccineView: View {
 
 struct VaccineDetailSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    @Query private var doseLogs: [VaccineDoseEntity]
     let vaccine: Vaccine
+    let baby: ProfileEntity?
+
+    private func entity(_ doseLabel: String) -> VaccineDoseEntity? {
+        guard let baby else { return nil }
+        let key = VaccineLog.key(babyId: baby.id, vaccineId: vaccine.id, doseLabel: doseLabel)
+        return doseLogs.first { $0.key == key }
+    }
 
     var body: some View {
         NavigationStack {
             List {
                 Section { Text(vaccine.description) }
-                Section("接種時程") {
-                    ForEach(vaccine.doses) { d in
-                        HStack {
-                            Text(Vaccines.ageLabel(d.ageMonths))
-                            Spacer()
-                            Text("\(d.label)・\(d.funding.displayName)")
-                                .foregroundStyle(.secondary)
-                        }
+                Section("接種時程與施打日期") {
+                    if baby == nil {
+                        Text("尚未建立寶寶，請先到設定頁新增，才能記錄施打日期。")
+                            .font(.footnote).foregroundStyle(.secondary)
                     }
+                    ForEach(vaccine.doses) { d in doseRow(d) }
                     if let r = vaccine.recurring {
                         Text(r).font(.footnote).foregroundStyle(.secondary)
                     }
@@ -158,4 +229,43 @@ struct VaccineDetailSheet: View {
         }
         .presentationDetents([.medium, .large])
     }
+
+    @ViewBuilder
+    private func doseRow(_ d: VaccineDose) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("\(Vaccines.ageLabel(d.ageMonths))・\(d.label)・\(d.funding.displayName)")
+                .font(.caption).foregroundStyle(.secondary)
+            if let baby {
+                if let e = entity(d.label) {
+                    HStack {
+                        DatePicker("施打日期",
+                                   selection: Binding(get: { e.date }, set: { e.date = $0 }),
+                                   displayedComponents: .date)
+                            .labelsHidden()
+                        Spacer()
+                        Button("清除", role: .destructive) { context.delete(e) }
+                            .font(.caption)
+                    }
+                } else {
+                    // DatePicker 永遠有值、無法表達「沒有日期」，所以未施打時只給按鈕。
+                    // 按下以預計接種日建立紀錄，再讓使用者微調。
+                    let planned = Vaccines.doseDate(birthDate: baby.birthDate,
+                                                    ageMonths: d.ageMonths)
+                    Button("記錄施打（預設 \(planned, format: .dateTime.year().month().day())）") {
+                        context.insert(VaccineDoseEntity(data: VaccineDoseData(
+                            babyId: baby.id, vaccineId: vaccine.id,
+                            doseLabel: d.label, date: planned)))
+                    }
+                    .font(.subheadline)
+                }
+            }
+        }
+        .padding(.vertical, 2)
+    }
+}
+
+private extension Color {
+    /// 已施打的標籤配色。淺綠底＋深綠字，與白底的對比高於 4.5:1。
+    static let doseDoneFill = Color(red: 0.93, green: 0.97, blue: 0.94)
+    static let doseDoneText = Color(red: 0.13, green: 0.42, blue: 0.26)
 }

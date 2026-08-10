@@ -83,10 +83,12 @@ final class VaccineTests: XCTestCase {
         XCTAssertEqual(Vaccines.next(birthDate: birth, asOf: day(2026, 9, 23), calendar: cal)?.ageMonths, 4)
     }
 
-    func testMilestoneOnTheDayIsNotUpcoming() {
+    func testMilestoneOnTheDayIsStillUpcoming() {
         let birth = day(2026, 7, 22)
         let onTheDay = Vaccines.doseDate(birthDate: birth, ageMonths: 2, calendar: cal)
-        XCTAssertEqual(Vaccines.next(birthDate: birth, asOf: onTheDay, calendar: cal)?.ageMonths, 4)
+        XCTAssertEqual(Vaccines.next(birthDate: birth, asOf: onTheDay, calendar: cal)?.ageMonths, 2)
+        let late = cal.date(byAdding: .hour, value: 23, to: onTheDay)!
+        XCTAssertEqual(Vaccines.next(birthDate: birth, asOf: late, calendar: cal)?.ageMonths, 2)
     }
 
     func testReturnsNilWhenEverythingHasPassed() {

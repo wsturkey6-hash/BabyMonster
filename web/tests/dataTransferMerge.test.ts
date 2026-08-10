@@ -100,3 +100,47 @@ describe('mergeBabies', () => {
     expect(r.records[0].feedAmount).toBe(100); // 本機優先，未產生重複記錄
   });
 });
+
+describe('mergeBabies 的接種紀錄', () => {
+  const d = (babyId: string, vaccineId: string, label: string, date: number) => ({
+    key: `${babyId.toLowerCase()}|${vaccineId}|${label}`,
+    babyId: babyId.toLowerCase(), vaccineId, doseLabel: label, date,
+  });
+  const mar15 = new Date(2026, 2, 15).getTime();
+  const mar20 = new Date(2026, 2, 20).getTime();
+
+  it('同一劑重複時本機優先', () => {
+    const r = mergeBabies(
+      { profiles: [{ id: A, name: '小明', birthDate: 0 }], records: [],
+        vaccineDoses: [d(A, 'hepb', '第一劑', mar15)] },
+      { profiles: [{ id: A, name: '小明', birthDate: 0 }], records: [],
+        vaccineDoses: [d(A, 'hepb', '第一劑', mar20)] },
+    );
+    expect(r.vaccineDoses).toHaveLength(1);
+    expect(r.vaccineDoses![0].date).toBe(mar15);
+  });
+
+  it('不同劑次各留一筆，依 key 排序', () => {
+    const r = mergeBabies(
+      { profiles: [], records: [], vaccineDoses: [d(A, 'hepb', '第二劑', mar20)] },
+      { profiles: [], records: [], vaccineDoses: [d(A, 'hepb', '第一劑', mar15)] },
+    );
+    expect(r.vaccineDoses!.map((x) => x.doseLabel)).toEqual(['第一劑', '第二劑']);
+  });
+
+  it('寶寶用名字對中時，接種紀錄的 babyId 一起重對映', () => {
+    const r = mergeBabies(
+      { profiles: [{ id: A, name: '小明', birthDate: 0 }], records: [], vaccineDoses: [] },
+      { profiles: [{ id: B, name: '小明', birthDate: 0 }], records: [],
+        vaccineDoses: [d(B, 'hepb', '第一劑', mar15)] },
+    );
+    expect(r.profiles).toHaveLength(1);
+    expect(r.vaccineDoses![0].babyId).toBe(A);
+    expect(r.vaccineDoses![0].key).toBe(`${A}|hepb|第一劑`);
+  });
+
+  it('兩邊都沒有接種紀錄時回傳空陣列', () => {
+    const r = mergeBabies({ profiles: [], records: [] }, { profiles: [], records: [] });
+    expect(r.vaccineDoses).toEqual([]);
+  });
+});

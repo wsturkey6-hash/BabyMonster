@@ -191,6 +191,12 @@ export function ageMonthsLabel(ageMonths: number): string {
   return `滿 ${ageMonths} 個月`;
 }
 
+/** 把時間戳切到當地日期的 00:00。日期比較一律先過這一層，避免時分秒影響結果。 */
+export function startOfDay(ms: number): number {
+  const d = new Date(ms);
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+}
+
 /** 出生日往後推 N 個月的日期（月底溢位由 Date 自行進位）。 */
 export function doseDate(birthDate: number, ageMonths: number): number {
   const d = new Date(birthDate);
@@ -233,11 +239,23 @@ export function scheduleMilestones(vaccines: Vaccine[] = VACCINES): Milestone[] 
     }));
 }
 
-/** 最接近、且還沒到的接種時間；全部都過了回傳 null。 */
+/**
+ * 最接近、還沒過的接種時間；全部都過了回傳 null。
+ *
+ * 邊界以「今天 00:00」切：接種日就是今天時仍算即將接種（顯示還有 0 天），
+ * 早於今天才歸為逾期（見 vaccineLog.overdueDoses），兩者剛好接合、不留空隙。
+ * isDone 回報某一劑是否已有施打紀錄；整組都打完的月齡直接跳過。
+ */
 export function nextMilestone(
   birthDate: number,
   now: number,
   vaccines: Vaccine[] = VACCINES,
+  isDone: (d: ScheduledDose) => boolean = () => false,
 ): Milestone | null {
-  return scheduleMilestones(vaccines).find((m) => doseDate(birthDate, m.ageMonths) > now) ?? null;
+  const today = startOfDay(now);
+  return (
+    scheduleMilestones(vaccines).find(
+      (m) => startOfDay(doseDate(birthDate, m.ageMonths)) >= today && !m.doses.every(isDone),
+    ) ?? null
+  );
 }

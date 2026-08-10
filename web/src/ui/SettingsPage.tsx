@@ -91,6 +91,7 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
           : {
               profiles: data.profiles.filter((p) => p.id === exportScope),
               records: data.records.filter((r) => r.babyId === exportScope),
+              vaccineDoses: (data.vaccineDoses ?? []).filter((d) => d.babyId === exportScope),
             };
       const babyName = exportScope === 'all' ? null : scoped.profiles[0]?.name ?? null;
       const filename = babyName

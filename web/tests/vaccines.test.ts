@@ -5,6 +5,7 @@ import {
   doseDate,
   nextMilestone,
   scheduleMilestones,
+  type ScheduledDose,
   type Vaccine,
 } from '../src/logic/vaccines';
 
@@ -135,8 +136,25 @@ describe('nextMilestone', () => {
     expect(nextMilestone(birth, now, fake)?.ageMonths).toBe(2);
   });
 
-  it('接種當天不算「接下來」，會跳到下一個', () => {
-    expect(nextMilestone(birth, doseDate(birth, 2), fake)?.ageMonths).toBe(4);
+  it('接種當天仍算「接下來」，顯示為還有 0 天', () => {
+    expect(nextMilestone(birth, doseDate(birth, 2), fake)?.ageMonths).toBe(2);
+  });
+
+  it('接種當天稍晚的時間點也還算「接下來」', () => {
+    const lateOnTheDay = doseDate(birth, 2) + 23 * 60 * 60 * 1000;
+    expect(nextMilestone(birth, lateOnTheDay, fake)?.ageMonths).toBe(2);
+  });
+
+  it('整組劑次都打完就跳到下一個月齡', () => {
+    const now = new Date(2026, 7, 1).getTime();
+    const done = (d: ScheduledDose) => d.dose.ageMonths === 2;
+    expect(nextMilestone(birth, now, fake, done)?.ageMonths).toBe(4);
+  });
+
+  it('同一組只打完一部分不會跳過', () => {
+    const now = new Date(2026, 7, 1).getTime();
+    const done = (d: ScheduledDose) => d.vaccine.id === 'a' && d.dose.ageMonths === 4;
+    expect(nextMilestone(birth, now, fake, done)?.ageMonths).toBe(2);
   });
 
   it('同一個月齡會把公費與自費一起帶出來', () => {
