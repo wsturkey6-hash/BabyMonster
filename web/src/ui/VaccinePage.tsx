@@ -12,7 +12,7 @@ import {
   type ScheduledDose,
   type Vaccine,
 } from '../logic/vaccines';
-import { doneMap, doseRecordKey, type VaccineDoseRecord } from '../logic/vaccineLog';
+import { doneMap, doseRecordKey, overdueDoses, type VaccineDoseRecord } from '../logic/vaccineLog';
 import { db } from '../db/db';
 import { clearVaccineDose, setVaccineDose } from '../db/repository';
 import { BabySwitcher } from './BabySwitcher';
@@ -51,6 +51,9 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
 
   const milestones = scheduleMilestones();
   const upcoming = currentBaby ? nextMilestone(currentBaby.birthDate, now, VACCINES, isDone) : null;
+  const overdue = currentBaby
+    ? overdueDoses(currentBaby.birthDate, now, currentBaby.id, done)
+    : [];
 
   const byFunding = (doses: ScheduledDose[], funding: Funding) =>
     doses.filter((d) => d.dose.funding === funding);
@@ -84,6 +87,33 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
     await clearVaccineDose(babyId, vaccineId, doseLabel);
   }
 
+  const overdueList = (funding: Funding) => {
+    const items = overdue.filter((d) => d.dose.funding === funding);
+    if (items.length === 0 || !currentBaby) return null;
+    return (
+      <div className={'overdue-group ' + funding}>
+        <p className="overdue-label">
+          {funding === 'public' ? '公費' : '自費（依醫師建議選擇性接種）'}
+        </p>
+        <ul className="overdue-items">
+          {items.map((d) => {
+            const due = doseDate(currentBaby.birthDate, d.dose.ageMonths);
+            return (
+              <li key={`${d.vaccine.id}-${d.dose.label}`}>
+                <button type="button" onClick={() => setSelected(d.vaccine)}>
+                  <span className="overdue-name">{d.vaccine.name} {d.dose.label}</span>
+                  <span className="overdue-when">
+                    預計 {ymdSlash(due)}・逾期 {-daysUntil(due, now)} 天
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  };
+
   return (
     <main className="page">
       <header className="page-header">
@@ -93,6 +123,13 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
 
       <section className="card">
         <h2>接下來要打的疫苗</h2>
+        {overdue.length > 0 && (
+          <div className="overdue" role="group" aria-label="接種日已過、還沒記錄的疫苗">
+            <p className="overdue-title">這幾劑的接種日已經過了，還沒記錄施打日期</p>
+            {overdueList('public')}
+            {overdueList('self')}
+          </div>
+        )}
         {!currentBaby && <p className="hint">尚未建立寶寶，請先到設定頁新增，才能依生日推算接種時間。</p>}
         {currentBaby && !upcoming && <p className="hint">時程表上的疫苗都已經過了接種年齡。</p>}
         {currentBaby && upcoming && (
