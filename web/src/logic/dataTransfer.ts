@@ -1,8 +1,11 @@
 import type { Amount, BristolType, ProfileData, RecordData, SleepEvent } from './types';
+import { makeDoseRecord, type VaccineDoseRecord } from './vaccineLog';
 
 export interface BackupPayloadV2 {
   profiles: ProfileData[];
   records: RecordData[];
+  /** 選填：舊檔沒有這一段。解碼後一律是陣列（可能為空）。 */
+  vaccineDoses?: VaccineDoseRecord[];
 }
 
 // ---- ISO 8601（相容性關鍵：Swift JSONDecoder(.iso8601) 不接受毫秒） ----
@@ -37,6 +40,7 @@ function stripUndefined<T extends Record<string, unknown>>(o: T): T {
 }
 
 export function encodeV2(p: BackupPayloadV2): string {
+  const doses = p.vaccineDoses ?? [];
   const wire = {
     version: 2,
     profiles: p.profiles.map((x) => ({ id: x.id, name: x.name, birthDate: isoFromMs(x.birthDate) })),
@@ -57,6 +61,18 @@ export function encodeV2(p: BackupPayloadV2): string {
         note: r.note,
       }),
     ),
+    // key 可從其他三個欄位推出，不寫進檔案。空陣列時整個鍵省略，
+    // 讓還沒用這個功能的使用者匯出的檔案與舊版逐字節相同。
+    ...(doses.length > 0
+      ? {
+          vaccineDoses: doses.map((d) => ({
+            babyId: d.babyId,
+            vaccineId: d.vaccineId,
+            doseLabel: d.doseLabel,
+            date: isoFromMs(d.date),
+          })),
+        }
+      : {}),
   };
   return JSON.stringify(sortKeysDeep(wire), null, 2);
 }
@@ -134,6 +150,21 @@ function parseRecord(raw: unknown, where: string, forcedBabyId?: string): Record
   }) as RecordData;
 }
 
+function parseVaccineDose(raw: unknown, where: string): VaccineDoseRecord {
+  if (raw === null || typeof raw !== 'object') fail(where, '接種紀錄不是物件');
+  const o = raw as Raw;
+  if (typeof o.babyId !== 'string' || o.babyId === '') fail(where, '缺少 babyId');
+  if (typeof o.vaccineId !== 'string' || o.vaccineId === '') fail(where, '缺少 vaccineId');
+  if (typeof o.doseLabel !== 'string' || o.doseLabel === '') fail(where, '缺少 doseLabel');
+  return makeDoseRecord(o.babyId, o.vaccineId, o.doseLabel, msFromIso(o.date as string));
+}
+
+function parseVaccineDoses(raw: unknown): VaccineDoseRecord[] {
+  if (raw === undefined || raw === null) return [];
+  if (!Array.isArray(raw)) throw new Error('接種紀錄不是陣列');
+  return raw.map((d, i) => parseVaccineDose(d, `第 ${i + 1} 筆接種紀錄`));
+}
+
 export function decodeAny(text: string): BackupPayloadV2 {
   let root: unknown;
   try {
@@ -147,7 +178,7 @@ export function decodeAny(text: string): BackupPayloadV2 {
   if (o.version === 2 && Array.isArray(o.profiles) && Array.isArray(o.records)) {
     const profiles = o.profiles.map((p, i) => parseProfile(p, `第 ${i + 1} 個寶寶`));
     const records = o.records.map((r, i) => parseRecord(r, `第 ${i + 1} 筆記錄`));
-    return { profiles, records };
+    return { profiles, records, vaccineDoses: parseVaccineDoses(o.vaccineDoses) };
   }
 
   if (o.profile !== undefined && Array.isArray(o.records)) {
@@ -162,7 +193,7 @@ export function decodeAny(text: string): BackupPayloadV2 {
       birthDate: msFromIso(p.birthDate as string),
     };
     const records = o.records.map((r, i) => parseRecord(r, `第 ${i + 1} 筆記錄`, profile.id));
-    return { profiles: [profile], records };
+    return { profiles: [profile], records, vaccineDoses: [] };
   }
 
   throw new Error('無法辨識的備份檔格式');
@@ -192,5 +223,21 @@ export function mergeBabies(local: BackupPayloadV2, incoming: BackupPayloadV2): 
   for (const r of local.records) byId.set(r.id, r); // 本機覆蓋 incoming
 
   const records = [...byId.values()].sort((a, b) => a.timestamp - b.timestamp);
-  return { profiles, records };
+  return { profiles, records, vaccineDoses: mergeVaccineDoses(local, incoming, remap) };
+}
+
+/** key = babyId|vaccineId|劑次，所以依 key 排序等同 spec 要求的三層排序。 */
+function mergeVaccineDoses(
+  local: BackupPayloadV2,
+  incoming: BackupPayloadV2,
+  remap: Map<string, string>,
+): VaccineDoseRecord[] {
+  const byKey = new Map<string, VaccineDoseRecord>();
+  for (const d of incoming.vaccineDoses ?? []) {
+    const mapped = remap.get(d.babyId);
+    const rec = mapped ? makeDoseRecord(mapped, d.vaccineId, d.doseLabel, d.date) : d;
+    byKey.set(rec.key, rec);
+  }
+  for (const d of local.vaccineDoses ?? []) byKey.set(d.key, d); // 本機覆蓋 incoming
+  return [...byKey.values()].sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
 }

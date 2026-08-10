@@ -49,9 +49,9 @@ describe('ISO 8601 日期（相容性關鍵）', () => {
 });
 
 describe('encodeV2', () => {
-  it('round-trip 等值', () => {
+  it('round-trip 等值（解碼一律把 vaccineDoses 正規化成陣列）', () => {
     const p = payload();
-    expect(decodeAny(encodeV2(p))).toEqual(p);
+    expect(decodeAny(encodeV2(p))).toEqual({ ...p, vaccineDoses: [] });
   });
   it('JSON 內日期全部無毫秒、含 version 2', () => {
     const obj = JSON.parse(encodeV2(payload()));
@@ -133,5 +133,55 @@ describe('decodeAny', () => {
     expect(v2.profiles[0].id).toBe(lowerProfileId);
     expect(v2.records[0].id).toBe(lowerRecordId);
     expect(v2.records[0].babyId).toBe(lowerProfileId);
+  });
+});
+
+describe('vaccineDoses 欄位', () => {
+  const dose = {
+    key: `${P1.toLowerCase()}|dtap-hib-ipv|第一劑`,
+    babyId: P1,
+    vaccineId: 'dtap-hib-ipv',
+    doseLabel: '第一劑',
+    date: new Date(2026, 2, 15).getTime(),
+  };
+
+  it('沒有接種紀錄時不寫進檔案（維持與舊版逐字節相同）', () => {
+    expect(JSON.parse(encodeV2(payload()))).not.toHaveProperty('vaccineDoses');
+  });
+
+  it('有接種紀錄時寫成不含 key 的物件陣列', () => {
+    const json = JSON.parse(encodeV2({ ...payload(), vaccineDoses: [dose] }));
+    expect(json.vaccineDoses).toEqual([
+      { babyId: P1, vaccineId: 'dtap-hib-ipv', doseLabel: '第一劑',
+        date: isoFromMs(dose.date) },
+    ]);
+  });
+
+  it('往返後 key 重新組出來、日期不變', () => {
+    const back = decodeAny(encodeV2({ ...payload(), vaccineDoses: [dose] }));
+    expect(back.vaccineDoses).toEqual([{ ...dose, babyId: P1.toLowerCase() }]);
+  });
+
+  it('舊檔沒有這個欄位就當空陣列', () => {
+    expect(decodeAny(encodeV2(payload())).vaccineDoses).toEqual([]);
+  });
+
+  it('iOS 大寫 UUID 的 babyId 解碼後正規化成小寫', () => {
+    const raw = JSON.stringify({
+      version: 2,
+      profiles: [{ id: P1.toUpperCase(), name: '小明', birthDate: isoFromMs(0) }],
+      records: [],
+      vaccineDoses: [{ babyId: P1.toUpperCase(), vaccineId: 'hepb',
+                       doseLabel: '第一劑', date: isoFromMs(dose.date) }],
+    });
+    expect(decodeAny(raw).vaccineDoses?.[0].babyId).toBe(P1.toLowerCase());
+  });
+
+  it('欄位型別不對整檔拒絕', () => {
+    const raw = JSON.stringify({
+      version: 2, profiles: [], records: [],
+      vaccineDoses: [{ babyId: P1, vaccineId: 'hepb', date: isoFromMs(dose.date) }],
+    });
+    expect(() => decodeAny(raw)).toThrow(/doseLabel/);
   });
 });

@@ -147,3 +147,17 @@ describe('接種紀錄', () => {
     expect(left.map((d) => d.babyId)).toEqual([B]);
   });
 });
+
+describe('匯入合併的接種紀錄', () => {
+  it('匯入合併會存進接種紀錄表', async () => {
+    await importMerge({
+      profiles: [baby(A, '小明')],
+      records: [],
+      vaccineDoses: [
+        { key: doseRecordKey(A, 'hepb', '第一劑'), babyId: A,
+          vaccineId: 'hepb', doseLabel: '第一劑', date: new Date(2026, 2, 15).getTime() },
+      ],
+    });
+    expect(await db.vaccineDoses.count()).toBe(1);
+  });
+});
