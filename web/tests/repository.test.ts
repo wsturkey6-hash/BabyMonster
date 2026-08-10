@@ -3,11 +3,14 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { db } from '../src/db/db';
 import {
   allData,
+  clearVaccineDose,
   createDefaultBaby,
   deleteBabyCascade,
   importMerge,
   resolveCurrentBaby,
+  setVaccineDose,
 } from '../src/db/repository';
+import { doseRecordKey } from '../src/logic/vaccineLog';
 import type { ProfileData, RecordData } from '../src/logic/types';
 
 const A = 'aaaaaaaa-0000-0000-0000-000000000001';
@@ -21,6 +24,7 @@ const rec = (id: string, babyId: string, ts: number): RecordData => ({
 beforeEach(async () => {
   await db.profiles.clear();
   await db.records.clear();
+  await db.vaccineDoses.clear();
 });
 
 describe('importMerge', () => {
@@ -100,5 +104,46 @@ describe('resolveCurrentBaby（純函式）', () => {
   });
   it('沒有寶寶 → null', () => {
     expect(resolveCurrentBaby([], A)).toBeNull();
+  });
+});
+
+describe('接種紀錄', () => {
+  const march15 = new Date(2026, 2, 15).getTime();
+
+  it('setVaccineDose 寫入一筆，key 由 babyId|vaccineId|劑次 組成', async () => {
+    await setVaccineDose(A, 'dtap-hib-ipv', '第一劑', march15);
+    const all = await db.vaccineDoses.toArray();
+    expect(all).toHaveLength(1);
+    expect(all[0].key).toBe(doseRecordKey(A, 'dtap-hib-ipv', '第一劑'));
+    expect(all[0].date).toBe(march15);
+  });
+
+  it('同一劑重複寫入是覆蓋而不是新增一筆', async () => {
+    await setVaccineDose(A, 'hepb', '第一劑', march15);
+    await setVaccineDose(A, 'hepb', '第一劑', new Date(2026, 2, 20).getTime());
+    const all = await db.vaccineDoses.toArray();
+    expect(all).toHaveLength(1);
+    expect(all[0].date).toBe(new Date(2026, 2, 20).getTime());
+  });
+
+  it('clearVaccineDose 刪掉該劑', async () => {
+    await setVaccineDose(A, 'hepb', '第一劑', march15);
+    await clearVaccineDose(A, 'hepb', '第一劑');
+    expect(await db.vaccineDoses.count()).toBe(0);
+  });
+
+  it('allData 會帶出接種紀錄', async () => {
+    await setVaccineDose(A, 'hepb', '第一劑', march15);
+    const d = await allData();
+    expect(d.vaccineDoses).toHaveLength(1);
+  });
+
+  it('刪寶寶會連帶刪掉它的接種紀錄，別的寶寶不受影響', async () => {
+    await db.profiles.bulkAdd([baby(A, '小明'), baby(B, '小華')]);
+    await setVaccineDose(A, 'hepb', '第一劑', march15);
+    await setVaccineDose(B, 'hepb', '第一劑', march15);
+    await deleteBabyCascade(A);
+    const left = await db.vaccineDoses.toArray();
+    expect(left.map((d) => d.babyId)).toEqual([B]);
   });
 });
