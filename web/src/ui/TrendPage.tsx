@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { db } from '../db/db';
 import {
-  TREND_METRIC_NAMES, TREND_METRIC_UNITS, trendSeries, type TrendMetric,
+  TREND_METRIC_INTEGER, TREND_METRIC_NAMES, TREND_METRIC_UNITS, trendSeries, type TrendMetric,
 } from '../logic/trendSeries';
 import type { RecordData } from '../logic/types';
 import { BabySwitcher } from './BabySwitcher';
@@ -78,7 +78,7 @@ export default function TrendPage({ profiles, currentBaby, onSelectBaby }: PageP
             <LineChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f6e5cf" />
               <XAxis dataKey="label" tick={{ fontSize: 12 }} interval="preserveStartEnd" />
-              <YAxis tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} allowDecimals={!TREND_METRIC_INTEGER[metric]} />
               <Tooltip formatter={(v) => [v == null ? '—' : `${v} ${TREND_METRIC_UNITS[metric]}`, TREND_METRIC_NAMES[metric]]} />
               <Line type="monotone" dataKey="value" stroke="#ea580c" strokeWidth={2.5} dot={{ r: 3, fill: '#f97316' }} connectNulls={false} />
             </LineChart>

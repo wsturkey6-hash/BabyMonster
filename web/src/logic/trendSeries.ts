@@ -19,6 +19,14 @@ export const TREND_METRIC_UNITS: Record<TrendMetric, string> = {
   avgWeight: 'g',
 };
 
+export const TREND_METRIC_INTEGER: Record<TrendMetric, boolean> = {
+  stoolCount: true,
+  urineCount: true,
+  totalFeed: true,
+  avgTemperature: false,
+  avgWeight: false,
+};
+
 export interface TrendPoint {
   dayMs: number;
   value: number | null;

@@ -53,5 +53,15 @@ struct TrendView: View {
             }
         }
         .chartXAxis { AxisMarks(values: .stride(by: .day)) { _ in AxisGridLine(); AxisTick() } }
+        .chartYAxis {
+            AxisMarks { value in
+                let v = value.as(Double.self) ?? 0
+                if !metric.isInteger || v == v.rounded() {
+                    AxisGridLine()
+                    AxisTick()
+                    AxisValueLabel()
+                }
+            }
+        }
     }
 }
