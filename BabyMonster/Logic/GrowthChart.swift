@@ -140,11 +140,15 @@ enum GrowthChart {
     }
 
     /// 中性描述，不下判斷 —— 百分位本來就是同齡比較，落在哪裡都可能正常。
+    ///
+    /// 區間邊界就是 referenceBands 那五條線，所以標籤跟圖上看到的落點一致；
+    /// 每條線本身歸入它開啟的那一段。
     static func bandLabel(_ r: PercentileResult) -> String {
         if r.percentile < 3 { return "低於第 3 百分位" }
         if r.percentile > 97 { return "高於第 97 百分位" }
         if r.percentile < 15 { return "第 3–15 百分位" }
         if r.percentile > 85 { return "第 85–97 百分位" }
-        return "第 15–85 百分位（中段）"
+        if r.percentile < 50 { return "第 15–50 百分位" }
+        return "第 50–85 百分位"
     }
 }

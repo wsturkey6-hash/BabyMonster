@@ -2,8 +2,10 @@ import { describe, expect, it } from 'vitest';
 import {
   CHART_MONTH_STEPS,
   REFERENCE_BANDS,
+  bandLabel,
   chartMaxMonths,
   daysToMonths,
+  formatPercentile,
   latestMeasurement,
   measurementSeries,
   metricValue,
@@ -204,5 +206,65 @@ describe('referenceCurves', () => {
       expect(c.points.length).toBeLessThanOrEqual(130);
       expect(c.points.length).toBeGreaterThan(10);
     }
+  });
+});
+
+describe('formatPercentile', () => {
+  const r = (percentile: number, beyond: 'low' | 'high' | null = null) => ({ z: 0, percentile, beyond });
+
+  it('一般範圍取整數', () => {
+    expect(formatPercentile(r(50))).toBe('50');
+    expect(formatPercentile(r(18.6))).toBe('19');
+  });
+
+  it('兩端一位小數，免得都顯示成 1 或 99', () => {
+    expect(formatPercentile(r(0.4))).toBe('0.4');
+    expect(formatPercentile(r(99.5))).toBe('99.5');
+  });
+
+  it('超出 |Z|>3 時不報假精度', () => {
+    expect(formatPercentile(r(0.02, 'low'))).toBe('< 0.1');
+    expect(formatPercentile(r(99.98, 'high'))).toBe('> 99.9');
+  });
+});
+
+describe('bandLabel', () => {
+  const label = (percentile: number) => bandLabel({ z: 0, percentile, beyond: null });
+
+  /**
+   * 圖上畫了五條參考線（3/15/50/85/97），標籤就必須切成對應的六段。
+   * 曾經把 15–85 併成一段「中段」，結果第 19 與第 52 百分位顯示成同一個區間，
+   * 跟圖上看到的落點對不起來。
+   */
+  it('五條參考線切出六個區間', () => {
+    expect(label(1)).toBe('低於第 3 百分位');
+    expect(label(10)).toBe('第 3–15 百分位');
+    expect(label(19)).toBe('第 15–50 百分位');
+    expect(label(52)).toBe('第 50–85 百分位');
+    expect(label(90)).toBe('第 85–97 百分位');
+    expect(label(99)).toBe('高於第 97 百分位');
+  });
+
+  it('每條參考線本身歸入它開啟的那一段', () => {
+    expect(label(3)).toBe('第 3–15 百分位');
+    expect(label(15)).toBe('第 15–50 百分位');
+    expect(label(50)).toBe('第 50–85 百分位');
+    expect(label(85)).toBe('第 50–85 百分位');
+    expect(label(97)).toBe('第 85–97 百分位');
+  });
+
+  it('六段互不重疊也不留空隙', () => {
+    const seen = new Set<string>();
+    let prev = label(0);
+    seen.add(prev);
+    for (let p = 0; p <= 100; p += 0.05) {
+      const cur = label(p);
+      if (cur !== prev) {
+        expect(seen.has(cur), `${cur} 在 ${p} 又出現一次`).toBe(false);
+        seen.add(cur);
+        prev = cur;
+      }
+    }
+    expect(seen.size).toBe(6);
   });
 });

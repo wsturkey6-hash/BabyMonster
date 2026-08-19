@@ -217,17 +217,60 @@ final class GrowthChartTests: XCTestCase {
         XCTAssertEqual(GrowthChart.formatPercentile(high), "> 99.9")
     }
 
-    func testBandLabels() {
+    private func label(percentile: Double) -> String {
+        GrowthChart.bandLabel(PercentileResult(z: 0, percentile: percentile, beyond: nil))
+    }
+
+    /// 圖上畫了五條參考線（3/15/50/85/97），標籤就必須切成對應的六段。
+    /// 曾經把 15–85 併成一段「中段」，結果第 19 與第 52 百分位顯示成同一個區間，
+    /// 跟圖上看到的落點對不起來。
+    func testBandLabelsSplitAtEveryReferenceLine() {
+        XCTAssertEqual(label(percentile: 1), "低於第 3 百分位")
+        XCTAssertEqual(label(percentile: 10), "第 3–15 百分位")
+        XCTAssertEqual(label(percentile: 19), "第 15–50 百分位")
+        XCTAssertEqual(label(percentile: 52), "第 50–85 百分位")
+        XCTAssertEqual(label(percentile: 90), "第 85–97 百分位")
+        XCTAssertEqual(label(percentile: 99), "高於第 97 百分位")
+    }
+
+    func testEachReferenceLineBelongsToTheBandItOpens() {
+        XCTAssertEqual(label(percentile: 3), "第 3–15 百分位")
+        XCTAssertEqual(label(percentile: 15), "第 15–50 百分位")
+        XCTAssertEqual(label(percentile: 50), "第 50–85 百分位")
+        XCTAssertEqual(label(percentile: 85), "第 50–85 百分位")
+        XCTAssertEqual(label(percentile: 97), "第 85–97 百分位")
+    }
+
+    func testBandsDoNotOverlapOrLeaveGaps() {
+        var seen: [String] = []
+        var prev = label(percentile: 0)
+        seen.append(prev)
+        var p = 0.0
+        while p <= 100 {
+            let cur = label(percentile: p)
+            if cur != prev {
+                XCTAssertFalse(seen.contains(cur), "\(cur) 在 \(p) 又出現一次")
+                seen.append(cur)
+                prev = cur
+            }
+            p += 0.05
+        }
+        XCTAssertEqual(seen.count, 6)
+    }
+
+    /// 真實測量值也要走到正確的區間（前面幾個測試用的是合成的 PercentileResult）。
+    func testBandLabelFromRealMeasurement() {
         let lms = GrowthPercentile.lms(metric: .weight, sex: .male, ageDays: 365)!
-        func label(z: Double) -> String {
+        func fromZ(_ z: Double) -> String {
             GrowthChart.bandLabel(GrowthPercentile.result(
                 metric: .weight, sex: .male, ageDays: 365,
                 value: GrowthPercentile.value(lms: lms, z: z))!)
         }
-        XCTAssertEqual(label(z: 0), "第 15–85 百分位（中段）")
-        XCTAssertEqual(label(z: -2.5), "低於第 3 百分位")
-        XCTAssertEqual(label(z: 2.5), "高於第 97 百分位")
-        XCTAssertEqual(label(z: -1.5), "第 3–15 百分位")
-        XCTAssertEqual(label(z: 1.5), "第 85–97 百分位")
+        XCTAssertEqual(fromZ(0), "第 50–85 百分位")
+        XCTAssertEqual(fromZ(-0.5), "第 15–50 百分位")
+        XCTAssertEqual(fromZ(-2.5), "低於第 3 百分位")
+        XCTAssertEqual(fromZ(2.5), "高於第 97 百分位")
+        XCTAssertEqual(fromZ(-1.5), "第 3–15 百分位")
+        XCTAssertEqual(fromZ(1.5), "第 85–97 百分位")
     }
 }

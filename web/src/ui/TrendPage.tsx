@@ -10,11 +10,11 @@ import {
 } from '../logic/trendSeries';
 import {
   GROWTH_METRIC_NAMES, GROWTH_METRIC_UNITS, ageInDays, lmsFor, valueAtZ,
-  type GrowthMetric, type PercentileResult,
+  type GrowthMetric,
 } from '../logic/growthPercentile';
 import {
-  GROWTH_METRICS, REFERENCE_BANDS, chartMaxMonths, daysToMonths, latestMeasurement,
-  measurementSeries, monthsToDays, referenceCurves,
+  GROWTH_METRICS, REFERENCE_BANDS, bandLabel, chartMaxMonths, daysToMonths, formatPercentile,
+  latestMeasurement, measurementSeries, monthsToDays, referenceCurves,
 } from '../logic/growthChart';
 import { GROWTH_DAY_MAX } from '../logic/growthReference.generated';
 import type { RecordData } from '../logic/types';
@@ -29,22 +29,6 @@ type Mode = 'daily' | 'growth';
 
 /** 小數位數：體重用 kg 給兩位，身高頭圍用 cm 給一位。 */
 const DECIMALS: Record<GrowthMetric, number> = { weight: 2, height: 1, headCirc: 1 };
-
-function formatPercentile(r: PercentileResult): string {
-  if (r.beyond === 'low') return '< 0.1';
-  if (r.beyond === 'high') return '> 99.9';
-  if (r.percentile < 1 || r.percentile > 99) return r.percentile.toFixed(1);
-  return String(Math.round(r.percentile));
-}
-
-/** 中性描述，不下判斷 —— 百分位本來就是同齡比較，落在哪裡都可能正常。 */
-function bandLabel(r: PercentileResult): string {
-  if (r.percentile < 3) return '低於第 3 百分位';
-  if (r.percentile > 97) return '高於第 97 百分位';
-  if (r.percentile < 15) return '第 3–15 百分位';
-  if (r.percentile > 85) return '第 85–97 百分位';
-  return '第 15–85 百分位（中段）';
-}
 
 export default function TrendPage({ profiles, currentBaby, onSelectBaby }: PageProps) {
   const [mode, setMode] = useState<Mode>('daily');
