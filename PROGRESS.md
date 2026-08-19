@@ -43,9 +43,26 @@
 - web 在瀏覽器實測：生長曲線圖、三指標百分位、未設性別的引導、設定頁性別選取與**取消選取**（Dexie 會把 key 整個移除，不是留 undefined，這對匯出正確性有影響）
 - iOS 在模擬器截圖確認曲線圖與百分位摘要（因無法注入點擊，用 scratchpad 內的臨時 worktree 建了只開趨勢頁的版本截圖，未汙染 repo）
 
-### 環境限制（沿用上一階段）
-- iOS Simulator MCP 仍被 xcode-select 擋住，需使用者執行 `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
-- osascript 的輔助取用（Accessibility）也未開啟，無法注入點擊 → iOS 仍走 `xcrun simctl` + 截圖
+### 2026-08-19 後續：iOS 選單 Picker 全壞（已修）
+使用者執行 `sudo xcode-select -s ...` 後，iOS Simulator MCP 終於可用、能注入點擊，
+第一次真的用手點過 iOS App，立刻抓到一個**既有且嚴重**的問題：
+
+- `dismissKeyboardOnTap()` 用 `simultaneousGesture(TapGesture())` 做「點空白處收鍵盤」，
+  這個手勢會把 SwiftUI **選單的呈現一起吃掉** → Form 裡所有 `.menu` 樣式的 Picker 點了沒反應
+- 受影響：**大便量、大便形狀、睡眠（既有，早就壞了）** + 這次新加的**性別**
+- 性別選不了 → 生長曲線永遠算不出百分位 → 新功能在 iOS 上等於不可用
+- 同一個 Form 裡的 `DatePicker` 正常（用 popover 而非選單），這是定位問題的關鍵線索
+- 修法：改成 `scrollDismissesKeyboard(.interactively)` + 鍵盤上方「完成」按鈕，
+  函式改名 `keyboardDismissable()`。收鍵盤仍有兩種方式，且不攔截任何控制項
+- 修正後實測：性別可選 → 新增 3400g / 50.0cm / 34.5cm → 生長曲線顯示第 54 / 52 / 51 百分位
+  （WHO 男寶 day 0 中位數 3.3464kg / 49.8842cm / 34.4618cm，數值相符，day 0 邊界一併驗證）
+
+**教訓：純靠單元測試 + 截圖驗不出「控制項點不動」這類問題。** 只要能注入點擊就該真的點過一遍。
+
+### 環境限制
+- iOS Simulator MCP **已可用**（2026-08-19 使用者執行 `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer` 後）
+  - 可注入點擊、輸入文字（**僅 ASCII**，中文輸入不了 → 測試資料用英文名）
+- osascript 的輔助取用（Accessibility）仍未開啟，但有了 Simulator MCP 就不需要它了
 
 ### 這次刻意不做
 - BMI-for-age、weight-for-length（WHO 另有標準表，家長日常較少看）
