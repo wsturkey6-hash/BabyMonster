@@ -2,7 +2,58 @@
 
 > 每完成一個任務就更新此檔。SessionStart 會自動載入本檔，撞到用量上限 reset 後可據此接續。
 
-## 目前狀態（2026-08-10 更新）
+## 目前狀態（2026-08-19 更新）
+- 階段：**身高／頭圍記錄 + 生長曲線完成**（feature/growth-metrics，web + iOS 同步）
+- Spec：`docs/superpowers/specs/2026-08-19-growth-metrics-design.md`
+- 功能：
+  1. 記錄頁新增身高、頭圍欄位；趨勢頁指標多了平均身高／平均頭圍
+  2. 趨勢頁改成「日常趨勢／生長曲線」兩種模式（**不新增第 6 個分頁** —— iPhone TabView 超過 5 個會被收進 More）
+  3. 生長曲線畫 P3/P15/P50/P85/P97 五條參考線 + 寶寶歷次測量點，三個指標的百分位各自標註測量日期（身高體重常不是同一天量的）
+- 寶寶資料新增 `sex`（選填，male/female）—— 生長曲線男女參考值完全不同，沒設定時該頁顯示引導，其他頁面不受影響
+- 測試數：web **132 → 196**、iOS **97 → 162**，全數通過
+
+### WHO 參考資料（重要）
+- 來源：WHO Child Growth Standards (2006) expanded z-score tables，2026-08-19 自 cdn.who.int 取得
+  - ⚠️ 身長那組路徑是 `expandable-tables`，體重／頭圍是 `expanded-tables`，網址不一致
+- **採逐日資料（day 0–1856）而非按月內插**。實測按月內插最壞誤差 **9.3 個百分點**（P50 會顯示成 P41），兩個主因：
+  1. 新生兒頭幾天體重的 LMS 變化極快
+  2. **day 730→731 身高中位數陡降 0.67cm** —— WHO 在滿 2 歲切換躺姿／站姿量法，跨接縫內插沒有意義
+- 逐日全表經「定點數 + 差分」編碼後只有 88 KB 原始／9.3 KB gzip，比任何取樣方案的樸素編碼都小，所以不取樣、內插誤差為零
+- **兩平台不再各寫一份**（解決疫苗表的老問題）：`data/who-growth-reference.json` 是唯一來源，
+  `scripts/generate-growth-reference.mjs` 產出 web 的 `.ts` 與 iOS 的 `.swift`，兩者都 commit。
+  CI 跑 `--check`，任一邊被手改就會紅
+- 資料正確性有兩道防線：
+  - `data/who-growth-verification.json`（630 筆）直接取自 WHO 自家發布的 SD 欄位，兩平台都要對得上（容差 0.0005，即 WHO 的 3 位小數捨入極限）
+  - `data/growth-percentile-vectors.json`（660 筆）由 Python 高精度算出，釘住兩平台的 z 與百分位一致
+
+### 實作決定
+- 年齡一律用**足歲天數**（不換算成小數月齡）—— WHO 表就是以天為索引，這樣最貼近資料來源
+- 常態分布：iOS 用 Foundation 內建 `erfc`，web 用不完全 Gamma 函數展開自己實作同等精度的 erfc。
+  兩者都準到 1e-15 等級因此必然吻合 —— 比兩平台共用同一個低精度近似式（A&S 誤差 7.5e-8）可靠
+- 趨勢圖：體重／身高／頭圍是「狀態量」，缺值時**連接**前後點；次數與累計量維持斷開（沒記錄 ≠ 那天是 0）
+  - 順帶修掉既有落差：iOS 原本略過 nil 點，Swift Charts 會自動連過去，等於所有指標都連線；現已依 `connectsGaps` 分段
+- 備份檔 **version 維持 2**，只加三個選填欄位（`profile.sex`、`record.height`、`record.headCircumference`），
+  沿用疫苗那次的策略：舊版讀新檔會忽略而非整檔拒絕；沒用到新功能的匯出結果與舊版逐字節相同
+  - 已知取捨：舊版讀新檔會默默忽略身高頭圍，不會提示使用者資料沒帶到
+- web bundle：88 KB 的參考表只進 lazy-load 的 TrendPage chunk（gzip 14.6 KB），主 bundle 不受影響（已用指紋比對確認）
+
+### 驗證
+- **SwiftData 輕量遷移實測通過**：用改動前的 build（1d63c92）建舊 schema 資料庫（1 寶寶 9 記錄含備註／睡眠／大便色），
+  覆蓋安裝新版後 `ZHEIGHT`／`ZHEADCIRCUMFERENCE`／`ZSEXRAW` 自動加上，逐欄位比對舊資料完全一致，新欄位為 NULL，無 crash
+- web 在瀏覽器實測：生長曲線圖、三指標百分位、未設性別的引導、設定頁性別選取與**取消選取**（Dexie 會把 key 整個移除，不是留 undefined，這對匯出正確性有影響）
+- iOS 在模擬器截圖確認曲線圖與百分位摘要（因無法注入點擊，用 scratchpad 內的臨時 worktree 建了只開趨勢頁的版本截圖，未汙染 repo）
+
+### 環境限制（沿用上一階段）
+- iOS Simulator MCP 仍被 xcode-select 擋住，需使用者執行 `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`
+- osascript 的輔助取用（Accessibility）也未開啟，無法注入點擊 → iOS 仍走 `xcrun simctl` + 截圖
+
+### 這次刻意不做
+- BMI-for-age、weight-for-length（WHO 另有標準表，家長日常較少看）
+- 早產兒矯正年齡（需另存懷孕週數，且矯正規則有多種慣例）
+- 生長速度（velocity）曲線
+- 5 歲以上（WHO 標準到此為止；5–18 歲要換另一套 reference）
+
+## 前一階段狀態（2026-08-10 更新）
 - 階段：**疫苗施打紀錄完成**（feature/vaccine-dose-log，11/11 tasks，web + iOS 同步）
 - Spec：`docs/superpowers/specs/2026-08-10-vaccine-dose-log-design.md`；Plan：`docs/superpowers/plans/2026-08-10-vaccine-dose-log.md`
 - 功能：點疫苗可逐劑填施打日期 → 時程表該劑轉綠底 + ✓ + 日期；接種日已過又沒紀錄的列在「接下來要打的疫苗」上方，分公費／自費兩組（自費多半是刻意跳過，混在一起會變雜訊）

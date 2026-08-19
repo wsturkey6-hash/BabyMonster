@@ -1,4 +1,4 @@
-import type { Amount, BristolType, ProfileData, RecordData, SleepEvent } from './types';
+import type { Amount, BristolType, ProfileData, RecordData, Sex, SleepEvent } from './types';
 import { makeDoseRecord, type VaccineDoseRecord } from './vaccineLog';
 
 export interface BackupPayloadV2 {
@@ -43,7 +43,9 @@ export function encodeV2(p: BackupPayloadV2): string {
   const doses = p.vaccineDoses ?? [];
   const wire = {
     version: 2,
-    profiles: p.profiles.map((x) => ({ id: x.id, name: x.name, birthDate: isoFromMs(x.birthDate) })),
+    profiles: p.profiles.map((x) =>
+      stripUndefined({ id: x.id, name: x.name, birthDate: isoFromMs(x.birthDate), sex: x.sex }),
+    ),
     records: p.records.map((r) =>
       stripUndefined({
         id: r.id,
@@ -58,6 +60,8 @@ export function encodeV2(p: BackupPayloadV2): string {
         sleep: r.sleep,
         temperature: r.temperature,
         weight: r.weight,
+        height: r.height,
+        headCircumference: r.headCircumference,
         note: r.note,
       }),
     ),
@@ -83,6 +87,7 @@ type Raw = Record<string, unknown>;
 
 const AMOUNTS: readonly string[] = ['few', 'medium', 'many'];
 const SLEEP_EVENTS: readonly string[] = ['start', 'end'];
+const SEXES: readonly string[] = ['male', 'female'];
 
 function fail(where: string, msg: string): never {
   throw new Error(`${where}：${msg}`);
@@ -100,7 +105,14 @@ function parseProfile(raw: unknown, where: string): ProfileData {
   const o = raw as Raw;
   if (typeof o.id !== 'string' || o.id === '') fail(where, '缺少 id');
   if (typeof o.name !== 'string') fail(where, '缺少名字');
-  return { id: o.id.toLowerCase(), name: o.name, birthDate: msFromIso(o.birthDate as string) };
+  const sex = o.sex === undefined || o.sex === null ? undefined : o.sex;
+  if (sex !== undefined && (typeof sex !== 'string' || !SEXES.includes(sex))) fail(where, 'sex 不合法');
+  return stripUndefined({
+    id: o.id.toLowerCase(),
+    name: o.name,
+    birthDate: msFromIso(o.birthDate as string),
+    sex: sex as Sex | undefined,
+  }) as ProfileData;
 }
 
 function optNumber(o: Raw, key: string, where: string): number | undefined {
@@ -146,6 +158,8 @@ function parseRecord(raw: unknown, where: string, forcedBabyId?: string): Record
     sleep: sleep as SleepEvent | undefined,
     temperature: optNumber(o, 'temperature', where),
     weight: optNumber(o, 'weight', where),
+    height: optNumber(o, 'height', where),
+    headCircumference: optNumber(o, 'headCircumference', where),
     note,
   }) as RecordData;
 }

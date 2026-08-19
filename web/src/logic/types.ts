@@ -27,10 +27,19 @@ export const BRISTOL_NAMES: Record<BristolType, string> = {
   7: '第7型：水狀，無固體塊（腹瀉）',
 };
 
+/** 生理性別。生長曲線的參考值男女完全不同，沒有這個就算不出百分位。 */
+export type Sex = 'male' | 'female';
+
+export const SEX_NAMES: Record<Sex, string> = {
+  male: '男寶寶',
+  female: '女寶寶',
+};
+
 export interface ProfileData {
   id: string; // UUID
   name: string;
   birthDate: number; // epoch ms
+  sex?: Sex; // 選填；只有生長曲線會用到
 }
 
 export interface RecordData {
@@ -46,5 +55,7 @@ export interface RecordData {
   sleep?: SleepEvent;
   temperature?: number; // °C
   weight?: number; // g
+  height?: number; // cm
+  headCircumference?: number; // cm
   note?: string;
 }

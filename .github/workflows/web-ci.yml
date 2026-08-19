@@ -2,7 +2,12 @@ name: Web CI
 
 on:
   pull_request:
-    paths: ['web/**', '.github/workflows/web-ci.yml']
+    paths:
+      - 'web/**'
+      - 'BabyMonster/Logic/GrowthReference.generated.swift'
+      - 'data/**'
+      - 'scripts/**'
+      - '.github/workflows/web-ci.yml'
 
 permissions:
   contents: read
@@ -20,6 +25,11 @@ jobs:
           node-version: 20
           cache: npm
           cache-dependency-path: web/package-lock.json
+      # 兩平台的 WHO 參考資料都由 data/who-growth-reference.json 產生。
+      # 任一邊被手改，這一步就會失敗，避免 web 與 iOS 的百分位算出不同答案。
+      - name: 生長曲線參考資料與產出一致
+        working-directory: .
+        run: node scripts/generate-growth-reference.mjs --check
       - run: npm ci
       - run: npm test
       - run: npm run build

@@ -3,7 +3,7 @@ import { db } from '../db/db';
 import { allData, deleteBabyCascade, importMerge } from '../db/repository';
 import { decodeAny, encodeV2 } from '../logic/dataTransfer';
 import { ageDisplayText, babyAge } from '../logic/babyAge';
-import type { ProfileData } from '../logic/types';
+import type { ProfileData, Sex } from '../logic/types';
 import { BabySwitcher } from './BabySwitcher';
 import { ConfirmDialog } from './components/ConfirmDialog';
 import { Toast } from './components/Toast';
@@ -23,6 +23,7 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
   const [editingId, setEditingId] = useState<string | null>(null); // 'new' = 新增
   const [name, setName] = useState('');
   const [birth, setBirth] = useState(() => dateInputValue(Date.now()));
+  const [sex, setSex] = useState<Sex | ''>('');
   const [exportScope, setExportScope] = useState('all');
   const [toast, setToast] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<{ profile: ProfileData; count: number } | null>(null);
@@ -39,12 +40,14 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
     setEditingId(p.id);
     setName(p.name);
     setBirth(dateInputValue(p.birthDate));
+    setSex(p.sex ?? '');
   }
 
   function startAdd() {
     setEditingId('new');
     setName('');
     setBirth(dateInputValue(Date.now()));
+    setSex('');
   }
 
   async function saveBaby() {
@@ -56,11 +59,11 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
         return;
       }
       if (editingId === 'new') {
-        const p: ProfileData = { id: crypto.randomUUID(), name: n, birthDate: b };
+        const p: ProfileData = { id: crypto.randomUUID(), name: n, birthDate: b, ...(sex !== '' ? { sex } : {}) };
         await db.profiles.add(p);
         onSelectBaby(p.id);
       } else if (editingId) {
-        await db.profiles.update(editingId, { name: n, birthDate: b });
+        await db.profiles.update(editingId, { name: n, birthDate: b, sex: sex === '' ? undefined : sex });
       }
       setEditingId(null);
     } catch (e) {
@@ -158,6 +161,16 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
             <div className="field">
               <label className="field-label" htmlFor="baby-birth">生日</label>
               <input id="baby-birth" name="babyBirth" type="date" value={birth} onChange={(e) => setBirth(e.target.value)} />
+            </div>
+            <div className="field">
+              <span className="field-label">性別</span>
+              <div className="seg">
+                <button type="button" className={sex === 'male' ? 'selected' : ''} aria-pressed={sex === 'male'}
+                  onClick={() => setSex(sex === 'male' ? '' : 'male')}>男寶寶</button>
+                <button type="button" className={sex === 'female' ? 'selected' : ''} aria-pressed={sex === 'female'}
+                  onClick={() => setSex(sex === 'female' ? '' : 'female')}>女寶寶</button>
+              </div>
+              <p className="hint">生長曲線的參考標準男女不同，選了才算得出百分位。不填也不影響其他功能。</p>
             </div>
             <button className="btn btn-primary" type="button" onClick={() => void saveBaby()}>
               {editingId === 'new' ? '新增寶寶' : '儲存變更'}

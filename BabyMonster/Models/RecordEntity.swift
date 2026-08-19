@@ -13,6 +13,8 @@ final class RecordEntity {
     var urineAmountRaw: String?
     var temperature: Double?
     var weight: Double?
+    var height: Double?
+    var headCircumference: Double?
     var note: String?
     var babyId: UUID?
     var sleepRaw: String?
@@ -20,11 +22,13 @@ final class RecordEntity {
     init(id: UUID, timestamp: Date, feedAmount: Double?, stoolColor: Int?,
          stoolAmountRaw: String?, stoolShapeRaw: Int?, hasUrine: Bool,
          temperature: Double?, weight: Double?, note: String?, babyId: UUID? = nil,
-         urineAmountRaw: String? = nil, sleepRaw: String? = nil) {
+         urineAmountRaw: String? = nil, sleepRaw: String? = nil,
+         height: Double? = nil, headCircumference: Double? = nil) {
         self.id = id; self.timestamp = timestamp; self.feedAmount = feedAmount
         self.stoolColor = stoolColor; self.stoolAmountRaw = stoolAmountRaw; self.stoolShapeRaw = stoolShapeRaw
         self.hasUrine = hasUrine; self.temperature = temperature; self.weight = weight; self.note = note
         self.babyId = babyId; self.urineAmountRaw = urineAmountRaw; self.sleepRaw = sleepRaw
+        self.height = height; self.headCircumference = headCircumference
     }
 
     convenience init(data: RecordData) {
@@ -34,7 +38,8 @@ final class RecordEntity {
                   temperature: data.temperature, weight: data.weight, note: data.note,
                   babyId: data.babyId,
                   urineAmountRaw: data.urineAmount?.rawValue,
-                  sleepRaw: data.sleep?.rawValue)
+                  sleepRaw: data.sleep?.rawValue,
+                  height: data.height, headCircumference: data.headCircumference)
     }
 
     func apply(_ data: RecordData) {
@@ -43,6 +48,7 @@ final class RecordEntity {
         hasUrine = data.hasUrine; temperature = data.temperature; weight = data.weight; note = data.note
         babyId = data.babyId; urineAmountRaw = data.urineAmount?.rawValue
         sleepRaw = data.sleep?.rawValue
+        height = data.height; headCircumference = data.headCircumference
     }
 
     var data: RecordData {
@@ -51,7 +57,9 @@ final class RecordEntity {
                    stoolShape: stoolShapeRaw.flatMap(BristolType.init(rawValue:)),
                    hasUrine: hasUrine,
                    urineAmount: urineAmountRaw.flatMap(Amount.init(rawValue:)),
-                   temperature: temperature, weight: weight, note: note,
+                   temperature: temperature, weight: weight,
+                   height: height, headCircumference: headCircumference,
+                   note: note,
                    sleep: sleepRaw.flatMap(SleepEvent.init(rawValue:)),
                    babyId: babyId)
     }

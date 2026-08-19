@@ -6,6 +6,8 @@ export interface DailySummary {
   totalFeed: number;
   averageTemperature: number | null;
   averageWeight: number | null;
+  averageHeight: number | null;
+  averageHeadCircumference: number | null;
 }
 
 export interface DayNote {
@@ -40,6 +42,8 @@ export function dailySummary(dayMs: number, records: RecordData[]): DailySummary
   const feeds = dayRecords.map((r) => r.feedAmount).filter((v): v is number => v != null);
   const temps = dayRecords.map((r) => r.temperature).filter((v): v is number => v != null);
   const weights = dayRecords.map((r) => r.weight).filter((v): v is number => v != null);
+  const heights = dayRecords.map((r) => r.height).filter((v): v is number => v != null);
+  const heads = dayRecords.map((r) => r.headCircumference).filter((v): v is number => v != null);
 
   const avg = (xs: number[]) => (xs.length === 0 ? null : xs.reduce((a, b) => a + b, 0) / xs.length);
 
@@ -49,5 +53,7 @@ export function dailySummary(dayMs: number, records: RecordData[]): DailySummary
     totalFeed: feeds.reduce((a, b) => a + b, 0),
     averageTemperature: avg(temps),
     averageWeight: avg(weights),
+    averageHeight: avg(heights),
+    averageHeadCircumference: avg(heads),
   };
 }

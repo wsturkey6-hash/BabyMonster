@@ -104,6 +104,10 @@ struct RecordRow: View {
                 }
                 if let t = data.temperature { Label(String(format: "%.1f°C", t), systemImage: "thermometer") }
                 if let w = data.weight { Label("\(Int(w))g", systemImage: "scalemass") }
+                if let h = data.height { Label(String(format: "%.1f cm", h), systemImage: "ruler") }
+                if let hc = data.headCircumference {
+                    Label(String(format: "%.1f cm", hc), systemImage: "circle.dashed")
+                }
                 if let s = data.sleep { Label(s.displayName, systemImage: s.systemImage) }
             }.font(.caption).labelStyle(.titleAndIcon)
         }

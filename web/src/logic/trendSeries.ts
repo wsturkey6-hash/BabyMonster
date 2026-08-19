@@ -1,7 +1,14 @@
 import { dailySummary } from './dailyStats';
 import type { RecordData } from './types';
 
-export type TrendMetric = 'stoolCount' | 'urineCount' | 'totalFeed' | 'avgTemperature' | 'avgWeight';
+export type TrendMetric =
+  | 'stoolCount'
+  | 'urineCount'
+  | 'totalFeed'
+  | 'avgTemperature'
+  | 'avgWeight'
+  | 'avgHeight'
+  | 'avgHeadCirc';
 
 export const TREND_METRIC_NAMES: Record<TrendMetric, string> = {
   stoolCount: '大便次數',
@@ -9,6 +16,8 @@ export const TREND_METRIC_NAMES: Record<TrendMetric, string> = {
   totalFeed: '總喝奶量',
   avgTemperature: '平均體溫',
   avgWeight: '平均體重',
+  avgHeight: '平均身高',
+  avgHeadCirc: '平均頭圍',
 };
 
 export const TREND_METRIC_UNITS: Record<TrendMetric, string> = {
@@ -17,6 +26,25 @@ export const TREND_METRIC_UNITS: Record<TrendMetric, string> = {
   totalFeed: 'ml',
   avgTemperature: '°C',
   avgWeight: 'g',
+  avgHeight: 'cm',
+  avgHeadCirc: 'cm',
+};
+
+/**
+ * 缺值時要不要把前後兩點連起來。
+ *
+ * 體重／身高／頭圍是「狀態量」—— 沒量不代表歸零，中間連起來才看得出成長。
+ * 次數與累計量則相反：那天沒記錄就是沒記錄，連起來會憑空捏造資料。
+ * 體溫雖然也是狀態量，但缺口通常代表「沒發燒所以沒量」，連過去會誤導。
+ */
+export const TREND_METRIC_CONNECT_GAPS: Record<TrendMetric, boolean> = {
+  stoolCount: false,
+  urineCount: false,
+  totalFeed: false,
+  avgTemperature: false,
+  avgWeight: true,
+  avgHeight: true,
+  avgHeadCirc: true,
 };
 
 export interface TrendPoint {
@@ -41,7 +69,9 @@ export function trendSeries(
       : metric === 'urineCount' ? s.urineCount
       : metric === 'totalFeed' ? s.totalFeed
       : metric === 'avgTemperature' ? s.averageTemperature
-      : s.averageWeight;
+      : metric === 'avgWeight' ? s.averageWeight
+      : metric === 'avgHeight' ? s.averageHeight
+      : s.averageHeadCircumference;
     return { dayMs, value };
   });
 }
