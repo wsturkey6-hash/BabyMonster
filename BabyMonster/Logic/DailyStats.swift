@@ -6,6 +6,8 @@ struct DailySummary: Equatable {
     var totalFeed: Double
     var averageTemperature: Double?
     var averageWeight: Double?
+    var averageHeight: Double?
+    var averageHeadCircumference: Double?
 }
 
 struct DayNote: Identifiable, Equatable {
@@ -24,11 +26,16 @@ enum DailyStats {
 
         let temps = dayRecords.compactMap { $0.temperature }
         let weights = dayRecords.compactMap { $0.weight }
+        let heights = dayRecords.compactMap { $0.height }
+        let heads = dayRecords.compactMap { $0.headCircumference }
         let avgTemp = temps.isEmpty ? nil : temps.reduce(0, +) / Double(temps.count)
         let avgWeight = weights.isEmpty ? nil : weights.reduce(0, +) / Double(weights.count)
+        let avgHeight = heights.isEmpty ? nil : heights.reduce(0, +) / Double(heights.count)
+        let avgHead = heads.isEmpty ? nil : heads.reduce(0, +) / Double(heads.count)
 
         return DailySummary(stoolCount: stoolCount, urineCount: urineCount,
-                            totalFeed: totalFeed, averageTemperature: avgTemp, averageWeight: avgWeight)
+                            totalFeed: totalFeed, averageTemperature: avgTemp, averageWeight: avgWeight,
+                            averageHeight: avgHeight, averageHeadCircumference: avgHead)
     }
 
     /// 當天有寫備註的記錄，依時間由早到晚，方便回頭讀完整天發生的事。

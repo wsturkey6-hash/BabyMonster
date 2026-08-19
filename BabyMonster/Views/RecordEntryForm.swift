@@ -14,6 +14,8 @@ struct RecordEntryForm: View {
     @State private var sleep: SleepEvent? = nil
     @State private var tempText = ""
     @State private var weightText = ""
+    @State private var heightText = ""
+    @State private var headText = ""
     @State private var note = ""
 
     private let existingID: UUID
@@ -32,6 +34,8 @@ struct RecordEntryForm: View {
         _sleep = State(initialValue: initial?.sleep)
         _tempText = State(initialValue: initial?.temperature.map { String($0) } ?? "")
         _weightText = State(initialValue: initial?.weight.map { String($0) } ?? "")
+        _heightText = State(initialValue: initial?.height.map { String($0) } ?? "")
+        _headText = State(initialValue: initial?.headCircumference.map { String($0) } ?? "")
         _note = State(initialValue: initial?.note ?? "")
         self.existingID = initial?.id ?? UUID()
         self.existingBabyId = initial?.babyId
@@ -85,7 +89,14 @@ struct RecordEntryForm: View {
 
                 Section("生命徵象") {
                     TextField("體溫 (°C)", text: $tempText).keyboardType(.decimalPad)
+                }
+
+                Section("生長") {
                     TextField("體重 (g)", text: $weightText).keyboardType(.decimalPad)
+                    TextField("身高 (cm)", text: $heightText).keyboardType(.decimalPad)
+                    TextField("頭圍 (cm)", text: $headText).keyboardType(.decimalPad)
+                    Text("記下身高、頭圍之後，「趨勢 → 生長曲線」就能看出寶寶落在第幾百分位。")
+                        .font(.footnote).foregroundStyle(.secondary)
                 }
 
                 Section("備註") { TextField("備註", text: $note, axis: .vertical) }
@@ -129,6 +140,8 @@ struct RecordEntryForm: View {
             temperature: Double(tempText.trimmingCharacters(in: .whitespaces)),
             weight: Double(weightText.trimmingCharacters(in: .whitespaces)),
             note: note.isEmpty ? nil : note)
+        data.height = Double(heightText.trimmingCharacters(in: .whitespaces))
+        data.headCircumference = Double(headText.trimmingCharacters(in: .whitespaces))
         data.urineAmount = hasUrine ? urineAmount : nil
         data.sleep = sleep
         data.babyId = existingBabyId

@@ -29,6 +29,19 @@ enum BristolType: Int, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// 生理性別。生長曲線的參考值男女完全不同，沒有這個就算不出百分位。
+/// rawValue 與網頁版一致。
+enum Sex: String, Codable, CaseIterable, Identifiable {
+    case male, female
+    var id: String { rawValue }
+    var displayName: String {
+        switch self {
+        case .male: return "男寶寶"
+        case .female: return "女寶寶"
+        }
+    }
+}
+
 /// 睡眠以事件記錄：入睡一筆、起床一筆，配對後才算出時長。
 enum SleepEvent: String, Codable, CaseIterable, Identifiable {
     case start, end

@@ -1,7 +1,7 @@
 import Foundation
 
 enum TrendMetric: String, CaseIterable, Identifiable {
-    case stoolCount, urineCount, totalFeed, avgTemperature, avgWeight
+    case stoolCount, urineCount, totalFeed, avgTemperature, avgWeight, avgHeight, avgHeadCirc
     var id: String { rawValue }
     var displayName: String {
         switch self {
@@ -10,6 +10,8 @@ enum TrendMetric: String, CaseIterable, Identifiable {
         case .totalFeed: return "總喝奶量"
         case .avgTemperature: return "平均體溫"
         case .avgWeight: return "平均體重"
+        case .avgHeight: return "平均身高"
+        case .avgHeadCirc: return "平均頭圍"
         }
     }
     var unit: String {
@@ -18,6 +20,19 @@ enum TrendMetric: String, CaseIterable, Identifiable {
         case .totalFeed: return "ml"
         case .avgTemperature: return "°C"
         case .avgWeight: return "g"
+        case .avgHeight, .avgHeadCirc: return "cm"
+        }
+    }
+
+    /// 缺值時要不要把前後兩點連起來。
+    ///
+    /// 體重／身高／頭圍是「狀態量」—— 沒量不代表歸零，中間連起來才看得出成長。
+    /// 次數與累計量則相反：那天沒記錄就是沒記錄，連起來會憑空捏造資料。
+    /// 體溫雖然也是狀態量，但缺口通常代表「沒發燒所以沒量」，連過去會誤導。
+    var connectsGaps: Bool {
+        switch self {
+        case .avgWeight, .avgHeight, .avgHeadCirc: return true
+        case .stoolCount, .urineCount, .totalFeed, .avgTemperature: return false
         }
     }
 }
@@ -42,6 +57,8 @@ enum TrendSeries {
             case .totalFeed: value = s.totalFeed
             case .avgTemperature: value = s.averageTemperature
             case .avgWeight: value = s.averageWeight
+            case .avgHeight: value = s.averageHeight
+            case .avgHeadCirc: value = s.averageHeadCircumference
             }
             return TrendPoint(date: day, value: value)
         }

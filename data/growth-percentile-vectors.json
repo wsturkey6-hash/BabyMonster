@@ -1,0 +1,5287 @@
+{
+ "_comment": "\u8de8\u5e73\u53f0\u4e00\u81f4\u6027\u5411\u91cf\u3002web \u8207 iOS \u5fc5\u9808\u5c0d\u540c\u4e00\u7d44\u8f38\u5165\u7b97\u51fa\u76f8\u540c\u7684 z \u8207\u767e\u5206\u4f4d\uff1b\u671f\u671b\u503c\u7531 Python \u7684 math.erfc \u9ad8\u7cbe\u5ea6\u7b97\u51fa\uff0c\u5169\u5e73\u53f0\u7684 A&S \u8fd1\u4f3c\u5f0f\u9808\u843d\u5728\u5bb9\u5dee\u5167\u3002",
+ "zTolerance": 1e-06,
+ "percentileTolerance": 0.0001,
+ "cases": [
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 1.906028,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 2.080308,
+   "z": -2.999999,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 2.459312,
+   "z": -2.000001,
+   "percentile": 2.275007
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 2.880651,
+   "z": -1.000001,
+   "percentile": 15.865501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 3.107845,
+   "z": -0.500001,
+   "percentile": 30.853722
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 3.3464,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 3.596572,
+   "z": 0.499999,
+   "percentile": 69.146225
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 3.858619,
+   "z": 1.000001,
+   "percentile": 84.134494
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 4.419354,
+   "z": 2.0,
+   "percentile": 97.724989
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 5.030639,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 5.35587,
+   "z": 3.499999,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 1.893698,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 2.064519,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 2.437399,
+   "z": -1.999999,
+   "percentile": 2.275019
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 2.854135,
+   "z": -1.000001,
+   "percentile": 15.865512
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 3.079784,
+   "z": -0.499999,
+   "percentile": 30.853779
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 3.3174,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 3.567322,
+   "z": 0.5,
+   "percentile": 69.146237
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 3.829889,
+   "z": 0.999999,
+   "percentile": 84.134453
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 4.394325,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 5.013452,
+   "z": 3.000001,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 5.344388,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 2.240225,
+   "z": -3.499999,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 2.426368,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 2.832912,
+   "z": -1.999999,
+   "percentile": 2.275017
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 3.288099,
+   "z": -0.999999,
+   "percentile": 15.86554
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 3.535076,
+   "z": -0.499999,
+   "percentile": 30.853778
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 3.7956,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 4.07015,
+   "z": 0.499999,
+   "percentile": 69.146217
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 4.359214,
+   "z": 1.000001,
+   "percentile": 84.134488
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 4.982864,
+   "z": 1.999999,
+   "percentile": 97.724983
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 5.670603,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 6.039806,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 3.140849,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 3.370429,
+   "z": -3.000001,
+   "percentile": 0.134989
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 3.869181,
+   "z": -1.999999,
+   "percentile": 2.275018
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 4.424329,
+   "z": -1.000001,
+   "percentile": 15.865505
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 4.724458,
+   "z": -0.5,
+   "percentile": 30.853744
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 5.0404,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 5.372755,
+   "z": 0.5,
+   "percentile": 69.146233
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 5.722138,
+   "z": 0.999999,
+   "percentile": 84.134461
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 6.474518,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 7.302744,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 7.746989,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 4.316398,
+   "z": -3.500001,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 4.591838,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 5.186714,
+   "z": -2.000001,
+   "percentile": 2.27501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 5.844344,
+   "z": -1.0,
+   "percentile": 15.865514
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 6.198296,
+   "z": -0.5,
+   "percentile": 30.853748
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 6.5699,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 6.959851,
+   "z": 0.5,
+   "percentile": 69.146234
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 7.368866,
+   "z": 1.000001,
+   "percentile": 84.134488
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 8.247049,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 9.210595,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 9.726394,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 6.549404,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 6.925979,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 7.740676,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 8.644356,
+   "z": -1.0,
+   "percentile": 15.865534
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 9.132339,
+   "z": -0.5,
+   "percentile": 30.853749
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 9.646,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 10.186592,
+   "z": 0.5,
+   "percentile": 69.146256
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 10.755424,
+   "z": 1.0,
+   "percentile": 84.134472
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 11.983347,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 13.341468,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 14.073297,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 8.153028,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 8.629852,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 9.670068,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 10.83758,
+   "z": -1.0,
+   "percentile": 15.865535
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 11.473938,
+   "z": -0.5,
+   "percentile": 30.853758
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 12.1482,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 12.862656,
+   "z": 0.5,
+   "percentile": 69.146251
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 13.619735,
+   "z": 1.0,
+   "percentile": 84.13447
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 15.27224,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 17.128305,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 18.140505,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 8.156954,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 8.634076,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 9.674961,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 10.843258,
+   "z": -1.0,
+   "percentile": 15.865525
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 11.480059,
+   "z": -0.5,
+   "percentile": 30.853762
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 12.1548,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 12.869775,
+   "z": 0.5,
+   "percentile": 69.14625
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 13.627417,
+   "z": 1.0,
+   "percentile": 84.13448
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 15.28119,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 17.138745,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 18.151784,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 9.132218,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 9.681988,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 10.889074,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 12.25615,
+   "z": -1.0,
+   "percentile": 15.86552
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 13.006586,
+   "z": -0.5,
+   "percentile": 30.853752
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 13.8057,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 14.656828,
+   "z": 0.5,
+   "percentile": 69.146249
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 15.563546,
+   "z": 1.0,
+   "percentile": 84.134469
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 17.559378,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 19.82736,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 21.07548,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 11.691082,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 12.458726,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 14.175332,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 16.170569,
+   "z": -1.0,
+   "percentile": 15.865523
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 17.288628,
+   "z": -0.5,
+   "percentile": 30.853759
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 18.4968,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 19.803404,
+   "z": 0.5,
+   "percentile": 69.146247
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 21.217624,
+   "z": 1.0,
+   "percentile": 84.134472
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 24.41061,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 28.17076,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 30.299045,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 1.865334,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 2.032725,
+   "z": -2.999999,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 2.394672,
+   "z": -1.999999,
+   "percentile": 2.275017
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 2.79403,
+   "z": -1.0,
+   "percentile": 15.865524
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 3.008177,
+   "z": -0.5,
+   "percentile": 30.853736
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 3.2322,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 3.466269,
+   "z": 0.5,
+   "percentile": 69.146261
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 3.710552,
+   "z": 0.999999,
+   "percentile": 84.134459
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 4.23043,
+   "z": 2.0,
+   "percentile": 97.724985
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 4.793151,
+   "z": 2.999999,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 5.090983,
+   "z": 3.499999,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 1.82901,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 1.993676,
+   "z": -3.000001,
+   "percentile": 0.134989
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 2.352431,
+   "z": -1.999999,
+   "percentile": 2.27502
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 2.752334,
+   "z": -1.000001,
+   "percentile": 15.865502
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 2.96844,
+   "z": -0.499999,
+   "percentile": 30.85378
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 3.1957,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 3.434406,
+   "z": 0.500001,
+   "percentile": 69.146272
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 3.684847,
+   "z": 0.999999,
+   "percentile": 84.134459
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 4.222104,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 4.809805,
+   "z": 3.000001,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 5.123303,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 2.120351,
+   "z": -3.499999,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 2.296689,
+   "z": -3.000001,
+   "percentile": 0.134989
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 2.683286,
+   "z": -2.0,
+   "percentile": 2.275015
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 3.118434,
+   "z": -1.0,
+   "percentile": 15.865536
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 3.355509,
+   "z": -0.5,
+   "percentile": 30.853768
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 3.6063,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 3.87136,
+   "z": 0.5,
+   "percentile": 69.146248
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 4.151254,
+   "z": 1.0,
+   "percentile": 84.134467
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 4.757872,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 5.430938,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 5.793941,
+   "z": 3.499999,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 2.888804,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 3.100205,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 3.563611,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 4.085994,
+   "z": -1.000001,
+   "percentile": 15.86551
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 4.371234,
+   "z": -0.499999,
+   "percentile": 30.853775
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 4.6736,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 4.993958,
+   "z": 0.500001,
+   "percentile": 69.146269
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 5.333206,
+   "z": 1.0,
+   "percentile": 84.134475
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 6.072158,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 6.898405,
+   "z": 2.999999,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 7.346924,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 3.872612,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 4.126117,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 4.68251,
+   "z": -2.0,
+   "percentile": 2.275016
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 5.311693,
+   "z": -1.0,
+   "percentile": 15.865515
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 5.656424,
+   "z": -0.5,
+   "percentile": 30.853757
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 6.0229,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 6.412454,
+   "z": 0.5,
+   "percentile": 69.146258
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 6.826497,
+   "z": 1.000001,
+   "percentile": 84.134488
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 7.734119,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 8.758823,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 9.319589,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 5.926936,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 6.27308,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 7.041211,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 7.925263,
+   "z": -1.0,
+   "percentile": 15.865525
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 8.417148,
+   "z": -0.5,
+   "percentile": 30.853746
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 8.9462,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 9.515741,
+   "z": 0.5,
+   "percentile": 69.146247
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 10.129438,
+   "z": 1.0,
+   "percentile": 84.134474
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 11.505939,
+   "z": 2.0,
+   "percentile": 97.724989
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 13.113609,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 14.018311,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 7.629112,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 8.063607,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 9.033336,
+   "z": -2.0,
+   "percentile": 2.275015
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 10.15946,
+   "z": -1.0,
+   "percentile": 15.865533
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 10.790916,
+   "z": -0.5,
+   "percentile": 30.853765
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 11.4741,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 12.214311,
+   "z": 0.5,
+   "percentile": 69.146237
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 13.017504,
+   "z": 1.0,
+   "percentile": 84.134474
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 14.840518,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 17.007949,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 18.245999,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 7.633518,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 8.068264,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 9.038571,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 10.165397,
+   "z": -1.0,
+   "percentile": 15.86552
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 10.797262,
+   "z": -0.5,
+   "percentile": 30.853761
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 11.4809,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 12.221617,
+   "z": 0.5,
+   "percentile": 69.146243
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 13.025375,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 14.849734,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 17.018876,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 18.257956,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 8.737058,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 9.24309,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 10.376793,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 11.700696,
+   "z": -1.0,
+   "percentile": 15.865533
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 12.44645,
+   "z": -0.5,
+   "percentile": 30.85375
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 13.256,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 14.136252,
+   "z": 0.5,
+   "percentile": 69.146251
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 15.095023,
+   "z": 1.0,
+   "percentile": 84.13447
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 17.284838,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 19.912334,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 21.424488,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 11.396653,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 12.144965,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 13.853751,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 15.904721,
+   "z": -1.0,
+   "percentile": 15.865527
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 17.085919,
+   "z": -0.5,
+   "percentile": 30.853753
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 18.389,
+   "z": -0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 19.830259,
+   "z": 0.5,
+   "percentile": 69.146245
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 21.428696,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 25.189993,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 29.903012,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 32.713068,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 43.258331,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 44.204884,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 46.097989,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 47.991095,
+   "z": -1.0,
+   "percentile": 15.86553
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 48.937647,
+   "z": -0.5,
+   "percentile": 30.853748
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 49.8842,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 50.830753,
+   "z": 0.5,
+   "percentile": 69.146252
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 51.777305,
+   "z": 1.0,
+   "percentile": 84.13447
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 53.670411,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 55.563516,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 56.510069,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 43.428388,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 44.375776,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 46.27055,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 48.165325,
+   "z": -1.0,
+   "percentile": 15.865523
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 49.112713,
+   "z": -0.5,
+   "percentile": 30.853761
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 50.0601,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 51.007487,
+   "z": 0.5,
+   "percentile": 69.146239
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 51.954875,
+   "z": 1.0,
+   "percentile": 84.134477
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 53.84965,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 55.744424,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 56.691812,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 45.800393,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 46.757166,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 48.67071,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 50.584255,
+   "z": -1.0,
+   "percentile": 15.865523
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 51.541028,
+   "z": -0.5,
+   "percentile": 30.853761
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 52.4978,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 53.454572,
+   "z": 0.5,
+   "percentile": 69.146239
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 54.411345,
+   "z": 1.0,
+   "percentile": 84.134477
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 56.32489,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 58.238434,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 59.195207,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 49.695188,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 50.68239,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 52.656793,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 54.631197,
+   "z": -1.0,
+   "percentile": 15.865529
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 55.618398,
+   "z": -0.5,
+   "percentile": 30.853748
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 56.6056,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 57.592802,
+   "z": 0.5,
+   "percentile": 69.146252
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 58.580003,
+   "z": 1.0,
+   "percentile": 84.134471
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 60.554407,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 62.52881,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 63.516012,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 54.987451,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 56.01533,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 58.071086,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 60.126843,
+   "z": -1.0,
+   "percentile": 15.865523
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 61.154722,
+   "z": -0.5,
+   "percentile": 30.85376
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 62.1826,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 63.210478,
+   "z": 0.5,
+   "percentile": 69.14624
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 64.238357,
+   "z": 1.0,
+   "percentile": 84.134477
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 66.294114,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 68.34987,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 69.377749,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 67.423326,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 68.611293,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 70.987229,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 73.363164,
+   "z": -1.0,
+   "percentile": 15.865521
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 74.551132,
+   "z": -0.5,
+   "percentile": 30.853751
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 75.7391,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 76.927068,
+   "z": 0.5,
+   "percentile": 69.146249
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 78.115036,
+   "z": 1.0,
+   "percentile": 84.134479
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 80.490971,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 82.866907,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 84.054874,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 77.110614,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 78.637926,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 81.692551,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 84.747175,
+   "z": -1.0,
+   "percentile": 15.865522
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 86.274488,
+   "z": -0.5,
+   "percentile": 30.853757
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 87.8018,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 89.329112,
+   "z": 0.5,
+   "percentile": 69.146243
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 90.856425,
+   "z": 1.0,
+   "percentile": 84.134478
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 93.911049,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 96.965674,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 98.492986,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 76.432442,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 77.960707,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 81.017238,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 84.073769,
+   "z": -1.0,
+   "percentile": 15.865525
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 85.602035,
+   "z": -0.5,
+   "percentile": 30.853759
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 87.1303,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 88.658565,
+   "z": 0.5,
+   "percentile": 69.146241
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 90.186831,
+   "z": 1.0,
+   "percentile": 84.134475
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 93.243362,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 96.299893,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 97.828158,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 81.528423,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 83.305877,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 86.860784,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 90.415692,
+   "z": -1.0,
+   "percentile": 15.865524
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 92.193146,
+   "z": -0.5,
+   "percentile": 30.853753
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 93.9706,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 95.748054,
+   "z": 0.5,
+   "percentile": 69.146247
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 97.525508,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 101.080416,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 104.635323,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 106.412777,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 94.153304,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 96.488103,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 101.157702,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 105.827301,
+   "z": -1.0,
+   "percentile": 15.865525
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 108.162101,
+   "z": -0.5,
+   "percentile": 30.853758
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 110.4969,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 112.831699,
+   "z": 0.5,
+   "percentile": 69.146242
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 115.166499,
+   "z": 1.0,
+   "percentile": 84.134475
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 119.836098,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 124.505697,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 126.840496,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 42.628258,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 43.559607,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 45.422304,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 47.285002,
+   "z": -1.0,
+   "percentile": 15.865523
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 48.216351,
+   "z": -0.5,
+   "percentile": 30.853752
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 49.1477,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 50.079049,
+   "z": 0.5,
+   "percentile": 69.146248
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 51.010398,
+   "z": 1.0,
+   "percentile": 84.134477
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 52.873096,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 54.735793,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 55.667142,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 42.786836,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 43.719659,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 45.585306,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 47.450953,
+   "z": -1.0,
+   "percentile": 15.865525
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 48.383777,
+   "z": -0.5,
+   "percentile": 30.853763
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 49.3166,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 50.249423,
+   "z": 0.5,
+   "percentile": 69.146237
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 51.182247,
+   "z": 1.0,
+   "percentile": 84.134475
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 53.047894,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 54.913541,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 55.846364,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 44.980273,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 45.933234,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 47.839156,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 49.745078,
+   "z": -1.0,
+   "percentile": 15.865524
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 50.698039,
+   "z": -0.5,
+   "percentile": 30.853753
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 51.651,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 52.603961,
+   "z": 0.5,
+   "percentile": 69.146247
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 53.556922,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 55.462844,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 57.368766,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 58.321727,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 48.417557,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 49.415349,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 51.410933,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 53.406516,
+   "z": -1.0,
+   "percentile": 15.865521
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 54.404308,
+   "z": -0.5,
+   "percentile": 30.853751
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 55.4021,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 56.399892,
+   "z": 0.5,
+   "percentile": 69.146249
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 57.397684,
+   "z": 1.0,
+   "percentile": 84.134479
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 59.393267,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 61.388851,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 62.386643,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 53.066008,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 54.127407,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 56.250205,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 58.373002,
+   "z": -1.0,
+   "percentile": 15.865521
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 59.434401,
+   "z": -0.5,
+   "percentile": 30.853751
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 60.4958,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 61.557199,
+   "z": 0.5,
+   "percentile": 69.146249
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 62.618598,
+   "z": 1.0,
+   "percentile": 84.134479
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 64.741395,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 66.864193,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 67.925592,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 64.993693,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 66.281009,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 68.855639,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 71.43027,
+   "z": -1.0,
+   "percentile": 15.86553
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 72.717585,
+   "z": -0.5,
+   "percentile": 30.853757
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 74.0049,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 75.292215,
+   "z": 0.5,
+   "percentile": 69.146243
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 76.57953,
+   "z": 1.0,
+   "percentile": 84.13447
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 79.154161,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 81.728791,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 83.016107,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 75.112103,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 76.724774,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 79.950116,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 83.175458,
+   "z": -1.0,
+   "percentile": 15.865524
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 84.788129,
+   "z": -0.5,
+   "percentile": 30.853753
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 86.4008,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 88.013471,
+   "z": 0.5,
+   "percentile": 69.146247
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 89.626142,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 92.851484,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 96.076826,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 97.689497,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 74.435843,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 76.04928,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 79.276153,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 82.503027,
+   "z": -1.0,
+   "percentile": 15.865529
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 84.116463,
+   "z": -0.5,
+   "percentile": 30.853751
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 85.7299,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 87.343337,
+   "z": 0.5,
+   "percentile": 69.146249
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 88.956773,
+   "z": 1.0,
+   "percentile": 84.134471
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 92.183647,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 95.41052,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 97.023957,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 79.988988,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 81.821675,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 85.48705,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 89.152425,
+   "z": -1.0,
+   "percentile": 15.865525
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 90.985113,
+   "z": -0.5,
+   "percentile": 30.853758
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 92.8178,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 94.650487,
+   "z": 0.5,
+   "percentile": 69.146242
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 96.483175,
+   "z": 1.0,
+   "percentile": 84.134475
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 100.14855,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 103.813925,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 105.646612,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 93.166784,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 95.562272,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 100.353248,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 105.144224,
+   "z": -1.0,
+   "percentile": 15.865525
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 107.539712,
+   "z": -0.5,
+   "percentile": 30.853754
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 109.9352,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 112.330688,
+   "z": 0.5,
+   "percentile": 69.146246
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 114.726176,
+   "z": 1.0,
+   "percentile": 84.134475
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 119.517152,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 124.308128,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 126.703616,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 30.015883,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 30.651014,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 31.921276,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 33.191538,
+   "z": -1.0,
+   "percentile": 15.865524
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 33.826669,
+   "z": -0.5,
+   "percentile": 30.853753
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 34.4618,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 35.096931,
+   "z": 0.5,
+   "percentile": 69.146247
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 35.732062,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 37.002324,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 38.272586,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 0,
+   "value": 38.907717,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 30.139446,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 30.77124,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 32.034827,
+   "z": -2.0,
+   "percentile": 2.275015
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 33.298413,
+   "z": -1.0,
+   "percentile": 15.86552
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 33.930207,
+   "z": -0.5,
+   "percentile": 30.853764
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 34.562,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 35.193793,
+   "z": 0.5,
+   "percentile": 69.146236
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 35.825587,
+   "z": 1.0,
+   "percentile": 84.13448
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 37.089173,
+   "z": 2.0,
+   "percentile": 97.724985
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 38.35276,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1,
+   "value": 38.984554,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 31.876676,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 32.460751,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 33.628901,
+   "z": -2.0,
+   "percentile": 2.275015
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 34.79705,
+   "z": -1.0,
+   "percentile": 15.865519
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 35.381125,
+   "z": -0.5,
+   "percentile": 30.853749
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 35.9652,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 36.549275,
+   "z": 0.5,
+   "percentile": 69.146251
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 37.13335,
+   "z": 1.0,
+   "percentile": 84.134481
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 38.301499,
+   "z": 2.0,
+   "percentile": 97.724985
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 39.469649,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 15,
+   "value": 40.053724,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 34.152441,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 34.737221,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 35.906781,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 37.07634,
+   "z": -1.0,
+   "percentile": 15.865518
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 37.66112,
+   "z": -0.5,
+   "percentile": 30.853748
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 38.2459,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 38.83068,
+   "z": 0.5,
+   "percentile": 69.146252
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 39.41546,
+   "z": 1.0,
+   "percentile": 84.134482
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 40.585019,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 41.754579,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 45,
+   "value": 42.339359,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 36.707237,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 37.299846,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 38.485064,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 39.670282,
+   "z": -1.0,
+   "percentile": 15.865527
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 40.262891,
+   "z": -0.5,
+   "percentile": 30.853755
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 40.8555,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 41.448109,
+   "z": 0.5,
+   "percentile": 69.146245
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 42.040718,
+   "z": 1.0,
+   "percentile": 84.134473
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 43.225936,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 44.411154,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 100,
+   "value": 45.003763,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 41.567192,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 42.20955,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 43.494267,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 44.778983,
+   "z": -1.0,
+   "percentile": 15.865518
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 45.421342,
+   "z": -0.5,
+   "percentile": 30.853762
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 46.0637,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 46.706058,
+   "z": 0.5,
+   "percentile": 69.146238
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 47.348417,
+   "z": 1.0,
+   "percentile": 84.134482
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 48.633133,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 49.91785,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 365,
+   "value": 50.560208,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 43.485495,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 44.166053,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 45.527169,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 46.888284,
+   "z": -1.0,
+   "percentile": 15.865518
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 47.568842,
+   "z": -0.5,
+   "percentile": 30.853748
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 48.2494,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 48.929958,
+   "z": 0.5,
+   "percentile": 69.146252
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 49.610516,
+   "z": 1.0,
+   "percentile": 84.134482
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 50.971631,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 52.332747,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 730,
+   "value": 53.013305,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 43.489281,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 44.169898,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 45.531132,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 46.892366,
+   "z": -1.0,
+   "percentile": 15.865526
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 47.572983,
+   "z": -0.5,
+   "percentile": 30.853755
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 48.2536,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 48.934217,
+   "z": 0.5,
+   "percentile": 69.146245
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 49.614834,
+   "z": 1.0,
+   "percentile": 84.134474
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 50.976068,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 52.337302,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 731,
+   "value": 53.017919,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 44.279052,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 44.982402,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 46.389101,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 47.795801,
+   "z": -1.0,
+   "percentile": 15.865534
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 48.49915,
+   "z": -0.5,
+   "percentile": 30.853747
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 49.2025,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 49.90585,
+   "z": 0.5,
+   "percentile": 69.146253
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 50.609199,
+   "z": 1.0,
+   "percentile": 84.134466
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 52.015899,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 53.422598,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1000,
+   "value": 54.125948,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 45.536215,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 46.284641,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 47.781494,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 49.278347,
+   "z": -1.0,
+   "percentile": 15.865524
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 50.026774,
+   "z": -0.5,
+   "percentile": 30.853764
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 50.7752,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 51.523626,
+   "z": 0.5,
+   "percentile": 69.146236
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 52.272053,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 53.768906,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 55.265759,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "ageDays": 1856,
+   "value": 56.014185,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 29.733302,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 30.325502,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 31.509901,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 32.694301,
+   "z": -1.0,
+   "percentile": 15.865533
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 33.2865,
+   "z": -0.5,
+   "percentile": 30.853744
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 33.8787,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 34.4709,
+   "z": 0.5,
+   "percentile": 69.146256
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 35.063099,
+   "z": 1.0,
+   "percentile": 84.134467
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 36.247499,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 37.431898,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 0,
+   "value": 38.024098,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 29.838034,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 30.429029,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 31.61102,
+   "z": -2.0,
+   "percentile": 2.275015
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 32.79301,
+   "z": -1.0,
+   "percentile": 15.865531
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 33.384005,
+   "z": -0.5,
+   "percentile": 30.853758
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 33.975,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 34.565995,
+   "z": 0.5,
+   "percentile": 69.146242
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 35.15699,
+   "z": 1.0,
+   "percentile": 84.134469
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 36.33898,
+   "z": 2.0,
+   "percentile": 97.724985
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 37.520971,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1,
+   "value": 38.111966,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 31.305797,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 31.879412,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 33.026641,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 34.173871,
+   "z": -1.0,
+   "percentile": 15.865532
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 34.747485,
+   "z": -0.5,
+   "percentile": 30.853744
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 35.3211,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 35.894715,
+   "z": 0.5,
+   "percentile": 69.146256
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 36.468329,
+   "z": 1.0,
+   "percentile": 84.134468
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 37.615559,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 38.762788,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 15,
+   "value": 39.336403,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 33.264733,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 33.861356,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 35.054604,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 36.247852,
+   "z": -1.0,
+   "percentile": 15.865522
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 36.844476,
+   "z": -0.5,
+   "percentile": 30.853752
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 37.4411,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 38.037724,
+   "z": 0.5,
+   "percentile": 69.146248
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 38.634348,
+   "z": 1.0,
+   "percentile": 84.134478
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 39.827596,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 41.020844,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 45,
+   "value": 41.617467,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 35.480812,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 36.105296,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 37.354264,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 38.603232,
+   "z": -1.0,
+   "percentile": 15.865524
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 39.227716,
+   "z": -0.5,
+   "percentile": 30.853753
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 39.8522,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 40.476684,
+   "z": 0.5,
+   "percentile": 69.146247
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 41.101168,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 42.350136,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 43.599104,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 100,
+   "value": 44.223588,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 40.137705,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 40.817176,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 42.176117,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 43.535059,
+   "z": -1.0,
+   "percentile": 15.865532
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 44.214529,
+   "z": -0.5,
+   "percentile": 30.853746
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 44.894,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 45.573471,
+   "z": 0.5,
+   "percentile": 69.146254
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 46.252941,
+   "z": 1.0,
+   "percentile": 84.134468
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 47.611883,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 48.970824,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 365,
+   "value": 49.650295,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 42.295365,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 42.993156,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 44.388737,
+   "z": -2.0,
+   "percentile": 2.275013
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 45.784319,
+   "z": -1.0,
+   "percentile": 15.865533
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 46.482109,
+   "z": -0.5,
+   "percentile": 30.853747
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 47.1799,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 47.877691,
+   "z": 0.5,
+   "percentile": 69.146253
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 48.575481,
+   "z": 1.0,
+   "percentile": 84.134467
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 49.971063,
+   "z": 2.0,
+   "percentile": 97.724987
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 51.366644,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 730,
+   "value": 52.064435,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 42.30114,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 42.998763,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 44.394009,
+   "z": -2.0,
+   "percentile": 2.275014
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 45.789254,
+   "z": -1.0,
+   "percentile": 15.86552
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 46.486877,
+   "z": -0.5,
+   "percentile": 30.85375
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 47.1845,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 47.882123,
+   "z": 0.5,
+   "percentile": 69.14625
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 48.579746,
+   "z": 1.0,
+   "percentile": 84.13448
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 49.974991,
+   "z": 2.0,
+   "percentile": 97.724986
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 51.370237,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 731,
+   "value": 52.06786,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 43.293047,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 43.997883,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 45.407555,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 46.817228,
+   "z": -1.0,
+   "percentile": 15.86553
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 47.522064,
+   "z": -0.5,
+   "percentile": 30.853757
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 48.2269,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 48.931736,
+   "z": 0.5,
+   "percentile": 69.146243
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 49.636572,
+   "z": 1.0,
+   "percentile": 84.13447
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 51.046245,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 52.455917,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1000,
+   "value": 53.160753,
+   "z": 3.5,
+   "percentile": 99.976737
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 44.984669,
+   "z": -3.5,
+   "percentile": 0.023263
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 45.696173,
+   "z": -3.0,
+   "percentile": 0.13499
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 47.119182,
+   "z": -2.0,
+   "percentile": 2.275012
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 48.542191,
+   "z": -1.0,
+   "percentile": 15.865524
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 49.253696,
+   "z": -0.5,
+   "percentile": 30.853765
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 49.9652,
+   "z": 0.0,
+   "percentile": 50.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 50.676704,
+   "z": 0.5,
+   "percentile": 69.146235
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 51.388209,
+   "z": 1.0,
+   "percentile": 84.134476
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 52.811218,
+   "z": 2.0,
+   "percentile": 97.724988
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 54.234227,
+   "z": 3.0,
+   "percentile": 99.86501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "ageDays": 1856,
+   "value": 54.945731,
+   "z": 3.5,
+   "percentile": 99.976737
+  }
+ ]
+}
