@@ -1,0 +1,4416 @@
+{
+ "_comment": "Expected values copied verbatim from WHO's own published SD columns. Our LMS implementation must reproduce these to within 0.0005 (WHO rounds to 3 dp).",
+ "tolerance": 0.0005,
+ "cases": [
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 0,
+   "z": -3,
+   "expected": 2.08
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 0,
+   "z": -2,
+   "expected": 2.459
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 0,
+   "z": -1,
+   "expected": 2.881
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 0,
+   "z": 0,
+   "expected": 3.346
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 0,
+   "z": 1,
+   "expected": 3.859
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 0,
+   "z": 2,
+   "expected": 4.419
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 0,
+   "z": 3,
+   "expected": 5.031
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1,
+   "z": -3,
+   "expected": 2.065
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1,
+   "z": -2,
+   "expected": 2.437
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1,
+   "z": -1,
+   "expected": 2.854
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1,
+   "z": 0,
+   "expected": 3.317
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1,
+   "z": 1,
+   "expected": 3.83
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1,
+   "z": 2,
+   "expected": 4.394
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1,
+   "z": 3,
+   "expected": 5.013
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 7,
+   "z": -3,
+   "expected": 2.195
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 7,
+   "z": -2,
+   "expected": 2.579
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 7,
+   "z": -1,
+   "expected": 3.009
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 7,
+   "z": 0,
+   "expected": 3.488
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 7,
+   "z": 1,
+   "expected": 4.02
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 7,
+   "z": 2,
+   "expected": 4.609
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 7,
+   "z": 3,
+   "expected": 5.257
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 30,
+   "z": -3,
+   "expected": 2.919
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 30,
+   "z": -2,
+   "expected": 3.376
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 30,
+   "z": -1,
+   "expected": 3.885
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 30,
+   "z": 0,
+   "expected": 4.452
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 30,
+   "z": 1,
+   "expected": 5.081
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 30,
+   "z": 2,
+   "expected": 5.776
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 30,
+   "z": 3,
+   "expected": 6.542
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 60,
+   "z": -3,
+   "expected": 3.764
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 60,
+   "z": -2,
+   "expected": 4.296
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 60,
+   "z": -1,
+   "expected": 4.887
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 60,
+   "z": 0,
+   "expected": 5.541
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 60,
+   "z": 1,
+   "expected": 6.263
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 60,
+   "z": 2,
+   "expected": 7.06
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 60,
+   "z": 3,
+   "expected": 7.935
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 91,
+   "z": -3,
+   "expected": 4.429
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 91,
+   "z": -2,
+   "expected": 5.012
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 91,
+   "z": -1,
+   "expected": 5.657
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 91,
+   "z": 0,
+   "expected": 6.369
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 91,
+   "z": 1,
+   "expected": 7.153
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 91,
+   "z": 2,
+   "expected": 8.016
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 91,
+   "z": 3,
+   "expected": 8.962
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 182,
+   "z": -3,
+   "expected": 5.665
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 182,
+   "z": -2,
+   "expected": 6.346
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 182,
+   "z": -1,
+   "expected": 7.098
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 182,
+   "z": 0,
+   "expected": 7.926
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 182,
+   "z": 1,
+   "expected": 8.837
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 182,
+   "z": 2,
+   "expected": 9.839
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 182,
+   "z": 3,
+   "expected": 10.939
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 365,
+   "z": -3,
+   "expected": 6.926
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 365,
+   "z": -2,
+   "expected": 7.741
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 365,
+   "z": -1,
+   "expected": 8.644
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 365,
+   "z": 0,
+   "expected": 9.646
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 365,
+   "z": 1,
+   "expected": 10.755
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 365,
+   "z": 2,
+   "expected": 11.983
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 365,
+   "z": 3,
+   "expected": 13.341
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 500,
+   "z": -3,
+   "expected": 7.603
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 500,
+   "z": -2,
+   "expected": 8.5
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 500,
+   "z": -1,
+   "expected": 9.5
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 500,
+   "z": 0,
+   "expected": 10.612
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 500,
+   "z": 1,
+   "expected": 11.851
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 500,
+   "z": 2,
+   "expected": 13.229
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 500,
+   "z": 3,
+   "expected": 14.762
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 730,
+   "z": -3,
+   "expected": 8.63
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 730,
+   "z": -2,
+   "expected": 9.67
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 730,
+   "z": -1,
+   "expected": 10.838
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 730,
+   "z": 0,
+   "expected": 12.148
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 730,
+   "z": 1,
+   "expected": 13.62
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 730,
+   "z": 2,
+   "expected": 15.272
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 730,
+   "z": 3,
+   "expected": 17.128
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 731,
+   "z": -3,
+   "expected": 8.634
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 731,
+   "z": -2,
+   "expected": 9.675
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 731,
+   "z": -1,
+   "expected": 10.843
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 731,
+   "z": 0,
+   "expected": 12.155
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 731,
+   "z": 1,
+   "expected": 13.627
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 731,
+   "z": 2,
+   "expected": 15.281
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 731,
+   "z": 3,
+   "expected": 17.139
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 900,
+   "z": -3,
+   "expected": 9.316
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 900,
+   "z": -2,
+   "expected": 10.463
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 900,
+   "z": -1,
+   "expected": 11.758
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 900,
+   "z": 0,
+   "expected": 13.222
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 900,
+   "z": 1,
+   "expected": 14.875
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 900,
+   "z": 2,
+   "expected": 16.745
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 900,
+   "z": 3,
+   "expected": 18.861
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1095,
+   "z": -3,
+   "expected": 10.014
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1095,
+   "z": -2,
+   "expected": 11.276
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1095,
+   "z": -1,
+   "expected": 12.709
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1095,
+   "z": 0,
+   "expected": 14.339
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1095,
+   "z": 1,
+   "expected": 16.194
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1095,
+   "z": 2,
+   "expected": 18.307
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1095,
+   "z": 3,
+   "expected": 20.719
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1500,
+   "z": -3,
+   "expected": 11.364
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1500,
+   "z": -2,
+   "expected": 12.861
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1500,
+   "z": -1,
+   "expected": 14.581
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1500,
+   "z": 0,
+   "expected": 16.562
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1500,
+   "z": 1,
+   "expected": 18.849
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1500,
+   "z": 2,
+   "expected": 21.494
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1500,
+   "z": 3,
+   "expected": 24.561
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1856,
+   "z": -3,
+   "expected": 12.459
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1856,
+   "z": -2,
+   "expected": 14.175
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1856,
+   "z": -1,
+   "expected": 16.171
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1856,
+   "z": 0,
+   "expected": 18.497
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1856,
+   "z": 1,
+   "expected": 21.218
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1856,
+   "z": 2,
+   "expected": 24.411
+  },
+  {
+   "metric": "weight",
+   "sex": "male",
+   "day": 1856,
+   "z": 3,
+   "expected": 28.171
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 0,
+   "z": -3,
+   "expected": 2.033
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 0,
+   "z": -2,
+   "expected": 2.395
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 0,
+   "z": -1,
+   "expected": 2.794
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 0,
+   "z": 0,
+   "expected": 3.232
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 0,
+   "z": 1,
+   "expected": 3.711
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 0,
+   "z": 2,
+   "expected": 4.23
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 0,
+   "z": 3,
+   "expected": 4.793
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1,
+   "z": -3,
+   "expected": 1.994
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1,
+   "z": -2,
+   "expected": 2.352
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1,
+   "z": -1,
+   "expected": 2.752
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1,
+   "z": 0,
+   "expected": 3.196
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1,
+   "z": 1,
+   "expected": 3.685
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1,
+   "z": 2,
+   "expected": 4.222
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1,
+   "z": 3,
+   "expected": 4.81
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 7,
+   "z": -3,
+   "expected": 2.096
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 7,
+   "z": -2,
+   "expected": 2.464
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 7,
+   "z": -1,
+   "expected": 2.877
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 7,
+   "z": 0,
+   "expected": 3.339
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 7,
+   "z": 1,
+   "expected": 3.853
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 7,
+   "z": 2,
+   "expected": 4.423
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 7,
+   "z": 3,
+   "expected": 5.052
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 30,
+   "z": -3,
+   "expected": 2.72
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 30,
+   "z": -2,
+   "expected": 3.148
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 30,
+   "z": -1,
+   "expected": 3.63
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 30,
+   "z": 0,
+   "expected": 4.172
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 30,
+   "z": 1,
+   "expected": 4.778
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 30,
+   "z": 2,
+   "expected": 5.456
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 30,
+   "z": 3,
+   "expected": 6.212
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 60,
+   "z": -3,
+   "expected": 3.428
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 60,
+   "z": -2,
+   "expected": 3.922
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 60,
+   "z": -1,
+   "expected": 4.478
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 60,
+   "z": 0,
+   "expected": 5.105
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 60,
+   "z": 1,
+   "expected": 5.81
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 60,
+   "z": 2,
+   "expected": 6.601
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 60,
+   "z": 3,
+   "expected": 7.488
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 91,
+   "z": -3,
+   "expected": 3.987
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 91,
+   "z": -2,
+   "expected": 4.531
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 91,
+   "z": -1,
+   "expected": 5.145
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 91,
+   "z": 0,
+   "expected": 5.839
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 91,
+   "z": 1,
+   "expected": 6.623
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 91,
+   "z": 2,
+   "expected": 7.506
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 91,
+   "z": 3,
+   "expected": 8.503
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 182,
+   "z": -3,
+   "expected": 5.079
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 182,
+   "z": -2,
+   "expected": 5.723
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 182,
+   "z": -1,
+   "expected": 6.455
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 182,
+   "z": 0,
+   "expected": 7.289
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 182,
+   "z": 1,
+   "expected": 8.24
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 182,
+   "z": 2,
+   "expected": 9.326
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 182,
+   "z": 3,
+   "expected": 10.566
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 365,
+   "z": -3,
+   "expected": 6.273
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 365,
+   "z": -2,
+   "expected": 7.041
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 365,
+   "z": -1,
+   "expected": 7.925
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 365,
+   "z": 0,
+   "expected": 8.946
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 365,
+   "z": 1,
+   "expected": 10.129
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 365,
+   "z": 2,
+   "expected": 11.506
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 365,
+   "z": 3,
+   "expected": 13.114
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 500,
+   "z": -3,
+   "expected": 6.957
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 500,
+   "z": -2,
+   "expected": 7.799
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 500,
+   "z": -1,
+   "expected": 8.772
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 500,
+   "z": 0,
+   "expected": 9.902
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 500,
+   "z": 1,
+   "expected": 11.221
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 500,
+   "z": 2,
+   "expected": 12.766
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 500,
+   "z": 3,
+   "expected": 14.587
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 730,
+   "z": -3,
+   "expected": 8.064
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 730,
+   "z": -2,
+   "expected": 9.033
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 730,
+   "z": -1,
+   "expected": 10.159
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 730,
+   "z": 0,
+   "expected": 11.474
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 730,
+   "z": 1,
+   "expected": 13.018
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 730,
+   "z": 2,
+   "expected": 14.841
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 730,
+   "z": 3,
+   "expected": 17.008
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 731,
+   "z": -3,
+   "expected": 8.068
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 731,
+   "z": -2,
+   "expected": 9.039
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 731,
+   "z": -1,
+   "expected": 10.165
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 731,
+   "z": 0,
+   "expected": 11.481
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 731,
+   "z": 1,
+   "expected": 13.025
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 731,
+   "z": 2,
+   "expected": 14.85
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 731,
+   "z": 3,
+   "expected": 17.019
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 900,
+   "z": -3,
+   "expected": 8.835
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 900,
+   "z": -2,
+   "expected": 9.907
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 900,
+   "z": -1,
+   "expected": 11.156
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 900,
+   "z": 0,
+   "expected": 12.62
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 900,
+   "z": 1,
+   "expected": 14.346
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 900,
+   "z": 2,
+   "expected": 16.395
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 900,
+   "z": 3,
+   "expected": 18.844
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1095,
+   "z": -3,
+   "expected": 9.608
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1095,
+   "z": -2,
+   "expected": 10.802
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1095,
+   "z": -1,
+   "expected": 12.199
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1095,
+   "z": 0,
+   "expected": 13.846
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1095,
+   "z": 1,
+   "expected": 15.798
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1095,
+   "z": 2,
+   "expected": 18.131
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1095,
+   "z": 3,
+   "expected": 20.942
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1500,
+   "z": -3,
+   "expected": 11.01
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1500,
+   "z": -2,
+   "expected": 12.477
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1500,
+   "z": -1,
+   "expected": 14.219
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1500,
+   "z": 0,
+   "expected": 16.302
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1500,
+   "z": 1,
+   "expected": 18.814
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1500,
+   "z": 2,
+   "expected": 21.872
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1500,
+   "z": 3,
+   "expected": 25.634
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1856,
+   "z": -3,
+   "expected": 12.145
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1856,
+   "z": -2,
+   "expected": 13.854
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1856,
+   "z": -1,
+   "expected": 15.905
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1856,
+   "z": 0,
+   "expected": 18.389
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1856,
+   "z": 1,
+   "expected": 21.429
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1856,
+   "z": 2,
+   "expected": 25.19
+  },
+  {
+   "metric": "weight",
+   "sex": "female",
+   "day": 1856,
+   "z": 3,
+   "expected": 29.903
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 0,
+   "z": -3,
+   "expected": 44.205
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 0,
+   "z": -2,
+   "expected": 46.098
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 0,
+   "z": -1,
+   "expected": 47.991
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 0,
+   "z": 0,
+   "expected": 49.884
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 0,
+   "z": 1,
+   "expected": 51.777
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 0,
+   "z": 2,
+   "expected": 53.67
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 0,
+   "z": 3,
+   "expected": 55.564
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1,
+   "z": -3,
+   "expected": 44.376
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1,
+   "z": -2,
+   "expected": 46.271
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1,
+   "z": -1,
+   "expected": 48.165
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1,
+   "z": 0,
+   "expected": 50.06
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1,
+   "z": 1,
+   "expected": 51.955
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1,
+   "z": 2,
+   "expected": 53.85
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1,
+   "z": 3,
+   "expected": 55.744
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 7,
+   "z": -3,
+   "expected": 45.406
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 7,
+   "z": -2,
+   "expected": 47.309
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 7,
+   "z": -1,
+   "expected": 49.212
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 7,
+   "z": 0,
+   "expected": 51.115
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 7,
+   "z": 1,
+   "expected": 53.018
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 7,
+   "z": 2,
+   "expected": 54.921
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 7,
+   "z": 3,
+   "expected": 56.824
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 30,
+   "z": -3,
+   "expected": 48.828
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 30,
+   "z": -2,
+   "expected": 50.773
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 30,
+   "z": -1,
+   "expected": 52.719
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 30,
+   "z": 0,
+   "expected": 54.664
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 30,
+   "z": 1,
+   "expected": 56.61
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 30,
+   "z": 2,
+   "expected": 58.556
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 30,
+   "z": 3,
+   "expected": 60.501
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 60,
+   "z": -3,
+   "expected": 52.333
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 60,
+   "z": -2,
+   "expected": 54.332
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 60,
+   "z": -1,
+   "expected": 56.331
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 60,
+   "z": 0,
+   "expected": 58.33
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 60,
+   "z": 1,
+   "expected": 60.329
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 60,
+   "z": 2,
+   "expected": 62.328
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 60,
+   "z": 3,
+   "expected": 64.327
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 91,
+   "z": -3,
+   "expected": 55.269
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 91,
+   "z": -2,
+   "expected": 57.313
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 91,
+   "z": -1,
+   "expected": 59.357
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 91,
+   "z": 0,
+   "expected": 61.401
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 91,
+   "z": 1,
+   "expected": 63.445
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 91,
+   "z": 2,
+   "expected": 65.489
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 91,
+   "z": 3,
+   "expected": 67.533
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 182,
+   "z": -3,
+   "expected": 61.171
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 182,
+   "z": -2,
+   "expected": 63.311
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 182,
+   "z": -1,
+   "expected": 65.45
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 182,
+   "z": 0,
+   "expected": 67.59
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 182,
+   "z": 1,
+   "expected": 69.73
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 182,
+   "z": 2,
+   "expected": 71.87
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 182,
+   "z": 3,
+   "expected": 74.01
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 365,
+   "z": -3,
+   "expected": 68.611
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 365,
+   "z": -2,
+   "expected": 70.987
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 365,
+   "z": -1,
+   "expected": 73.363
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 365,
+   "z": 0,
+   "expected": 75.739
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 365,
+   "z": 1,
+   "expected": 78.115
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 365,
+   "z": 2,
+   "expected": 80.491
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 365,
+   "z": 3,
+   "expected": 82.867
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 500,
+   "z": -3,
+   "expected": 72.832
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 500,
+   "z": -2,
+   "expected": 75.441
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 500,
+   "z": -1,
+   "expected": 78.049
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 500,
+   "z": 0,
+   "expected": 80.658
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 500,
+   "z": 1,
+   "expected": 83.266
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 500,
+   "z": 2,
+   "expected": 85.875
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 500,
+   "z": 3,
+   "expected": 88.483
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 730,
+   "z": -3,
+   "expected": 78.638
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 730,
+   "z": -2,
+   "expected": 81.693
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 730,
+   "z": -1,
+   "expected": 84.747
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 730,
+   "z": 0,
+   "expected": 87.802
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 730,
+   "z": 1,
+   "expected": 90.856
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 730,
+   "z": 2,
+   "expected": 93.911
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 730,
+   "z": 3,
+   "expected": 96.966
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 731,
+   "z": -3,
+   "expected": 77.961
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 731,
+   "z": -2,
+   "expected": 81.017
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 731,
+   "z": -1,
+   "expected": 84.074
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 731,
+   "z": 0,
+   "expected": 87.13
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 731,
+   "z": 1,
+   "expected": 90.187
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 731,
+   "z": 2,
+   "expected": 93.243
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 731,
+   "z": 3,
+   "expected": 96.3
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 900,
+   "z": -3,
+   "expected": 81.468
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 900,
+   "z": -2,
+   "expected": 84.849
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 900,
+   "z": -1,
+   "expected": 88.23
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 900,
+   "z": 0,
+   "expected": 91.612
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 900,
+   "z": 1,
+   "expected": 94.993
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 900,
+   "z": 2,
+   "expected": 98.375
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 900,
+   "z": 3,
+   "expected": 101.756
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1095,
+   "z": -3,
+   "expected": 84.949
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1095,
+   "z": -2,
+   "expected": 88.655
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1095,
+   "z": -1,
+   "expected": 92.361
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1095,
+   "z": 0,
+   "expected": 96.067
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1095,
+   "z": 1,
+   "expected": 99.774
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1095,
+   "z": 2,
+   "expected": 103.48
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1095,
+   "z": 3,
+   "expected": 107.186
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1500,
+   "z": -3,
+   "expected": 91.32
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1500,
+   "z": -2,
+   "expected": 95.562
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1500,
+   "z": -1,
+   "expected": 99.804
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1500,
+   "z": 0,
+   "expected": 104.046
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1500,
+   "z": 1,
+   "expected": 108.288
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1500,
+   "z": 2,
+   "expected": 112.53
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1500,
+   "z": 3,
+   "expected": 116.772
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1856,
+   "z": -3,
+   "expected": 96.488
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1856,
+   "z": -2,
+   "expected": 101.158
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1856,
+   "z": -1,
+   "expected": 105.827
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1856,
+   "z": 0,
+   "expected": 110.497
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1856,
+   "z": 1,
+   "expected": 115.166
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1856,
+   "z": 2,
+   "expected": 119.836
+  },
+  {
+   "metric": "height",
+   "sex": "male",
+   "day": 1856,
+   "z": 3,
+   "expected": 124.506
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 0,
+   "z": -3,
+   "expected": 43.56
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 0,
+   "z": -2,
+   "expected": 45.422
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 0,
+   "z": -1,
+   "expected": 47.285
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 0,
+   "z": 0,
+   "expected": 49.148
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 0,
+   "z": 1,
+   "expected": 51.01
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 0,
+   "z": 2,
+   "expected": 52.873
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 0,
+   "z": 3,
+   "expected": 54.736
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1,
+   "z": -3,
+   "expected": 43.72
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1,
+   "z": -2,
+   "expected": 45.585
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1,
+   "z": -1,
+   "expected": 47.451
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1,
+   "z": 0,
+   "expected": 49.317
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1,
+   "z": 1,
+   "expected": 51.182
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1,
+   "z": 2,
+   "expected": 53.048
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1,
+   "z": 3,
+   "expected": 54.914
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 7,
+   "z": -3,
+   "expected": 44.68
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 7,
+   "z": -2,
+   "expected": 46.563
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 7,
+   "z": -1,
+   "expected": 48.446
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 7,
+   "z": 0,
+   "expected": 50.33
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 7,
+   "z": 1,
+   "expected": 52.213
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 7,
+   "z": 2,
+   "expected": 54.096
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 7,
+   "z": 3,
+   "expected": 55.98
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 30,
+   "z": -3,
+   "expected": 47.774
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 30,
+   "z": -2,
+   "expected": 49.727
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 30,
+   "z": -1,
+   "expected": 51.68
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 30,
+   "z": 0,
+   "expected": 53.633
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 30,
+   "z": 1,
+   "expected": 55.585
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 30,
+   "z": 2,
+   "expected": 57.538
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 30,
+   "z": 3,
+   "expected": 59.491
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 60,
+   "z": -3,
+   "expected": 50.878
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 60,
+   "z": -2,
+   "expected": 52.912
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 60,
+   "z": -1,
+   "expected": 54.946
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 60,
+   "z": 0,
+   "expected": 56.98
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 60,
+   "z": 1,
+   "expected": 59.015
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 60,
+   "z": 2,
+   "expected": 61.049
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 60,
+   "z": 3,
+   "expected": 63.083
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 91,
+   "z": -3,
+   "expected": 53.465
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 91,
+   "z": -2,
+   "expected": 55.569
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 91,
+   "z": -1,
+   "expected": 57.673
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 91,
+   "z": 0,
+   "expected": 59.777
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 91,
+   "z": 1,
+   "expected": 61.881
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 91,
+   "z": 2,
+   "expected": 63.986
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 91,
+   "z": 3,
+   "expected": 66.09
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 182,
+   "z": -3,
+   "expected": 58.902
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 182,
+   "z": -2,
+   "expected": 61.167
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 182,
+   "z": -1,
+   "expected": 63.433
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 182,
+   "z": 0,
+   "expected": 65.698
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 182,
+   "z": 1,
+   "expected": 67.963
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 182,
+   "z": 2,
+   "expected": 70.228
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 182,
+   "z": 3,
+   "expected": 72.494
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 365,
+   "z": -3,
+   "expected": 66.281
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 365,
+   "z": -2,
+   "expected": 68.856
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 365,
+   "z": -1,
+   "expected": 71.43
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 365,
+   "z": 0,
+   "expected": 74.005
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 365,
+   "z": 1,
+   "expected": 76.58
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 365,
+   "z": 2,
+   "expected": 79.154
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 365,
+   "z": 3,
+   "expected": 81.729
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 500,
+   "z": -3,
+   "expected": 70.611
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 500,
+   "z": -2,
+   "expected": 73.429
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 500,
+   "z": -1,
+   "expected": 76.246
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 500,
+   "z": 0,
+   "expected": 79.064
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 500,
+   "z": 1,
+   "expected": 81.882
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 500,
+   "z": 2,
+   "expected": 84.7
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 500,
+   "z": 3,
+   "expected": 87.518
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 730,
+   "z": -3,
+   "expected": 76.725
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 730,
+   "z": -2,
+   "expected": 79.95
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 730,
+   "z": -1,
+   "expected": 83.175
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 730,
+   "z": 0,
+   "expected": 86.401
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 730,
+   "z": 1,
+   "expected": 89.626
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 730,
+   "z": 2,
+   "expected": 92.851
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 730,
+   "z": 3,
+   "expected": 96.077
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 731,
+   "z": -3,
+   "expected": 76.049
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 731,
+   "z": -2,
+   "expected": 79.276
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 731,
+   "z": -1,
+   "expected": 82.503
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 731,
+   "z": 0,
+   "expected": 85.73
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 731,
+   "z": 1,
+   "expected": 88.957
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 731,
+   "z": 2,
+   "expected": 92.184
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 731,
+   "z": 3,
+   "expected": 95.411
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 900,
+   "z": -3,
+   "expected": 79.818
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 900,
+   "z": -2,
+   "expected": 83.327
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 900,
+   "z": -1,
+   "expected": 86.836
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 900,
+   "z": 0,
+   "expected": 90.345
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 900,
+   "z": 1,
+   "expected": 93.854
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 900,
+   "z": 2,
+   "expected": 97.363
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 900,
+   "z": 3,
+   "expected": 100.872
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1095,
+   "z": -3,
+   "expected": 83.613
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1095,
+   "z": -2,
+   "expected": 87.42
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1095,
+   "z": -1,
+   "expected": 91.227
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1095,
+   "z": 0,
+   "expected": 95.034
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1095,
+   "z": 1,
+   "expected": 98.841
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1095,
+   "z": 2,
+   "expected": 102.649
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1095,
+   "z": 3,
+   "expected": 106.456
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1500,
+   "z": -3,
+   "expected": 90.414
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1500,
+   "z": -2,
+   "expected": 94.771
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1500,
+   "z": -1,
+   "expected": 99.128
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1500,
+   "z": 0,
+   "expected": 103.484
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1500,
+   "z": 1,
+   "expected": 107.841
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1500,
+   "z": 2,
+   "expected": 112.198
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1500,
+   "z": 3,
+   "expected": 116.554
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1856,
+   "z": -3,
+   "expected": 95.562
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1856,
+   "z": -2,
+   "expected": 100.353
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1856,
+   "z": -1,
+   "expected": 105.144
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1856,
+   "z": 0,
+   "expected": 109.935
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1856,
+   "z": 1,
+   "expected": 114.726
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1856,
+   "z": 2,
+   "expected": 119.517
+  },
+  {
+   "metric": "height",
+   "sex": "female",
+   "day": 1856,
+   "z": 3,
+   "expected": 124.308
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 0,
+   "z": -3,
+   "expected": 30.651
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 0,
+   "z": -2,
+   "expected": 31.921
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 0,
+   "z": -1,
+   "expected": 33.192
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 0,
+   "z": 0,
+   "expected": 34.462
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 0,
+   "z": 1,
+   "expected": 35.732
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 0,
+   "z": 2,
+   "expected": 37.002
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 0,
+   "z": 3,
+   "expected": 38.273
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1,
+   "z": -3,
+   "expected": 30.771
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1,
+   "z": -2,
+   "expected": 32.035
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1,
+   "z": -1,
+   "expected": 33.298
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1,
+   "z": 0,
+   "expected": 34.562
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1,
+   "z": 1,
+   "expected": 35.826
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1,
+   "z": 2,
+   "expected": 37.089
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1,
+   "z": 3,
+   "expected": 38.353
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 7,
+   "z": -3,
+   "expected": 31.501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 7,
+   "z": -2,
+   "expected": 32.722
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 7,
+   "z": -1,
+   "expected": 33.943
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 7,
+   "z": 0,
+   "expected": 35.163
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 7,
+   "z": 1,
+   "expected": 36.384
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 7,
+   "z": 2,
+   "expected": 37.605
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 7,
+   "z": 3,
+   "expected": 38.826
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 30,
+   "z": -3,
+   "expected": 33.741
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 30,
+   "z": -2,
+   "expected": 34.908
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 30,
+   "z": -1,
+   "expected": 36.076
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 30,
+   "z": 0,
+   "expected": 37.244
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 30,
+   "z": 1,
+   "expected": 38.411
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 30,
+   "z": 2,
+   "expected": 39.579
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 30,
+   "z": 3,
+   "expected": 40.746
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 60,
+   "z": -3,
+   "expected": 35.566
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 60,
+   "z": -2,
+   "expected": 36.738
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 60,
+   "z": -1,
+   "expected": 37.911
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 60,
+   "z": 0,
+   "expected": 39.083
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 60,
+   "z": 1,
+   "expected": 40.256
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 60,
+   "z": 2,
+   "expected": 41.428
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 60,
+   "z": 3,
+   "expected": 42.601
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 91,
+   "z": -3,
+   "expected": 36.955
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 91,
+   "z": -2,
+   "expected": 38.137
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 91,
+   "z": -1,
+   "expected": 39.319
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 91,
+   "z": 0,
+   "expected": 40.501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 91,
+   "z": 1,
+   "expected": 41.683
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 91,
+   "z": 2,
+   "expected": 42.864
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 91,
+   "z": 3,
+   "expected": 44.046
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 182,
+   "z": -3,
+   "expected": 39.655
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 182,
+   "z": -2,
+   "expected": 40.876
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 182,
+   "z": -1,
+   "expected": 42.096
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 182,
+   "z": 0,
+   "expected": 43.316
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 182,
+   "z": 1,
+   "expected": 44.536
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 182,
+   "z": 2,
+   "expected": 45.756
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 182,
+   "z": 3,
+   "expected": 46.977
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 365,
+   "z": -3,
+   "expected": 42.21
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 365,
+   "z": -2,
+   "expected": 43.494
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 365,
+   "z": -1,
+   "expected": 44.779
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 365,
+   "z": 0,
+   "expected": 46.064
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 365,
+   "z": 1,
+   "expected": 47.348
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 365,
+   "z": 2,
+   "expected": 48.633
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 365,
+   "z": 3,
+   "expected": 49.918
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 500,
+   "z": -3,
+   "expected": 43.141
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 500,
+   "z": -2,
+   "expected": 44.457
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 500,
+   "z": -1,
+   "expected": 45.774
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 500,
+   "z": 0,
+   "expected": 47.09
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 500,
+   "z": 1,
+   "expected": 48.407
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 500,
+   "z": 2,
+   "expected": 49.724
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 500,
+   "z": 3,
+   "expected": 51.04
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 730,
+   "z": -3,
+   "expected": 44.166
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 730,
+   "z": -2,
+   "expected": 45.527
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 730,
+   "z": -1,
+   "expected": 46.888
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 730,
+   "z": 0,
+   "expected": 48.249
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 730,
+   "z": 1,
+   "expected": 49.611
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 730,
+   "z": 2,
+   "expected": 50.972
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 730,
+   "z": 3,
+   "expected": 52.333
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 731,
+   "z": -3,
+   "expected": 44.17
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 731,
+   "z": -2,
+   "expected": 45.531
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 731,
+   "z": -1,
+   "expected": 46.892
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 731,
+   "z": 0,
+   "expected": 48.254
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 731,
+   "z": 1,
+   "expected": 49.615
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 731,
+   "z": 2,
+   "expected": 50.976
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 731,
+   "z": 3,
+   "expected": 52.337
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 900,
+   "z": -3,
+   "expected": 44.719
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 900,
+   "z": -2,
+   "expected": 46.11
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 900,
+   "z": -1,
+   "expected": 47.501
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 900,
+   "z": 0,
+   "expected": 48.892
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 900,
+   "z": 1,
+   "expected": 50.283
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 900,
+   "z": 2,
+   "expected": 51.674
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 900,
+   "z": 3,
+   "expected": 53.065
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1095,
+   "z": -3,
+   "expected": 45.199
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1095,
+   "z": -2,
+   "expected": 46.619
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1095,
+   "z": -1,
+   "expected": 48.039
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1095,
+   "z": 0,
+   "expected": 49.459
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1095,
+   "z": 1,
+   "expected": 50.879
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1095,
+   "z": 2,
+   "expected": 52.299
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1095,
+   "z": 3,
+   "expected": 53.719
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1500,
+   "z": -3,
+   "expected": 45.877
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1500,
+   "z": -2,
+   "expected": 47.344
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1500,
+   "z": -1,
+   "expected": 48.81
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1500,
+   "z": 0,
+   "expected": 50.276
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1500,
+   "z": 1,
+   "expected": 51.742
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1500,
+   "z": 2,
+   "expected": 53.208
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1500,
+   "z": 3,
+   "expected": 54.674
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1856,
+   "z": -3,
+   "expected": 46.285
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1856,
+   "z": -2,
+   "expected": 47.781
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1856,
+   "z": -1,
+   "expected": 49.278
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1856,
+   "z": 0,
+   "expected": 50.775
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1856,
+   "z": 1,
+   "expected": 52.272
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1856,
+   "z": 2,
+   "expected": 53.769
+  },
+  {
+   "metric": "headCirc",
+   "sex": "male",
+   "day": 1856,
+   "z": 3,
+   "expected": 55.266
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 0,
+   "z": -3,
+   "expected": 30.326
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 0,
+   "z": -2,
+   "expected": 31.51
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 0,
+   "z": -1,
+   "expected": 32.694
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 0,
+   "z": 0,
+   "expected": 33.879
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 0,
+   "z": 1,
+   "expected": 35.063
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 0,
+   "z": 2,
+   "expected": 36.247
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 0,
+   "z": 3,
+   "expected": 37.432
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1,
+   "z": -3,
+   "expected": 30.429
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1,
+   "z": -2,
+   "expected": 31.611
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1,
+   "z": -1,
+   "expected": 32.793
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1,
+   "z": 0,
+   "expected": 33.975
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1,
+   "z": 1,
+   "expected": 35.157
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1,
+   "z": 2,
+   "expected": 36.339
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1,
+   "z": 3,
+   "expected": 37.521
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 7,
+   "z": -3,
+   "expected": 31.055
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 7,
+   "z": -2,
+   "expected": 32.221
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 7,
+   "z": -1,
+   "expected": 33.387
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 7,
+   "z": 0,
+   "expected": 34.553
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 7,
+   "z": 1,
+   "expected": 35.719
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 7,
+   "z": 2,
+   "expected": 36.885
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 7,
+   "z": 3,
+   "expected": 38.05
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 30,
+   "z": -3,
+   "expected": 32.999
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 30,
+   "z": -2,
+   "expected": 34.171
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 30,
+   "z": -1,
+   "expected": 35.344
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 30,
+   "z": 0,
+   "expected": 36.516
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 30,
+   "z": 1,
+   "expected": 37.689
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 30,
+   "z": 2,
+   "expected": 38.861
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 30,
+   "z": 3,
+   "expected": 40.034
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 60,
+   "z": -3,
+   "expected": 34.578
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 60,
+   "z": -2,
+   "expected": 35.789
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 60,
+   "z": -1,
+   "expected": 37.0
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 60,
+   "z": 0,
+   "expected": 38.211
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 60,
+   "z": 1,
+   "expected": 39.421
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 60,
+   "z": 2,
+   "expected": 40.632
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 60,
+   "z": 3,
+   "expected": 41.843
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 91,
+   "z": -3,
+   "expected": 35.798
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 91,
+   "z": -2,
+   "expected": 37.039
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 91,
+   "z": -1,
+   "expected": 38.28
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 91,
+   "z": 0,
+   "expected": 39.521
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 91,
+   "z": 1,
+   "expected": 40.762
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 91,
+   "z": 2,
+   "expected": 42.003
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 91,
+   "z": 3,
+   "expected": 43.244
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 182,
+   "z": -3,
+   "expected": 38.277
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 182,
+   "z": -2,
+   "expected": 39.58
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 182,
+   "z": -1,
+   "expected": 40.883
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 182,
+   "z": 0,
+   "expected": 42.186
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 182,
+   "z": 1,
+   "expected": 43.488
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 182,
+   "z": 2,
+   "expected": 44.791
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 182,
+   "z": 3,
+   "expected": 46.094
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 365,
+   "z": -3,
+   "expected": 40.817
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 365,
+   "z": -2,
+   "expected": 42.176
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 365,
+   "z": -1,
+   "expected": 43.535
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 365,
+   "z": 0,
+   "expected": 44.894
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 365,
+   "z": 1,
+   "expected": 46.253
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 365,
+   "z": 2,
+   "expected": 47.612
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 365,
+   "z": 3,
+   "expected": 48.971
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 500,
+   "z": -3,
+   "expected": 41.819
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 500,
+   "z": -2,
+   "expected": 43.196
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 500,
+   "z": -1,
+   "expected": 44.573
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 500,
+   "z": 0,
+   "expected": 45.95
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 500,
+   "z": 1,
+   "expected": 47.327
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 500,
+   "z": 2,
+   "expected": 48.704
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 500,
+   "z": 3,
+   "expected": 50.081
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 730,
+   "z": -3,
+   "expected": 42.993
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 730,
+   "z": -2,
+   "expected": 44.389
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 730,
+   "z": -1,
+   "expected": 45.784
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 730,
+   "z": 0,
+   "expected": 47.18
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 730,
+   "z": 1,
+   "expected": 48.575
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 730,
+   "z": 2,
+   "expected": 49.971
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 730,
+   "z": 3,
+   "expected": 51.367
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 731,
+   "z": -3,
+   "expected": 42.999
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 731,
+   "z": -2,
+   "expected": 44.394
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 731,
+   "z": -1,
+   "expected": 45.789
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 731,
+   "z": 0,
+   "expected": 47.184
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 731,
+   "z": 1,
+   "expected": 48.58
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 731,
+   "z": 2,
+   "expected": 49.975
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 731,
+   "z": 3,
+   "expected": 51.37
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 900,
+   "z": -3,
+   "expected": 43.67
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 900,
+   "z": -2,
+   "expected": 45.075
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 900,
+   "z": -1,
+   "expected": 46.481
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 900,
+   "z": 0,
+   "expected": 47.886
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 900,
+   "z": 1,
+   "expected": 49.292
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 900,
+   "z": 2,
+   "expected": 50.697
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 900,
+   "z": 3,
+   "expected": 52.103
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1095,
+   "z": -3,
+   "expected": 44.27
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1095,
+   "z": -2,
+   "expected": 45.683
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1095,
+   "z": -1,
+   "expected": 47.095
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1095,
+   "z": 0,
+   "expected": 48.508
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1095,
+   "z": 1,
+   "expected": 49.92
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1095,
+   "z": 2,
+   "expected": 51.333
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1095,
+   "z": 3,
+   "expected": 52.746
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1500,
+   "z": -3,
+   "expected": 45.142
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1500,
+   "z": -2,
+   "expected": 46.562
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1500,
+   "z": -1,
+   "expected": 47.983
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1500,
+   "z": 0,
+   "expected": 49.403
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1500,
+   "z": 1,
+   "expected": 50.823
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1500,
+   "z": 2,
+   "expected": 52.244
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1500,
+   "z": 3,
+   "expected": 53.664
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1856,
+   "z": -3,
+   "expected": 45.696
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1856,
+   "z": -2,
+   "expected": 47.119
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1856,
+   "z": -1,
+   "expected": 48.542
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1856,
+   "z": 0,
+   "expected": 49.965
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1856,
+   "z": 1,
+   "expected": 51.388
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1856,
+   "z": 2,
+   "expected": 52.811
+  },
+  {
+   "metric": "headCirc",
+   "sex": "female",
+   "day": 1856,
+   "z": 3,
+   "expected": 54.234
+  }
+ ]
+}
