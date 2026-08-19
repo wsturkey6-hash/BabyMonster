@@ -1,12 +1,25 @@
 import SwiftUI
 
 extension View {
-    /// 點擊空白處收起鍵盤
-    func dismissKeyboardOnTap() -> some View {
-        simultaneousGesture(TapGesture().onEnded {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                            to: nil, from: nil, for: nil)
-        })
+    /// 讓表單能收起鍵盤：往下滑即收，鍵盤上方另外給一個「完成」按鈕。
+    ///
+    /// 原本是用 `simultaneousGesture(TapGesture())` 做「點空白處收鍵盤」，
+    /// 但那個手勢會把 SwiftUI 選單的呈現一起吃掉 —— Form 裡所有 `.menu`
+    /// 樣式的 Picker（大便量、大便形狀、睡眠、性別）點下去都毫無反應。
+    /// 改用這兩個機制，收鍵盤照樣有效，且不攔截任何控制項的點擊。
+    func keyboardDismissable() -> some View {
+        self
+            .scrollDismissesKeyboard(.interactively)
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("完成") {
+                        UIApplication.shared.sendAction(
+                            #selector(UIResponder.resignFirstResponder),
+                            to: nil, from: nil, for: nil)
+                    }
+                }
+            }
     }
 }
 

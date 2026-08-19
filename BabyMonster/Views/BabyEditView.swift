@@ -38,7 +38,7 @@ struct BabyEditView: View {
                     .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
             }
         }
-        .dismissKeyboardOnTap()
+        .keyboardDismissable()
     }
 
     private func save() {

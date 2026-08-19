@@ -78,7 +78,7 @@ struct SettingsView: View {
                     secondaryButton: .cancel(Text("取消")))
             }
             .toast($toast)
-            .dismissKeyboardOnTap()
+            .keyboardDismissable()
         }
     }
 
