@@ -17,6 +17,8 @@ describe('dailySummary', () => {
       totalFeed: 0,
       averageTemperature: null,
       averageWeight: null,
+      averageHeight: null,
+      averageHeadCircumference: null,
     });
   });
 

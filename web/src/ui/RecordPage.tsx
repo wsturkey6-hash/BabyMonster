@@ -35,6 +35,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
   const [sleep, setSleep] = useState<SleepEvent | null>(null);
   const [temp, setTemp] = useState('');
   const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [headCirc, setHeadCirc] = useState('');
   const [note, setNote] = useState('');
 
   // 下方時間軸跟著表單「時間」欄位走：選到前幾天就看那天的逐筆記錄
@@ -66,6 +68,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setSleep(editing.sleep ?? null);
     setTemp(editing.temperature != null ? String(editing.temperature) : '');
     setWeight(editing.weight != null ? String(editing.weight) : '');
+    setHeight(editing.height != null ? String(editing.height) : '');
+    setHeadCirc(editing.headCircumference != null ? String(editing.headCircumference) : '');
     setNote(editing.note ?? '');
   }, [editing]);
 
@@ -82,6 +86,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setSleep(null);
     setTemp('');
     setWeight('');
+    setHeight('');
+    setHeadCirc('');
     setNote('');
   }
 
@@ -115,6 +121,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
       ...(stoolColor !== null && stoolShape !== null ? { stoolShape } : {}),
       ...(parseNum(temp) !== undefined ? { temperature: parseNum(temp) } : {}),
       ...(parseNum(weight) !== undefined ? { weight: parseNum(weight) } : {}),
+      ...(parseNum(height) !== undefined ? { height: parseNum(height) } : {}),
+      ...(parseNum(headCirc) !== undefined ? { headCircumference: parseNum(headCirc) } : {}),
       ...(note.trim() !== '' ? { note: note.trim() } : {}),
     };
     await db.records.put(rec);
@@ -228,6 +236,15 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
           <input id="rec-weight" name="weight" autoComplete="off" type="number" inputMode="decimal" placeholder="例：4000" value={weight} onChange={(e) => setWeight(e.target.value)} />
         </div>
         <div className="field">
+          <label className="field-label" htmlFor="rec-height">身高（cm）</label>
+          <input id="rec-height" name="height" autoComplete="off" type="number" inputMode="decimal" placeholder="例：60.5" value={height} onChange={(e) => setHeight(e.target.value)} />
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="rec-head">頭圍（cm）</label>
+          <input id="rec-head" name="headCircumference" autoComplete="off" type="number" inputMode="decimal" placeholder="例：40.2" value={headCirc} onChange={(e) => setHeadCirc(e.target.value)} />
+          <p className="hint">身高、頭圍記下來之後，「趨勢 → 生長曲線」就能看出寶寶落在第幾百分位。</p>
+        </div>
+        <div className="field">
           <label className="field-label" htmlFor="rec-note">備註</label>
           <textarea id="rec-note" name="note" value={note} onChange={(e) => setNote(e.target.value)} />
         </div>
@@ -266,6 +283,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
                   {r.sleep && <span className="chip">{SLEEP_EVENT_NAMES[r.sleep]}</span>}
                   {r.temperature != null && <span className="chip">🌡 {r.temperature} °C</span>}
                   {r.weight != null && <span className="chip">⚖️ {r.weight} g</span>}
+                  {r.height != null && <span className="chip">📏 {r.height} cm</span>}
+                  {r.headCircumference != null && <span className="chip">🧢 {r.headCircumference} cm</span>}
                   {r.note && <span className="chip">📝 {r.note}</span>}
                 </span>
               </button>
