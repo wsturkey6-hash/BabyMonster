@@ -35,6 +35,15 @@ enum TrendMetric: String, CaseIterable, Identifiable {
         case .stoolCount, .urineCount, .totalFeed, .avgTemperature: return false
         }
     }
+
+    /// 次數與總量不會有小數，Y 軸只畫整數刻度；體溫、體重仍要保留小數。
+    var isInteger: Bool {
+        switch self {
+        case .stoolCount, .urineCount, .totalFeed: return true
+        // 身高、頭圍以 0.1 cm 為單位記錄，跟體溫體重一樣要保留小數
+        case .avgTemperature, .avgWeight, .avgHeight, .avgHeadCirc: return false
+        }
+    }
 }
 
 struct TrendPoint: Equatable {

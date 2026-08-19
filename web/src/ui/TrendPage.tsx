@@ -5,7 +5,8 @@ import {
 } from 'recharts';
 import { db } from '../db/db';
 import {
-  TREND_METRIC_CONNECT_GAPS, TREND_METRIC_NAMES, TREND_METRIC_UNITS, trendSeries, type TrendMetric,
+  TREND_METRIC_CONNECT_GAPS, TREND_METRIC_INTEGER, TREND_METRIC_NAMES, TREND_METRIC_UNITS,
+  trendSeries, type TrendMetric,
 } from '../logic/trendSeries';
 import {
   GROWTH_METRIC_NAMES, GROWTH_METRIC_UNITS, ageInDays, lmsFor, valueAtZ,
@@ -153,7 +154,11 @@ function DailyTrend({
             <LineChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f6e5cf" />
               <XAxis dataKey="label" tick={{ fontSize: 12 }} interval="preserveStartEnd" />
-              <YAxis tick={{ fontSize: 12 }} domain={connect ? ['auto', 'auto'] : [0, 'auto']} />
+              <YAxis
+                tick={{ fontSize: 12 }}
+                domain={connect ? ['auto', 'auto'] : [0, 'auto']}
+                allowDecimals={!TREND_METRIC_INTEGER[metric]}
+              />
               <Tooltip formatter={(v) => [v == null ? '—' : `${v} ${TREND_METRIC_UNITS[metric]}`, TREND_METRIC_NAMES[metric]]} />
               <Line type="monotone" dataKey="value" stroke="#ea580c" strokeWidth={2.5}
                 dot={{ r: 3, fill: '#f97316' }} connectNulls={connect} />

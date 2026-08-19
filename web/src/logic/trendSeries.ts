@@ -47,6 +47,17 @@ export const TREND_METRIC_CONNECT_GAPS: Record<TrendMetric, boolean> = {
   avgHeadCirc: true,
 };
 
+export const TREND_METRIC_INTEGER: Record<TrendMetric, boolean> = {
+  stoolCount: true,
+  urineCount: true,
+  totalFeed: true,
+  avgTemperature: false,
+  // 身高、頭圍以 0.1 cm 為單位記錄，跟體溫體重一樣要保留小數
+  avgWeight: false,
+  avgHeight: false,
+  avgHeadCirc: false,
+};
+
 export interface TrendPoint {
   dayMs: number;
   value: number | null;
