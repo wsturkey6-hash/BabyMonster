@@ -72,4 +72,44 @@ final class DailyStatsTests: XCTestCase {
         let s = DailyStats.summary(for: day, records: records, calendar: cal)
         XCTAssertEqual(s.totalFeed, 100)
     }
+
+    // MARK: - 最少喝奶量（最近一次體重 kg × 100 ml）
+
+    func testNoWeightMeansNoFeedTarget() {
+        let records = [rec(makeDate(2026, 7, 15), feed: 100)]
+        XCTAssertNil(DailyStats.feedTarget(for: makeDate(2026, 7, 15), records: records, calendar: cal))
+    }
+
+    func testFeedTargetIsWeightInKgTimesHundred() {
+        let weighed = makeDate(2026, 7, 15, 9)
+        let target = DailyStats.feedTarget(for: makeDate(2026, 7, 15),
+                                           records: [rec(weighed, weight: 5250)], calendar: cal)
+        XCTAssertEqual(target, FeedTarget(minimum: 525, weight: 5250, timestamp: weighed))
+    }
+
+    func testFeedTargetUsesLastWeightUpToEndOfDay() {
+        let records = [
+            rec(makeDate(2026, 7, 10), weight: 4000),
+            rec(makeDate(2026, 7, 15, 8), weight: 5000),
+            rec(makeDate(2026, 7, 15, 20), weight: 5100), // 同一天更晚的一筆
+            rec(makeDate(2026, 7, 16), weight: 9000),     // 選定日之後
+        ]
+        let target = DailyStats.feedTarget(for: makeDate(2026, 7, 15), records: records, calendar: cal)
+        XCTAssertEqual(target?.minimum, 510)
+    }
+
+    /// 補記體重後，先前那幾天也要看得到目標。
+    func testFeedTargetFallsBackToFirstWeightWhenNoneBefore() {
+        let records = [rec(makeDate(2026, 7, 20), weight: 5000), rec(makeDate(2026, 7, 25), weight: 5400)]
+        XCTAssertEqual(DailyStats.feedTarget(for: makeDate(2026, 7, 15), records: records, calendar: cal)?.weight, 5000)
+    }
+
+    func testFeedTargetIgnoresRecordOrder() {
+        let records = [
+            rec(makeDate(2026, 7, 16), weight: 9000),
+            rec(makeDate(2026, 7, 15, 8), weight: 5000),
+            rec(makeDate(2026, 7, 10), weight: 4000),
+        ]
+        XCTAssertEqual(DailyStats.feedTarget(for: makeDate(2026, 7, 15), records: records, calendar: cal)?.weight, 5000)
+    }
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
-import { dailySummary, dayNotes } from '../logic/dailyStats';
+import { dailySummary, dayNotes, feedTarget } from '../logic/dailyStats';
 import { dailySleepMinutes } from '../logic/sleep';
 import type { RecordData } from '../logic/types';
 import { BabySwitcher } from './BabySwitcher';
@@ -21,6 +21,8 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
   const s = dailySummary(dayMs, records);
   const notes = dayNotes(dayMs, records);
   const sleepMinutes = dailySleepMinutes(dayMs, records);
+  const target = feedTarget(dayMs, records);
+  const reached = target != null && s.totalFeed >= target.minimum;
 
   return (
     <main className="page">
@@ -48,6 +50,36 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
         <div className="stat-card">
           <div className="label">總喝奶量</div>
           <div className="stat-value">{formatNumber(s.totalFeed)}<span className="unit">ml</span></div>
+          {target === null ? (
+            <p className="goal-empty">記一次體重就會算出最少奶量</p>
+          ) : (
+            <div className="goal">
+              <div
+                className="goal-bar"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={Math.round(target.minimum)}
+                aria-valuenow={Math.min(Math.round(s.totalFeed), Math.round(target.minimum))}
+                aria-valuetext={reached
+                  ? `已喝 ${formatNumber(s.totalFeed)} ml，已達標`
+                  : `已喝 ${formatNumber(s.totalFeed)} ml，還差 ${Math.ceil(target.minimum - s.totalFeed)} ml`}
+                aria-label={`喝奶量達標進度，最少要喝 ${formatNumber(target.minimum, 0)} ml`}
+              >
+                <div
+                  className={`goal-bar-fill${reached ? ' reached' : ''}`}
+                  style={{ width: `${Math.min(100, (s.totalFeed / target.minimum) * 100)}%` }}
+                />
+              </div>
+              <div className="goal-note">
+                <span>最少 {formatNumber(target.minimum, 0)} ml</span>
+                {reached ? (
+                  <span className="reached">已達標</span>
+                ) : (
+                  <span>還差 {Math.ceil(target.minimum - s.totalFeed)} ml</span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
         <div className="stat-card">
           <div className="label">平均體溫</div>

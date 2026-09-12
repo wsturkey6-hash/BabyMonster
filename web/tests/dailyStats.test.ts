@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dailySummary, dayNotes, sameLocalDay } from '../src/logic/dailyStats';
+import { dailySummary, dayNotes, feedTarget, sameLocalDay } from '../src/logic/dailyStats';
 import type { RecordData } from '../src/logic/types';
 
 const d = (y: number, m: number, day: number, h = 12) => new Date(y, m - 1, day, h).getTime();
@@ -84,5 +84,40 @@ describe('sameLocalDay', () => {
   it('同一天不同時刻為真、跨日為假', () => {
     expect(sameLocalDay(d(2026, 7, 15, 0), d(2026, 7, 15, 23))).toBe(true);
     expect(sameLocalDay(d(2026, 7, 15, 23), d(2026, 7, 16, 0))).toBe(false);
+  });
+});
+
+describe('feedTarget', () => {
+  it('沒有體重記錄時沒有目標', () => {
+    expect(feedTarget(d(2026, 7, 15), [rec(d(2026, 7, 15), { feedAmount: 100 })])).toBeNull();
+  });
+
+  it('體重 kg × 100 就是當天最少奶量', () => {
+    const t = feedTarget(d(2026, 7, 15), [rec(d(2026, 7, 15, 9), { weight: 5250 })]);
+    expect(t).toEqual({ minimum: 525, weight: 5250, timestamp: d(2026, 7, 15, 9) });
+  });
+
+  it('取當天結束前最後一筆體重，之後才量的不算', () => {
+    const records = [
+      rec(d(2026, 7, 10), { weight: 4000 }),
+      rec(d(2026, 7, 15, 8), { weight: 5000 }),
+      rec(d(2026, 7, 15, 20), { weight: 5100 }), // 同一天更晚的一筆
+      rec(d(2026, 7, 16), { weight: 9000 }), // 選定日之後
+    ];
+    expect(feedTarget(d(2026, 7, 15), records)?.minimum).toBe(510);
+  });
+
+  it('那天之前還沒量過就用第一筆體重（補記體重後舊日子也看得到目標）', () => {
+    const records = [rec(d(2026, 7, 20), { weight: 5000 }), rec(d(2026, 7, 25), { weight: 5400 })];
+    expect(feedTarget(d(2026, 7, 15), records)?.weight).toBe(5000);
+  });
+
+  it('記錄順序顛倒也一樣', () => {
+    const records = [
+      rec(d(2026, 7, 16), { weight: 9000 }),
+      rec(d(2026, 7, 15, 8), { weight: 5000 }),
+      rec(d(2026, 7, 10), { weight: 4000 }),
+    ];
+    expect(feedTarget(d(2026, 7, 15), records)?.weight).toBe(5000);
   });
 });

@@ -57,3 +57,41 @@ export function dailySummary(dayMs: number, records: RecordData[]): DailySummary
     averageHeadCircumference: avg(heads),
   };
 }
+
+/** 每天最少該喝的奶量：體重每公斤 100 ml。 */
+export const MIN_FEED_ML_PER_KG = 100;
+
+export interface FeedTarget {
+  /** 當天最少該喝的總奶量（ml）。 */
+  minimum: number;
+  /** 換算用的那筆體重（g）。 */
+  weight: number;
+  /** 那筆體重的記錄時間。 */
+  timestamp: number;
+}
+
+/**
+ * 當天最少該喝多少奶，用「最近一次填的體重」換算。
+ * 先取當天結束前最後一筆體重；若那天之前都還沒量過，就退而用第一筆（之後才量的）體重，
+ * 這樣補記體重後，先前那幾天也看得到目標。完全沒有體重記錄時回傳 null。
+ */
+export function feedTarget(dayMs: number, records: RecordData[]): FeedTarget | null {
+  const weighed = records
+    .filter((r): r is RecordData & { weight: number } => r.weight != null && r.weight > 0)
+    .sort((a, b) => a.timestamp - b.timestamp);
+  if (weighed.length === 0) return null;
+
+  const d = new Date(dayMs);
+  const dayEnd = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1).getTime();
+  let basis = weighed[0];
+  for (const r of weighed) {
+    if (r.timestamp >= dayEnd) break;
+    basis = r;
+  }
+
+  return {
+    minimum: (basis.weight * MIN_FEED_ML_PER_KG) / 1000, // 先乘再除，避免 5100 g 算出 509.999…
+    weight: basis.weight,
+    timestamp: basis.timestamp,
+  };
+}

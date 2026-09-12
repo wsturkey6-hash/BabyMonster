@@ -19,6 +19,10 @@ struct DailyStatsView: View {
         DailyStats.summary(for: date, records: babyRecords)
     }
 
+    private var feedTarget: FeedTarget? {
+        DailyStats.feedTarget(for: date, records: babyRecords)
+    }
+
     private var sleepMinutes: Int {
         Sleep.dailyMinutes(for: date, records: babyRecords)
     }
@@ -42,7 +46,7 @@ struct DailyStatsView: View {
                 Section("當日統計") {
                     statRow("大便次數", "\(summary.stoolCount) 次")
                     statRow("小便次數", "\(summary.urineCount) 次")
-                    statRow("總喝奶量", "\(Int(summary.totalFeed)) ml")
+                    feedRow
                     statRow("平均體溫", summary.averageTemperature.map { String(format: "%.1f °C", $0) } ?? "—")
                     statRow("平均體重", summary.averageWeight.map { "\(Int($0)) g" } ?? "—")
                     statRow("睡眠時間", sleepText(sleepMinutes))
@@ -64,6 +68,33 @@ struct DailyStatsView: View {
             .navigationTitle("每日統計")
             .toolbar { ToolbarItem(placement: .topBarLeading) { BabyPickerMenu(profiles: profiles) } }
         }
+    }
+
+    /// 總喝奶量多一條達標進度：目標是最近一次體重（kg）× 100 ml。
+    private var feedRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            statRow("總喝奶量", "\(Int(summary.totalFeed)) ml")
+            if let target = feedTarget {
+                let reached = summary.totalFeed >= target.minimum
+                ProgressView(value: min(summary.totalFeed, target.minimum), total: target.minimum)
+                    .tint(reached ? .green : .orange)
+                HStack {
+                    Text("最少 \(Int(target.minimum.rounded())) ml")
+                    Spacer()
+                    if reached {
+                        Text("已達標").bold().foregroundStyle(.green)
+                    } else {
+                        Text("還差 \(Int((target.minimum - summary.totalFeed).rounded(.up))) ml")
+                    }
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            } else {
+                Text("記一次體重就會算出最少奶量")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+        }
+        .padding(.vertical, 2)
     }
 
     private func statRow(_ title: String, _ value: String) -> some View {

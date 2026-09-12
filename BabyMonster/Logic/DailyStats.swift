@@ -10,6 +10,15 @@ struct DailySummary: Equatable {
     var averageHeadCircumference: Double?
 }
 
+struct FeedTarget: Equatable {
+    /// 當天最少該喝的總奶量（ml）。
+    var minimum: Double
+    /// 換算用的那筆體重（g）。
+    var weight: Double
+    /// 那筆體重的記錄時間。
+    var timestamp: Date
+}
+
 struct DayNote: Identifiable, Equatable {
     let id: UUID
     let timestamp: Date
@@ -17,6 +26,9 @@ struct DayNote: Identifiable, Equatable {
 }
 
 enum DailyStats {
+    /// 每天最少該喝的奶量：體重每公斤 100 ml。
+    static let minFeedMlPerKg: Double = 100
+
     static func summary(for date: Date, records: [RecordData], calendar: Calendar = .current) -> DailySummary {
         let dayRecords = records.filter { calendar.isDate($0.timestamp, inSameDayAs: date) }
 
@@ -36,6 +48,26 @@ enum DailyStats {
         return DailySummary(stoolCount: stoolCount, urineCount: urineCount,
                             totalFeed: totalFeed, averageTemperature: avgTemp, averageWeight: avgWeight,
                             averageHeight: avgHeight, averageHeadCircumference: avgHead)
+    }
+
+    /// 當天最少該喝多少奶，用「最近一次填的體重」換算。
+    /// 先取當天結束前最後一筆體重；若那天之前都還沒量過，就退而用第一筆（之後才量的）體重，
+    /// 這樣補記體重後，先前那幾天也看得到目標。完全沒有體重記錄時回傳 nil。
+    static func feedTarget(for date: Date, records: [RecordData],
+                           calendar: Calendar = .current) -> FeedTarget? {
+        let weighed = records
+            .compactMap { r -> (weight: Double, timestamp: Date)? in
+                guard let w = r.weight, w > 0 else { return nil }
+                return (w, r.timestamp)
+            }
+            .sorted { $0.timestamp < $1.timestamp }
+        guard let first = weighed.first else { return nil }
+
+        let dayEnd = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: date)) ?? date
+        let basis = weighed.last { $0.timestamp < dayEnd } ?? first
+        // 先乘再除，避免 5100 g 算出 509.999…
+        return FeedTarget(minimum: basis.weight * minFeedMlPerKg / 1000,
+                          weight: basis.weight, timestamp: basis.timestamp)
     }
 
     /// 當天有寫備註的記錄，依時間由早到晚，方便回頭讀完整天發生的事。

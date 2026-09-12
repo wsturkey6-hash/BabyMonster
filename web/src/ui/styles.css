@@ -20,6 +20,7 @@
   --color-border-soft: #f6e5cf;
   --color-danger: #b3261e;
   --color-danger-soft: #fdecea;
+  --color-success: #15803d; /* 達標用；白底對比 4.5:1 */
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-full: 999px;
@@ -204,6 +205,27 @@ h1, h2 { text-wrap: balance; }
   font-variant-numeric: tabular-nums;
 }
 .stat-value .unit { font-size: 13px; font-weight: 400; color: var(--color-text-soft); margin-left: 3px; }
+
+/* 喝奶量達標條：當天喝的量 vs 最少該喝的量（最近一次體重 kg × 100 ml） */
+.goal { margin-top: 9px; }
+.goal-bar {
+  height: 9px; border-radius: var(--radius-full); overflow: hidden;
+  background: var(--color-primary-soft);
+  box-shadow: inset 0 1px 2px rgba(154, 52, 18, 0.12);
+}
+.goal-bar-fill {
+  height: 100%; border-radius: var(--radius-full);
+  background: var(--color-primary);
+  transition: width 0.3s ease-out;
+}
+.goal-bar-fill.reached { background: var(--color-success); }
+.goal-note {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 8px;
+  margin-top: 5px; font-size: 12px; color: var(--color-text-soft);
+  font-variant-numeric: tabular-nums;
+}
+.goal-note .reached { color: var(--color-success); font-weight: 700; }
+.goal-empty { margin: 9px 0 0; font-size: 12px; color: var(--color-text-soft); }
 
 .list-row {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
