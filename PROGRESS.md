@@ -74,6 +74,35 @@
 - 兩平台都用使用者回報的那筆資料實測過（男寶、61 日齡、5.00kg／56.2cm／39.2cm →
   第 19／13／52 百分位 → 第 15–50／3–15／50–85 百分位），web 在瀏覽器、iOS 在模擬器都真的點過
 
+### 2026-09-12 後續：web 點清單進編輯，畫面完全沒反應（已修）
+手機上記錄頁的表單卡片很長，清單在它下面。捲到清單點某一筆時，上方表單確實
+被填入了那筆資料、標題變「編輯記錄」、按鈕變「儲存變更」—— 但**畫面不會捲回表單**，
+表單整個在畫面外，使用者看到的東西一模一樣（實測前後截圖逐像素相同）。
+
+- 後果很嚴重：使用者之後捲上去以為在「新增」，`save()` 用 `editing?.id` + `db.records.put(rec)`
+  會把原本那筆**整個蓋掉**（例如把前一晚的「入睡」蓋成早上的「起床」，
+  那段跨夜睡眠就從睡眠統計裡消失）
+- 修法：`RecordPage.tsx` 新增 `startEditing(r)` 取代原本的 `onClick={() => setEditing(r)}`，
+  在 `requestAnimationFrame` 裡把表單卡片 `scrollIntoView({ block: 'start' })` 並把焦點移到表單標題
+  - 用 rAF 是為了等 React 把標題換成「編輯記錄」之後才捲動／移焦點，讀螢幕軟體才唸得到正確標題
+  - 尊重 `prefers-reduced-motion`：reduce 時 `behavior: 'auto'`（不做動畫），否則 `smooth`
+  - 焦點用 `focus({ preventScroll: true })`，否則瀏覽器會自己跳過去、打斷平滑捲動
+  - 焦點放**標題**而非時間欄位：iOS Safari 聚焦 `datetime-local` 會直接彈出日期轉盤蓋住畫面
+  - `.card` 加 `scroll-margin-top: 12px`，捲到定位時上方留白跟 `.page` 的 padding 一致
+- **寫在 click handler 而不是 `useEffect([editing])`**：同一筆記錄再點一次時 `editing` 沒變，
+  effect 不會重跑就不會捲動；實測已涵蓋這個情境
+- 驗證（mobile 375×812 真的用點的）：點 21:00「入睡」那筆 → scrollY 1310 → 94、
+  表單 top = 12、標題「編輯記錄」、時間欄位 21:00、入睡按鈕呈選取、`document.activeElement` 是標題 h2
+  - 另外實測：reduce motion 分支確實傳 `behavior: 'auto'`；儲存變更仍是就地更新（10 筆不變，100→177 ml）；
+    「取消編輯」仍正確清空。web 202 tests 全過、`npm run build` 乾淨
+- iOS 同步檢查結果：**不受影響，不需修改**。iOS 的表單是 modal sheet（`.sheet(item: $editing)`），
+  一定蓋在畫面上不可能沒看到；而且新增走 `context.insert(RecordEntity(...))`、
+  編輯走 `entity.apply(data)`，是兩條不同的路徑，不存在 put 覆蓋的問題
+  - 唯一小落差：編輯與新增的 sheet 標題都是「記錄」，沒像 web 一樣寫「編輯記錄」。
+    因為欄位已預填、使用者不會誤判，這次**沒有動它**
+
+**教訓：狀態變了不等於使用者看得到。** 表單在清單上方的版面，進編輯一定要把表單帶到眼前。
+
 ### 環境限制
 - iOS Simulator MCP **已可用**（2026-08-19 使用者執行 `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer` 後）
   - 可注入點擊、輸入文字（**僅 ASCII**，中文輸入不了 → 測試資料用英文名）

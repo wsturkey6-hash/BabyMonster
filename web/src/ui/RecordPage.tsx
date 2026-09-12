@@ -38,6 +38,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
   const [height, setHeight] = useState('');
   const [headCirc, setHeadCirc] = useState('');
   const [note, setNote] = useState('');
+  const formCardRef = useRef<HTMLElement>(null);
+  const formHeadingRef = useRef<HTMLHeadingElement>(null);
 
   // 下方時間軸跟著表單「時間」欄位走：選到前幾天就看那天的逐筆記錄
   const selectedMs = msFromDatetimeLocal(timestamp);
@@ -72,6 +74,22 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
     setHeadCirc(editing.headCircumference != null ? String(editing.headCircumference) : '');
     setNote(editing.note ?? '');
   }, [editing]);
+
+  /**
+   * 從清單進入編輯模式。手機上表單卡片在清單上方而且很長，光是把資料填進表單
+   * 畫面上毫無變化，使用者會以為自己還在「新增」，按下儲存就把原本那筆整個蓋掉
+   * （例如把前一晚的入睡蓋成早上的起床，那段跨夜睡眠就從統計裡消失）。
+   * 所以進編輯時一定要把表單捲到眼前，並把焦點移到標題，讀螢幕軟體才唸得到。
+   */
+  function startEditing(r: RecordData) {
+    setEditing(r);
+    // 等 React 把標題換成「編輯記錄」之後再捲動與移焦點
+    requestAnimationFrame(() => {
+      const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+      formCardRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      formHeadingRef.current?.focus({ preventScroll: true }); // preventScroll：別打斷上面的平滑捲動
+    });
+  }
 
   /** keepTimestamp：補登前幾天的資料時保留剛才選的日期，方便連續補同一天。 */
   function reset(keepTimestamp = false) {
@@ -146,8 +164,8 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
         <BabySwitcher profiles={profiles} currentBaby={currentBaby} onSelect={onSelectBaby} />
       </header>
 
-      <section className="card">
-        <h2>{editing ? '編輯記錄' : '新增記錄'}</h2>
+      <section className="card" ref={formCardRef}>
+        <h2 ref={formHeadingRef} tabIndex={-1}>{editing ? '編輯記錄' : '新增記錄'}</h2>
         <div className="field">
           <label className="field-label" htmlFor="rec-time">時間</label>
           <input id="rec-time" name="timestamp" type="datetime-local" value={timestamp} onChange={(e) => setTimestamp(e.target.value)} />
@@ -267,7 +285,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
           {dayRecords.map((r) => (
             <li key={r.id} className="timeline-item">
               <span className="time">{timeHM(r.timestamp)}</span>
-              <button type="button" className="body" aria-label="編輯這筆記錄" onClick={() => setEditing(r)}>
+              <button type="button" className="body" aria-label="編輯這筆記錄" onClick={() => startEditing(r)}>
                 <span className="chips">
                   {r.feedAmount != null && <span className="chip">🍼 {r.feedAmount} ml</span>}
                   {r.stoolColor != null && (

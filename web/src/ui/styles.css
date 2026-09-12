@@ -83,6 +83,7 @@ h1, h2 { text-wrap: balance; }
   padding: 16px;
   box-shadow: var(--shadow-clay);
   margin-bottom: 16px;
+  scroll-margin-top: 12px; /* 捲到表單時上方留一點空隙，跟 .page 的 padding 一致 */
 }
 .card h2 {
   font-family: var(--font-display);
