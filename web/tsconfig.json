@@ -9,7 +9,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "paths": { "shared/*": ["../shared/*"] }
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests", "../shared"]
 }

@@ -1,8 +1,11 @@
 import { useRef, useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { allData, deleteBabyCascade, importMerge } from '../db/repository';
 import { decodeAny, encodeV2 } from '../logic/dataTransfer';
 import { ageDisplayText, babyAge } from '../logic/babyAge';
+import { runSync, useSyncStatus } from '../sync/autoSync';
+import { MAX_NAME } from 'shared/validateEntity';
 import type { ProfileData, Sex } from '../logic/types';
 import { BabySwitcher } from './BabySwitcher';
 import { ConfirmDialog } from './components/ConfirmDialog';
@@ -27,6 +30,8 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
   const [exportScope, setExportScope] = useState('all');
   const [toast, setToast] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<{ profile: ProfileData; count: number } | null>(null);
+  const sync = useSyncStatus();
+  const pending = useLiveQuery(() => db.outbox.count(), [], 0);
   const fileRef = useRef<HTMLInputElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout>>();
 
@@ -156,7 +161,7 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
           <div style={{ marginTop: 12 }}>
             <div className="field">
               <label className="field-label" htmlFor="baby-name">名字</label>
-              <input id="baby-name" name="babyName" autoComplete="off" type="text" placeholder="BabyMonster" value={name} onChange={(e) => setName(e.target.value)} />
+              <input id="baby-name" name="babyName" autoComplete="off" maxLength={MAX_NAME} type="text" placeholder="BabyMonster" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
             <div className="field">
               <label className="field-label" htmlFor="baby-birth">生日</label>
@@ -184,6 +189,16 @@ export default function SettingsPage({ profiles, currentBaby, onSelectBaby }: Pa
             ＋ 新增寶寶
           </button>
         )}
+      </section>
+
+      <section className="card">
+        <h2>同步狀態</h2>
+        <p className="hint" style={{ marginTop: 0 }}>
+          上次同步：{sync.lastSync ? new Date(sync.lastSync).toLocaleString('zh-TW') : '尚未同步'}；待上傳 {pending} 筆
+        </p>
+        <button className="btn" type="button" disabled={sync.phase === 'syncing'} onClick={() => void runSync()}>
+          立即同步
+        </button>
       </section>
 
       <section className="card">

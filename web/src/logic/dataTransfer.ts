@@ -1,4 +1,5 @@
-import type { Amount, BristolType, ProfileData, RecordData, Sex, SleepEvent } from './types';
+import { validateDose, validateProfile, validateRecord, type ParseTime } from 'shared/validateEntity';
+import type { ProfileData, RecordData } from './types';
 import { makeDoseRecord, type VaccineDoseRecord } from './vaccineLog';
 
 export interface BackupPayloadV2 {
@@ -85,98 +86,13 @@ export function encodeV2(p: BackupPayloadV2): string {
 
 type Raw = Record<string, unknown>;
 
-const AMOUNTS: readonly string[] = ['few', 'medium', 'many'];
-const SLEEP_EVENTS: readonly string[] = ['start', 'end'];
-const SEXES: readonly string[] = ['male', 'female'];
-
-function fail(where: string, msg: string): never {
-  throw new Error(`${where}：${msg}`);
-}
-
-function optAmount(o: Raw, key: string, where: string): Amount | undefined {
-  const v = o[key];
-  if (v === undefined || v === null) return undefined;
-  if (typeof v !== 'string' || !AMOUNTS.includes(v)) fail(where, `${key} 不合法`);
-  return v as Amount;
-}
-
-function parseProfile(raw: unknown, where: string): ProfileData {
-  if (raw === null || typeof raw !== 'object') fail(where, '寶寶資料不是物件');
-  const o = raw as Raw;
-  if (typeof o.id !== 'string' || o.id === '') fail(where, '缺少 id');
-  if (typeof o.name !== 'string') fail(where, '缺少名字');
-  const sex = o.sex === undefined || o.sex === null ? undefined : o.sex;
-  if (sex !== undefined && (typeof sex !== 'string' || !SEXES.includes(sex))) fail(where, 'sex 不合法');
-  return stripUndefined({
-    id: o.id.toLowerCase(),
-    name: o.name,
-    birthDate: msFromIso(o.birthDate as string),
-    sex: sex as Sex | undefined,
-  }) as ProfileData;
-}
-
-function optNumber(o: Raw, key: string, where: string): number | undefined {
-  const v = o[key];
-  if (v === undefined || v === null) return undefined;
-  if (typeof v !== 'number' || !Number.isFinite(v)) fail(where, `${key} 不是數字`);
-  return v;
-}
-
-function parseRecord(raw: unknown, where: string, forcedBabyId?: string): RecordData {
-  if (raw === null || typeof raw !== 'object') fail(where, '記錄不是物件');
-  const o = raw as Raw;
-  if (typeof o.id !== 'string' || o.id === '') fail(where, '缺少 id');
-  const babyIdRaw = forcedBabyId ?? o.babyId;
-  if (typeof babyIdRaw !== 'string' || babyIdRaw === '') fail(where, '缺少 babyId');
-  const babyId = babyIdRaw.toLowerCase();
-  if (typeof o.hasUrine !== 'boolean') fail(where, '缺少 hasUrine');
-
-  const stoolColor = optNumber(o, 'stoolColor', where);
-  if (stoolColor !== undefined && (!Number.isInteger(stoolColor) || stoolColor < 1 || stoolColor > 9))
-    fail(where, 'stoolColor 需為 1–9');
-  const stoolShape = optNumber(o, 'stoolShape', where);
-  if (stoolShape !== undefined && (!Number.isInteger(stoolShape) || stoolShape < 1 || stoolShape > 7))
-    fail(where, 'stoolShape 需為 1–7');
-  const stoolAmount = optAmount(o, 'stoolAmount', where);
-  const urineAmount = optAmount(o, 'urineAmount', where);
-  const sleep = o.sleep === undefined || o.sleep === null ? undefined : o.sleep;
-  if (sleep !== undefined && (typeof sleep !== 'string' || !SLEEP_EVENTS.includes(sleep)))
-    fail(where, 'sleep 不合法');
-  const note = o.note === undefined || o.note === null ? undefined : o.note;
-  if (note !== undefined && typeof note !== 'string') fail(where, 'note 不是字串');
-
-  return stripUndefined({
-    id: (o.id as string).toLowerCase(),
-    babyId,
-    timestamp: msFromIso(o.timestamp as string),
-    feedAmount: optNumber(o, 'feedAmount', where),
-    stoolColor,
-    stoolAmount,
-    stoolShape: stoolShape as BristolType | undefined,
-    hasUrine: o.hasUrine,
-    urineAmount,
-    sleep: sleep as SleepEvent | undefined,
-    temperature: optNumber(o, 'temperature', where),
-    weight: optNumber(o, 'weight', where),
-    height: optNumber(o, 'height', where),
-    headCircumference: optNumber(o, 'headCircumference', where),
-    note,
-  }) as RecordData;
-}
-
-function parseVaccineDose(raw: unknown, where: string): VaccineDoseRecord {
-  if (raw === null || typeof raw !== 'object') fail(where, '接種紀錄不是物件');
-  const o = raw as Raw;
-  if (typeof o.babyId !== 'string' || o.babyId === '') fail(where, '缺少 babyId');
-  if (typeof o.vaccineId !== 'string' || o.vaccineId === '') fail(where, '缺少 vaccineId');
-  if (typeof o.doseLabel !== 'string' || o.doseLabel === '') fail(where, '缺少 doseLabel');
-  return makeDoseRecord(o.babyId, o.vaccineId, o.doseLabel, msFromIso(o.date as string));
-}
+// 欄位規則在 shared/validateEntity.ts（伺服器共用）；這裡只負責把 ISO 字串轉成毫秒。
+const parseIso: ParseTime = (v) => msFromIso(v as string);
 
 function parseVaccineDoses(raw: unknown): VaccineDoseRecord[] {
   if (raw === undefined || raw === null) return [];
   if (!Array.isArray(raw)) throw new Error('接種紀錄不是陣列');
-  return raw.map((d, i) => parseVaccineDose(d, `第 ${i + 1} 筆接種紀錄`));
+  return raw.map((d, i) => validateDose(d, `第 ${i + 1} 筆接種紀錄`, parseIso));
 }
 
 export function decodeAny(text: string): BackupPayloadV2 {
@@ -190,8 +106,8 @@ export function decodeAny(text: string): BackupPayloadV2 {
   const o = root as Raw;
 
   if (o.version === 2 && Array.isArray(o.profiles) && Array.isArray(o.records)) {
-    const profiles = o.profiles.map((p, i) => parseProfile(p, `第 ${i + 1} 個寶寶`));
-    const records = o.records.map((r, i) => parseRecord(r, `第 ${i + 1} 筆記錄`));
+    const profiles = o.profiles.map((p, i) => validateProfile(p, `第 ${i + 1} 個寶寶`, parseIso));
+    const records = o.records.map((r, i) => validateRecord(r, `第 ${i + 1} 筆記錄`, parseIso));
     return { profiles, records, vaccineDoses: parseVaccineDoses(o.vaccineDoses) };
   }
 
@@ -206,7 +122,7 @@ export function decodeAny(text: string): BackupPayloadV2 {
       name: p.name,
       birthDate: msFromIso(p.birthDate as string),
     };
-    const records = o.records.map((r, i) => parseRecord(r, `第 ${i + 1} 筆記錄`, profile.id));
+    const records = o.records.map((r, i) => validateRecord(r, `第 ${i + 1} 筆記錄`, parseIso, profile.id));
     return { profiles: [profile], records, vaccineDoses: [] };
   }
 

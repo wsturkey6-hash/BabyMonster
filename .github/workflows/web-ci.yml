@@ -1,9 +1,21 @@
 name: Web CI
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+      - 'shared/**'
+      - 'server/**'
+      - 'BabyMonster/Logic/GrowthReference.generated.swift'
+      - 'data/**'
+      - 'scripts/**'
+      - '.github/workflows/web-ci.yml'
   pull_request:
     paths:
       - 'web/**'
+      - 'shared/**'
+      - 'server/**'
       - 'BabyMonster/Logic/GrowthReference.generated.swift'
       - 'data/**'
       - 'scripts/**'
@@ -22,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: web/package-lock.json
       # 兩平台的 WHO 參考資料都由 data/who-growth-reference.json 產生。

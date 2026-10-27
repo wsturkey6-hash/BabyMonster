@@ -1,0 +1,421 @@
+{
+  "note": "同步協定（epoch 毫秒）的驗證向量。web 與 server 都要跑這份檔案：error 為 null 代表應通過，字串代表應拋錯且訊息含該字串。",
+  "entities": [
+    {
+      "name": "合法 profile",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "sex": "male"
+      },
+      "error": null
+    },
+    {
+      "name": "profile 缺名字",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "birthDate": 0
+      },
+      "error": "缺少名字"
+    },
+    {
+      "name": "profile 名字過長",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "birthDate": 0
+      },
+      "error": "名字超過"
+    },
+    {
+      "name": "profile 名字剛好上限",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "birthDate": 0
+      },
+      "error": null
+    },
+    {
+      "name": "profile sex 不合法",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "a",
+        "birthDate": 0,
+        "sex": "x"
+      },
+      "error": "sex 不合法"
+    },
+    {
+      "name": "profile id 過長",
+      "kind": "profile",
+      "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "data": {
+        "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "name": "a",
+        "birthDate": 0
+      },
+      "error": "id 超過"
+    },
+    {
+      "name": "profile 空 id",
+      "kind": "profile",
+      "id": "",
+      "data": {
+        "id": "",
+        "name": "a",
+        "birthDate": 0
+      },
+      "error": "缺少 id"
+    },
+    {
+      "name": "profile 變更 id 與資料不符",
+      "kind": "profile",
+      "id": "other",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "a",
+        "birthDate": 0
+      },
+      "error": "id 需等於"
+    },
+    {
+      "name": "profile 變更 id 沒有小寫",
+      "kind": "profile",
+      "id": "AAAAAAAA-0000-0000-0000-000000000001",
+      "data": {
+        "id": "AAAAAAAA-0000-0000-0000-000000000001",
+        "name": "a",
+        "birthDate": 0
+      },
+      "error": "id 需等於"
+    },
+    {
+      "name": "profile 生日不是數字",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "a",
+        "birthDate": "2026-01-01T00:00:00Z"
+      },
+      "error": "birthDate"
+    },
+    {
+      "name": "未知 kind",
+      "kind": "baby",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "a",
+        "birthDate": 0
+      },
+      "error": "kind 不合法"
+    },
+    {
+      "name": "合法 record",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "feedAmount": 120,
+        "stoolColor": 7,
+        "stoolShape": 4,
+        "temperature": 36.5,
+        "weight": 4000,
+        "height": 60,
+        "headCircumference": 40,
+        "note": "ok"
+      },
+      "error": null
+    },
+    {
+      "name": "record 缺 hasUrine",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1
+      },
+      "error": "缺少 hasUrine"
+    },
+    {
+      "name": "record stoolColor 超出",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "stoolColor": 10
+      },
+      "error": "stoolColor"
+    },
+    {
+      "name": "record sleep 不合法",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "sleep": "nap"
+      },
+      "error": "sleep 不合法"
+    },
+    {
+      "name": "record weight 1e308",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "weight": 1e+308
+      },
+      "error": "weight"
+    },
+    {
+      "name": "record weight 負數",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "weight": -1
+      },
+      "error": "weight"
+    },
+    {
+      "name": "record temperature 過高",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "temperature": 99
+      },
+      "error": "temperature"
+    },
+    {
+      "name": "record height 過高",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "height": 301
+      },
+      "error": "height"
+    },
+    {
+      "name": "record headCircumference 過高",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "headCircumference": 151
+      },
+      "error": "headCircumference"
+    },
+    {
+      "name": "record feedAmount 不是數字",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "feedAmount": "120"
+      },
+      "error": "feedAmount"
+    },
+    {
+      "name": "record note 過長",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "note": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "error": "note 超過"
+    },
+    {
+      "name": "record note 剛好上限",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1700000000000,
+        "hasUrine": false,
+        "note": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "error": null
+    },
+    {
+      "name": "record babyId 過長",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "timestamp": 1700000000000,
+        "hasUrine": false
+      },
+      "error": "babyId 超過"
+    },
+    {
+      "name": "record 時間不是有限數字",
+      "kind": "record",
+      "id": "r1",
+      "data": {
+        "id": "r1",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": null,
+        "hasUrine": false
+      },
+      "error": "timestamp"
+    },
+    {
+      "name": "合法 vaccineDose",
+      "kind": "vaccineDose",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001|hepb|第一劑",
+      "data": {
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "vaccineId": "hepb",
+        "doseLabel": "第一劑",
+        "date": 1700000000000
+      },
+      "error": null
+    },
+    {
+      "name": "vaccineDose id 少一段",
+      "kind": "vaccineDose",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001|hepb",
+      "data": {
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "vaccineId": "hepb",
+        "doseLabel": "第一劑",
+        "date": 1700000000000
+      },
+      "error": "babyId|vaccineId|doseLabel"
+    },
+    {
+      "name": "vaccineDose id 與資料不符",
+      "kind": "vaccineDose",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001|hepb|第二劑",
+      "data": {
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "vaccineId": "hepb",
+        "doseLabel": "第一劑",
+        "date": 1700000000000
+      },
+      "error": "id 與資料不一致"
+    },
+    {
+      "name": "vaccineDose 缺 doseLabel",
+      "kind": "vaccineDose",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001|hepb|x",
+      "data": {
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "vaccineId": "hepb",
+        "date": 0
+      },
+      "error": "缺少 doseLabel"
+    },
+    {
+      "name": "vaccineDose 日期不是數字",
+      "kind": "vaccineDose",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001|hepb|第一劑",
+      "data": {
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "vaccineId": "hepb",
+        "doseLabel": "第一劑",
+        "date": "x"
+      },
+      "error": "date"
+    }
+  ],
+  "timestamps": {
+    "now": 1790000000000,
+    "cases": [
+      {
+        "name": "現在",
+        "updatedAt": 1790000000000,
+        "ok": true
+      },
+      {
+        "name": "未來 5 分鐘整",
+        "updatedAt": 1790000300000,
+        "ok": true
+      },
+      {
+        "name": "未來超過 5 分鐘",
+        "updatedAt": 1790000300001,
+        "ok": false
+      },
+      {
+        "name": "8.64e15",
+        "updatedAt": 8640000000000000,
+        "ok": false
+      },
+      {
+        "name": "0",
+        "updatedAt": 0,
+        "ok": false
+      },
+      {
+        "name": "秒當成毫秒",
+        "updatedAt": 1790000000,
+        "ok": false
+      },
+      {
+        "name": "超過 10 年前",
+        "updatedAt": 1474000000000,
+        "ok": false
+      },
+      {
+        "name": "字串",
+        "updatedAt": "1790000000000",
+        "ok": false
+      },
+      {
+        "name": "null",
+        "updatedAt": null,
+        "ok": false
+      }
+    ]
+  }
+}

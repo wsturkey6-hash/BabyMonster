@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { MAX_NOTE } from 'shared/validateEntity';
 import { db } from '../db/db';
 import { createDefaultBaby } from '../db/repository';
 import { sameLocalDay } from '../logic/dailyStats';
@@ -264,7 +265,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
         </div>
         <div className="field">
           <label className="field-label" htmlFor="rec-note">備註</label>
-          <textarea id="rec-note" name="note" value={note} onChange={(e) => setNote(e.target.value)} />
+          <textarea id="rec-note" name="note" maxLength={MAX_NOTE} value={note} onChange={(e) => setNote(e.target.value)} />
         </div>
         <button className="btn btn-primary" type="button" onClick={() => void save()}>
           {editing ? '儲存變更' : '儲存記錄'}

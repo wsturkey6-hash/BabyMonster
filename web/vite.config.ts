@@ -1,7 +1,11 @@
 /// <reference types="vitest" />
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+
+// 開發時把 /api 轉給本機 API；沒設 VITE_DEV_API_ORIGIN 就不代理。proxy 只存在於 dev server，不影響 build。
+const apiOrigin = process.env.VITE_DEV_API_ORIGIN;
 
 export default defineConfig({
   base: '/BabyMonster/',
@@ -49,6 +53,12 @@ export default defineConfig({
         manualChunks: { recharts: ['recharts'] }, // 圖表庫獨立 chunk，非趨勢頁先不用下載
       },
     },
+  },
+  resolve: { alias: { shared: fileURLToPath(new URL('../shared', import.meta.url)) } },
+  // web/ 有自己的 package-lock.json，Vite 會把它當 workspace 根目錄，不放行 ../shared 的話 dev 會回 403
+  server: {
+    fs: { allow: ['.', '../shared'] }, // 不放行整個 repo 根目錄：根目錄還有刻意不公開的內部文件
+    ...(apiOrigin ? { proxy: { '/api': apiOrigin } } : {}),
   },
   test: { environment: 'node' },
 });

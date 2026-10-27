@@ -6,3 +6,7 @@ DerivedData/
 
 .claude/worktrees/
 .impeccable/
+
+# 含家用伺服器的網路與存取細節，repo 是公開的，不可提交
+HANDOFF.md
+2026-10-27-server-sync-design.md

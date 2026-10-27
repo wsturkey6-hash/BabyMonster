@@ -53,7 +53,7 @@ describe('importMerge', () => {
     await db.profiles.add(baby(A, '小明'));
     await db.records.add(rec('r1', A, 1000));
     // 同 id、不同名字的兩個 profile 會通過 mergeBabies（比對僅針對原始 local，鏡射 iOS），
-    // 在 transaction 內 clear 之後的 profiles.bulkAdd 觸發 ConstraintError → 全回滾
+    // 在寫入前由 repository 的 assertUniqueKeys 檢查出重複主鍵並丟錯 → transaction 全回滾
     const dupProfiles = [baby(B, '小美'), { ...baby(B, '小強') }];
     await expect(importMerge({ profiles: dupProfiles, records: [] })).rejects.toThrow();
     const d = await allData();
