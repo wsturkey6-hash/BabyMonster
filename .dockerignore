@@ -1,0 +1,21 @@
+# babymonster-api 的 build context 是 repo 根目錄，因為 server/ 要 import 根目錄的
+# shared/validateEntity.ts。context 設在這裡就表示 repo 根的每個檔案都會被送進
+# build context，包含刻意不公開的內部文件（HANDOFF.md、設計文件）。
+#
+# 這份清單放在 context 根，是 BuildKit 和舊版 builder 都會讀的位置；
+# 放在 server/ 底下的話，root context 的建置讀不到，等於沒有排除。
+#
+# 先排除所有東西，再放行 server/ 與 shared/：
+*
+!server
+!shared
+
+# 後面的規則覆蓋前面的：放行過的目錄裡這些東西還是要排除
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+**/*.db
+**/*.db-wal
+**/*.db-shm
+**/.git

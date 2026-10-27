@@ -1,0 +1,24 @@
+{
+  "name": "babymonster-api",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server/src/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.5",
+    "better-sqlite3": "13.0.3",
+    "hono": "4.13.14"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "9.6.0",
+    "@types/node": "26.6.5",
+    "dexie": "4.4.7",
+    "fake-indexeddb": "6.2.6",
+    "typescript": "5.9.3",
+    "vitest": "4.1.12"
+  }
+}

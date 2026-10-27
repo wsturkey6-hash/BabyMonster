@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "dist",
+    // shared/ 在 server/ 外面，所以共同根目錄是 repo 根 → dist/server/src/index.js、dist/shared/validateEntity.js
+    "rootDir": ".."
+  },
+  "include": ["src", "../shared/validateEntity.ts"]
+}

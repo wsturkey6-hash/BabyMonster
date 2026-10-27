@@ -45,3 +45,23 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+
+  # server/ 有自己的 package.json 與 lockfile，而上面每一步都是 working-directory: web，
+  # 所以 paths 加了 server/** 之後還要有這個 job，否則伺服器的測試一行也不會跑。
+  server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      # 共用向量檔（shared/tests/fixtures/validateVectors.json）兩邊都跑：
+      # 只在一邊放寬規則，CI 就會紅
+      - run: npm test

@@ -3,6 +3,11 @@ import { db as defaultDb, type BabyDB, type EntityKind, type OutboxRow } from '.
 import { skipOutboxInCurrentTransaction } from '../db/outboxMiddleware';
 
 const BATCH = 500;
+// 伺服器在 parse 之前就擋 2 MB，所以只限筆數不夠：500 筆各帶一段接近上限的備註
+// （2000 字中文 ≈ 6 KB）就會組出一個過大的 body，而每一輪都會重建同一個 body、
+// 每一輪都被回 413，從此永久停擺。留 0.5 MB 餘裕給外框與多位元組字元。
+const MAX_PUSH_BYTES = 1_500_000;
+const BYTES = new TextEncoder();
 // 迴圈上限：正常情況下每輪都有實質進展（送出或拉到東西）會自然結束；這只是保險，
 // 撞到就乾淨地結束這一輪，下次觸發再繼續，不丟錯也不卡死。
 const MAX_ROUNDS = 50;
@@ -164,7 +169,7 @@ export async function syncOnce(
   // 使用者在同步進行中按儲存也會讓 outbox 非空，那是完全正常的，不該對他顯示錯誤。
   let kept = 0;
   for (let round = 0; round < MAX_ROUNDS; round++) {
-    const sent = await db.outbox.orderBy('seq').limit(BATCH).toArray();
+    const queued = await db.outbox.orderBy('seq').limit(BATCH).toArray();
     const cursor = (await stateValue(db, 'cursor')) ?? 0;
     // 每一輪各取一次，夾擠與請求裡的 clientNow 必須是同一個值
     const clientNow = Date.now();
@@ -172,9 +177,25 @@ export async function syncOnce(
     // 那些 updatedAt 相對伺服器會變成未來，超過容許範圍就被拒收（invalid）。夾擠後永遠不會落在未來。
     // 代價是有界的順序誤差：被夾的編輯等於是「送出當下才做的」，可能贏過另一支手機在離線期間做的編輯，
     // 這是收斂後的覆蓋（lost update），不是永久分歧，寧可如此。
-    const changes: Change[] = sent.map(({ kind, id, op, data, updatedAt }) => ({
-      kind, id, op, ...(data ? { data } : {}), updatedAt: Math.min(updatedAt, clientNow),
-    }));
+    const sent: OutboxRow[] = [];
+    const changes: Change[] = [];
+    let pushBytes = 0;
+    for (const row of queued) {
+      const c: Change = {
+        kind: row.kind,
+        id: row.id,
+        op: row.op,
+        ...(row.data ? { data: row.data } : {}),
+        updatedAt: Math.min(row.updatedAt, clientNow),
+      };
+      const size = BYTES.encode(JSON.stringify(c)).length + 1; // +1 是陣列裡的逗號
+      // 第一筆無論多大都照送：單筆 data 上限 64 KB 遠低於 body 上限，所以一定送得出去，
+      // 不會變成「連一筆都送不動」的死結。送不完的留到下一輪，outbox 非空會讓迴圈繼續。
+      if (changes.length > 0 && pushBytes + size > MAX_PUSH_BYTES) break;
+      pushBytes += size;
+      sent.push(row);
+      changes.push(c);
+    }
 
     const res = await fetchFn('/api/sync', {
       method: 'POST',

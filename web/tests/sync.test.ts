@@ -278,3 +278,43 @@ describe('伺服器沒寫入的列', () => {
     expect(await db.outbox.count()).toBe(1);
   });
 });
+
+describe('請求大小', () => {
+  // 伺服器在 parse 之前就擋 2 MB。只限 500 筆不夠：每筆都帶一段接近上限的備註時，
+  // 500 筆會組出超過 2 MB 的 body，而每一輪都重建同一個 body、每一輪都被回 413，
+  // 於是整個同步（連拉取一起）永久停擺，待傳清單一筆都傳不出去。
+  const SERVER_CAP = 2 * 1024 * 1024;
+
+  it('一批就超過伺服器上限時，會自己切小批送完，不會每輪都撞 413', async () => {
+    const server = new FakeServer();
+    const db = newClient('big');
+    const note = '安'.repeat(1400); // 遠低於 MAX_NOTE = 2000，但 UTF-8 約 4.2 KB
+    await db.records.bulkAdd(Array.from({ length: 500 }, (_, i) => rec(`r${i}`, { note })));
+
+    let oversized = 0;
+    const capped: typeof fetch = async (url, init) => {
+      if (new TextEncoder().encode(init!.body as string).length > SERVER_CAP) {
+        oversized++;
+        return new Response(JSON.stringify({ error: '請求過大' }), {
+          status: 413, headers: { 'content-type': 'application/json' },
+        });
+      }
+      return server.fetch(url, init);
+    };
+
+    await syncOnce(db, capped);
+    expect(oversized).toBe(0);
+    expect(await db.outbox.count()).toBe(0);
+    expect(server.live('record')).toHaveLength(500);
+    expect(server.requests.length).toBeGreaterThan(1); // 真的切成多批
+  });
+
+  it('單筆自己就很大也照送，不會卡成一筆都送不動', async () => {
+    const server = new FakeServer();
+    const db = newClient('one');
+    await db.records.add(rec('r1', { note: '安'.repeat(1999) }));
+    await syncOnce(db, server.fetch);
+    expect(await db.outbox.count()).toBe(0);
+    expect(server.requests[0].changes).toHaveLength(1);
+  });
+});
