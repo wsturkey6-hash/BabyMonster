@@ -59,7 +59,7 @@ export interface SyncResponse {
   more?: boolean;
 }
 
-/** 存取控管的 session 過期時回的是導向登入頁的 302，或（開了 401 選項時）一頁 HTML，都不是 JSON。 */
+/** 存取控管的 session 過期時回的是一頁 401 的 HTML（帶 x-requested-with 時），或導向登入頁的 302，都不是 JSON。 */
 export class NeedsLoginError extends Error {
   constructor() {
     super('Access session expired');
@@ -199,8 +199,8 @@ export async function syncOnce(
 
     const res = await fetchFn('/api/sync', {
       method: 'POST',
-      // x-requested-with：Access 對帶這個標頭的子請求可以回 401 而不是 302（要在 Access 應用程式開那個選項）。
-      // redirect: 'manual' 讓偵測不依賴那個後台設定：沒開時 Access 回 302 到另一個網域的登入頁，
+      // x-requested-with：session 過期時，Access 對帶這個標頭的子請求回 401（HTML），而不是 302。
+      // 不需要任何後台設定，2026-10-29 對正式網址實測過。redirect: 'manual' 是保險：萬一沒帶到標頭，Access 會回 302 到另一個網域的登入頁，
       // fetch 跟過去會在 CORS 檢查失敗、丟 TypeError，被當成「離線」，家長就會跑去檢查 wifi。
       headers: { 'content-type': 'application/json', 'x-requested-with': 'XMLHttpRequest' },
       redirect: 'manual',

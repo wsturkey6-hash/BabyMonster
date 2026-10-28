@@ -10,9 +10,11 @@
 
 FROM node:22-bookworm-slim AS build
 WORKDIR /app/server
-# better-sqlite3 有預編譯 binary，bookworm-slim 不用裝編譯工具
+# better-sqlite3 的 prebuilds/ 已經附了 linux-x64 的 binary，執行時直接載入。但它帶著 binding.gyp，
+# npm 看到就會預設跑 node-gyp rebuild 從原始碼編譯，而 slim image 沒有 python 與編譯器，安裝直接失敗。
+# 所以兩個階段都用 --ignore-scripts：不編譯，改用套件自己附的 binary（伺服器上實測可載入、WAL 正常）。
 COPY server/package.json server/package-lock.json ./
-RUN npm ci
+RUN npm ci --ignore-scripts
 COPY shared/validateEntity.ts /app/shared/validateEntity.ts
 COPY server/tsconfig.json server/tsconfig.build.json ./
 COPY server/src ./src
@@ -24,7 +26,7 @@ ENV NODE_ENV=production \
     DB_PATH=/data/baby.db
 WORKDIR /app/server
 COPY server/package.json server/package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 COPY --from=build /app/server/dist ./dist
 
 # 非 root 執行。node image 內建的 node 使用者是 uid/gid 1000，
