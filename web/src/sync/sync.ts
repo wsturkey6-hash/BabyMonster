@@ -59,7 +59,7 @@ export interface SyncResponse {
   more?: boolean;
 }
 
-/** 存取控管的 session 過期時回的是導向登入頁的 HTML，不是 JSON。 */
+/** 存取控管的 session 過期時回的是導向登入頁的 302，或（開了 401 選項時）一頁 HTML，都不是 JSON。 */
 export class NeedsLoginError extends Error {
   constructor() {
     super('Access session expired');
@@ -199,9 +199,17 @@ export async function syncOnce(
 
     const res = await fetchFn('/api/sync', {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      // x-requested-with：Access 對帶這個標頭的子請求可以回 401 而不是 302（要在 Access 應用程式開那個選項）。
+      // redirect: 'manual' 讓偵測不依賴那個後台設定：沒開時 Access 回 302 到另一個網域的登入頁，
+      // fetch 跟過去會在 CORS 檢查失敗、丟 TypeError，被當成「離線」，家長就會跑去檢查 wifi。
+      headers: { 'content-type': 'application/json', 'x-requested-with': 'XMLHttpRequest' },
+      redirect: 'manual',
       body: JSON.stringify({ cursor, changes, clientNow } satisfies SyncRequest),
     });
+    // API 呼叫被導向，只可能是 Access 要求重新登入：我們自己的 API 從不導向。
+    // manual 模式下瀏覽器把它包成 type 'opaqueredirect'、status 0，讀不到標頭也讀不到內容，
+    // 所以必須在檢查 content-type 之前先擋下來，不能靠「不是 JSON」順便接住。
+    if (res.type === 'opaqueredirect' || res.status === 0) throw new NeedsLoginError();
     if (!res.headers.get('content-type')?.includes('application/json')) throw new NeedsLoginError();
     if (res.status >= 400 && res.status < 500) throw new RequestError(res.status);
     if (!res.ok) throw new Error(`同步失敗（HTTP ${res.status}）`);

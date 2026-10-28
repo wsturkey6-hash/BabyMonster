@@ -44,6 +44,9 @@ jobs:
         run: node scripts/generate-growth-reference.mjs --check
       - run: npm ci
       - run: npm test
+      # functions/ 不在主 tsconfig 的 include 裡（npm run build 的 tsc --noEmit 檢查不到），
+      # 少了這一步，那支唯一擋在公開網路與家裡伺服器之間的程式就沒有任何型別檢查。
+      - run: npm run typecheck:functions
       - run: npm run build
 
   # server/ 有自己的 package.json 與 lockfile，而上面每一步都是 working-directory: web，

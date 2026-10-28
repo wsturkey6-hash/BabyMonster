@@ -151,6 +151,50 @@ describe('syncOnce', () => {
     expect(await db.outbox.count()).toBe(1);
   });
 
+  it('請求帶 redirect: manual 與 x-requested-with，Access 過期時才不會被當成離線', async () => {
+    const db = newClient('a');
+    await db.records.add(rec('r1'));
+    const inits: RequestInit[] = [];
+    const spy: typeof fetch = async (_url, init) => {
+      inits.push(init!);
+      return new Response(JSON.stringify({ cursor: 0, changes: [], results: [] }), { headers: { 'content-type': 'application/json' } });
+    };
+    await syncOnce(db, spy);
+    expect(inits[0].redirect).toBe('manual');
+    expect((inits[0].headers as Record<string, string>)['x-requested-with']).toBe('XMLHttpRequest');
+  });
+
+  it('被導向（opaqueredirect / status 0）→ NeedsLoginError，outbox 原封不動', async () => {
+    const db = newClient('a');
+    await db.records.add(rec('r1'));
+    const before = await db.outbox.toArray();
+    // 建構子做不出 status 0 的 Response，只能用替身。刻意帶 JSON 的 content-type：
+    // 真實的 opaqueredirect 讀不到任何標頭，這裡帶著是為了確定接住它的是導向檢查，
+    // 不是後面「不是 JSON」那一行順便接住。
+    const opaque = {
+      type: 'opaqueredirect', status: 0, ok: false,
+      headers: new Headers({ 'content-type': 'application/json' }),
+      json: async () => ({ cursor: 0, changes: [], results: [] }),
+    } as unknown as Response;
+    await expect(syncOnce(db, async () => opaque)).rejects.toBeInstanceOf(NeedsLoginError);
+    expect(await db.outbox.toArray()).toEqual(before);
+  });
+
+  it('非 JSON 的 401（Access 的 401 頁）→ NeedsLoginError；JSON 的 401（我們自己的 Function）→ RequestError', async () => {
+    const db = newClient('a');
+    await db.records.add(rec('r1'));
+    const before = await db.outbox.toArray();
+    const html401: typeof fetch = async () =>
+      new Response('<html>Unauthorized</html>', { status: 401, headers: { 'content-type': 'text/html' } });
+    await expect(syncOnce(db, html401)).rejects.toBeInstanceOf(NeedsLoginError);
+    const json401: typeof fetch = async () =>
+      new Response('{"error":"unauthorized"}', { status: 401, headers: { 'content-type': 'application/json' } });
+    const e = await syncOnce(db, json401).catch((x) => x);
+    expect(e).toBeInstanceOf(RequestError);
+    expect(failurePhase(e)).toBe('requestError'); // 設定錯誤要大聲，不能變成登入提示
+    expect(await db.outbox.toArray()).toEqual(before);
+  });
+
   it('請求帶 clientNow，且是送出當下的時間，不是寫入當下的時間', async () => {
     const db = newClient('a');
     await db.records.add(rec('r1')); // 寫入時 clock = 起點

@@ -8,7 +8,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 const apiOrigin = process.env.VITE_DEV_API_ORIGIN;
 
 export default defineConfig({
-  base: '/BabyMonster/',
+  base: '/', // Cloudflare Pages 是網域根目錄；GitHub Pages 時代是 /BabyMonster/
   plugins: [
     react(),
     VitePWA({
@@ -27,19 +27,22 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Google Fonts 離線快取：CSS 用 SWR、字型檔長期 CacheFirst
+        // /api/* 是 API 不是頁面。SPA 的 navigateFallback 會把導覽請求都換成 index.html，
+        // 若把它套到 /api/*，同步就會收到一頁 HTML，而客戶端把非 JSON 一律當成
+        // 「登入過期」，兩支手機就會掛著一個假的重新登入橫幅。
+        // /login 是「重新登入」按鈕的去處：這個導覽必須真的打到網路，Access 才有機會攔下來跑登入流程；
+        // 被 SW 從 precache 回 index.html 的話，請求永遠到不了 Access，使用者就永遠登不回去。
+        navigateFallbackDenylist: [/^\/api\//, /^\/login$/],
+        // 字型是 119 個子集檔、共 2.6 MB，全部 precache 會讓第一次安裝白等很久，
+        // 而瀏覽器照 unicode-range 只會抓它真正需要的那幾個。改成用到才快取、之後長期沿用。
+        globIgnores: ['**/fonts/*.woff2'],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'StaleWhileRevalidate',
-            options: { cacheName: 'google-fonts-css' },
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            urlPattern: /\.woff2$/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'google-fonts-files',
-              expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheName: 'local-fonts',
+              expiration: { maxEntries: 140, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

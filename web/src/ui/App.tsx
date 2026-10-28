@@ -45,7 +45,9 @@ function SyncStrip() {
     return (
       <div className="sync-strip warn" role="status">
         登入已過期，變更暫存在本機
-        <button type="button" onClick={() => location.reload()}>重新登入</button>
+        {/* 導覽必須打到網路，Access 才能跑登入；reload 在安裝的 PWA 裡會被 SW 從 precache 回應，
+            永遠到不了 Access。/login 已從 SW 的 navigateFallback 排除 */}
+        <button type="button" onClick={() => location.assign('/login')}>重新登入</button>
       </div>
     );
   }

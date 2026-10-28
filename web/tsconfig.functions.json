@@ -1,0 +1,19 @@
+{
+  // functions/ 跑在 Cloudflare Workers runtime 上，不是瀏覽器也不是 Node：
+  // 主 tsconfig 的 include 沒有它（npm run build 的 tsc --noEmit 不會檢查到），
+  // 所以這裡單獨檢查，由 npm run typecheck:functions 執行。
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    // 不自動帶入 @types/node：Workers 上沒有 Node 的全域，誤用了要在這裡就壞掉
+    "types": []
+  },
+  "include": ["functions"]
+}
