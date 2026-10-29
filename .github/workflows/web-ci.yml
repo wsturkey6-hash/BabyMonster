@@ -7,7 +7,6 @@ on:
       - 'web/**'
       - 'shared/**'
       - 'server/**'
-      - 'BabyMonster/Logic/GrowthReference.generated.swift'
       - 'data/**'
       - 'scripts/**'
       - '.github/workflows/web-ci.yml'
@@ -16,7 +15,6 @@ on:
       - 'web/**'
       - 'shared/**'
       - 'server/**'
-      - 'BabyMonster/Logic/GrowthReference.generated.swift'
       - 'data/**'
       - 'scripts/**'
       - '.github/workflows/web-ci.yml'
@@ -37,8 +35,8 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: web/package-lock.json
-      # 兩平台的 WHO 參考資料都由 data/who-growth-reference.json 產生。
-      # 任一邊被手改，這一步就會失敗，避免 web 與 iOS 的百分位算出不同答案。
+      # WHO 參考資料由 data/who-growth-reference.json 產生。
+      # 產出檔被手改，這一步就會失敗。
       - name: 生長曲線參考資料與產出一致
         working-directory: .
         run: node scripts/generate-growth-reference.mjs --check
