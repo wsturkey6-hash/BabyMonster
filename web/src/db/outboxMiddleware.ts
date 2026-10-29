@@ -6,6 +6,8 @@ const KINDS: Record<string, EntityKind> = {
   profiles: 'profile',
   records: 'record',
   vaccineDoses: 'vaccineDose',
+  foodRecords: 'foodRecord',
+  foodMarks: 'foodMark',
 };
 
 /**

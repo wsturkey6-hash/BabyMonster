@@ -49,9 +49,9 @@ describe('ISO 8601 日期（相容性關鍵）', () => {
 });
 
 describe('encodeV2', () => {
-  it('round-trip 等值（解碼一律把 vaccineDoses 正規化成陣列）', () => {
+  it('round-trip 等值（解碼一律把 vaccineDoses、副食品正規化成陣列）', () => {
     const p = payload();
-    expect(decodeAny(encodeV2(p))).toEqual({ ...p, vaccineDoses: [] });
+    expect(decodeAny(encodeV2(p))).toEqual({ ...p, vaccineDoses: [], foodRecords: [], foodMarks: [] });
   });
   it('JSON 內日期全部無毫秒、含 version 2', () => {
     const obj = JSON.parse(encodeV2(payload()));

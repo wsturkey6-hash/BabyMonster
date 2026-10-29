@@ -366,6 +366,346 @@
         "date": "x"
       },
       "error": "date"
+    },
+    {
+      "name": "合法 foodRecord",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "米湯",
+          "香蕉"
+        ],
+        "firstFoods": [
+          "香蕉"
+        ],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": null
+    },
+    {
+      "name": "foodRecord 只有食材",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 0,
+        "foods": [
+          "自訂食材"
+        ]
+      },
+      "error": null
+    },
+    {
+      "name": "foodRecord 沒有食材",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [],
+        "firstFoods": [],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "缺少食材"
+    },
+    {
+      "name": "foodRecord 食材重複",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "米湯",
+          "米湯"
+        ],
+        "firstFoods": [],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "foods 有重複"
+    },
+    {
+      "name": "foodRecord 食材名稱過長",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "xxxxxxxxxxxxxxxxxxxxx"
+        ],
+        "firstFoods": [],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "食材名稱超過"
+    },
+    {
+      "name": "foodRecord 食材名稱剛好上限",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "xxxxxxxxxxxxxxxxxxxx"
+        ],
+        "firstFoods": [],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": null
+    },
+    {
+      "name": "foodRecord 食材名稱含 |",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "a|b"
+        ],
+        "firstFoods": [],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "不可含 |"
+    },
+    {
+      "name": "foodRecord 食材名稱前後空白",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          " 米湯"
+        ],
+        "firstFoods": [],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "前後有空白"
+    },
+    {
+      "name": "foodRecord firstFoods 不在 foods 裡",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "米湯",
+          "香蕉"
+        ],
+        "firstFoods": [
+          "蘋果"
+        ],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "firstFoods 必須是 foods 的一部分"
+    },
+    {
+      "name": "foodRecord 反應不合法",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "米湯",
+          "香蕉"
+        ],
+        "firstFoods": [
+          "香蕉"
+        ],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "發燒"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "reactions 不合法"
+    },
+    {
+      "name": "foodRecord 份量單位不合法",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "米湯",
+          "香蕉"
+        ],
+        "firstFoods": [
+          "香蕉"
+        ],
+        "amount": {
+          "value": 2,
+          "unit": "碗"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "amount.unit 不合法"
+    },
+    {
+      "name": "foodRecord 份量是 0",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000001",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "米湯",
+          "香蕉"
+        ],
+        "firstFoods": [
+          "香蕉"
+        ],
+        "amount": {
+          "value": 0,
+          "unit": "g"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "amount.value"
+    },
+    {
+      "name": "foodRecord id 與資料不符",
+      "kind": "foodRecord",
+      "id": "ffffffff-0000-0000-0000-000000000002",
+      "data": {
+        "id": "ffffffff-0000-0000-0000-000000000001",
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "timestamp": 1790000000000,
+        "foods": [
+          "米湯",
+          "香蕉"
+        ],
+        "firstFoods": [
+          "香蕉"
+        ],
+        "amount": {
+          "value": 2,
+          "unit": "匙"
+        },
+        "reactions": [
+          "紅疹"
+        ],
+        "note": "吃很開心"
+      },
+      "error": "id 需等於資料 id 的小寫"
+    },
+    {
+      "name": "合法 foodMark",
+      "kind": "foodMark",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001|香蕉",
+      "data": {
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "food": "香蕉",
+        "status": "reaction"
+      },
+      "error": null
+    },
+    {
+      "name": "foodMark id 與資料不符",
+      "kind": "foodMark",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001|蘋果",
+      "data": {
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "food": "香蕉",
+        "status": "reaction"
+      },
+      "error": "id 與資料不一致"
+    },
+    {
+      "name": "foodMark 狀態不合法",
+      "kind": "foodMark",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001|香蕉",
+      "data": {
+        "babyId": "aaaaaaaa-0000-0000-0000-000000000001",
+        "food": "香蕉",
+        "status": "maybe"
+      },
+      "error": "status 不合法"
     }
   ],
   "timestamps": {

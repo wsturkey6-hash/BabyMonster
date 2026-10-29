@@ -17,21 +17,22 @@ import {
   latestMeasurement, measurementSeries, monthsToDays, referenceCurves,
 } from '../logic/growthChart';
 import { GROWTH_DAY_MAX } from '../logic/growthReference.generated';
-import type { RecordData } from '../logic/types';
-import { BabySwitcher } from './BabySwitcher';
+import type { ProfileData, RecordData } from '../logic/types';
 import { monthDay, ymdSlash } from './format';
-import type { PageProps } from './App';
 
 const DAY_CHOICES = [7, 14, 30] as const;
 const METRICS = Object.keys(TREND_METRIC_NAMES) as TrendMetric[];
 
-type Mode = 'daily' | 'growth';
+export type TrendMode = 'daily' | 'growth';
 
 /** 小數位數：體重用 kg 給兩位，身高頭圍用 cm 給一位。 */
 const DECIMALS: Record<GrowthMetric, number> = { weight: 2, height: 1, headCirc: 1 };
 
-export default function TrendPage({ profiles, currentBaby, onSelectBaby }: PageProps) {
-  const [mode, setMode] = useState<Mode>('daily');
+/**
+ * 統計分頁的「趨勢」與「生長曲線」模式。頁首與模式切換在 StatsPage；
+ * 這支 lazy load（recharts 是獨立 chunk），只看「每日」時不會下載。
+ */
+export default function TrendPanel({ currentBaby, mode }: { currentBaby: ProfileData | null; mode: TrendMode }) {
   const [days, setDays] = useState(7);
   const [customDays, setCustomDays] = useState('');
   const [metric, setMetric] = useState<TrendMetric>('stoolCount');
@@ -50,24 +51,7 @@ export default function TrendPage({ profiles, currentBaby, onSelectBaby }: PageP
   }
 
   return (
-    <main className="page">
-      <header className="page-header">
-        <h1>趨勢</h1>
-        <BabySwitcher profiles={profiles} currentBaby={currentBaby} onSelect={onSelectBaby} />
-      </header>
-
-      <div className="card">
-        <div className="field">
-          <span className="field-label">看什麼</span>
-          <div className="seg">
-            <button type="button" className={mode === 'daily' ? 'selected' : ''} aria-pressed={mode === 'daily'}
-              onClick={() => setMode('daily')}>日常趨勢</button>
-            <button type="button" className={mode === 'growth' ? 'selected' : ''} aria-pressed={mode === 'growth'}
-              onClick={() => setMode('growth')}>生長曲線</button>
-          </div>
-        </div>
-      </div>
-
+    <>
       {mode === 'daily'
         ? <DailyTrend
             days={days} setDays={setDays} customDays={customDays} applyCustom={applyCustom}
@@ -75,7 +59,7 @@ export default function TrendPage({ profiles, currentBaby, onSelectBaby }: PageP
         : <GrowthCurve
             baby={currentBaby} records={records}
             metric={growthMetric} setMetric={setGrowthMetric} />}
-    </main>
+    </>
   );
 }
 
@@ -167,7 +151,7 @@ const BAND_COLORS: Record<number, string> = {
 function GrowthCurve({
   baby, records, metric, setMetric,
 }: {
-  baby: PageProps['currentBaby'];
+  baby: ProfileData | null;
   records: RecordData[];
   metric: GrowthMetric;
   setMetric: (m: GrowthMetric) => void;

@@ -261,7 +261,7 @@ export default function RecordPage({ profiles, currentBaby, onSelectBaby }: Page
         <div className="field">
           <label className="field-label" htmlFor="rec-head">頭圍（cm）</label>
           <input id="rec-head" name="headCircumference" autoComplete="off" type="number" inputMode="decimal" placeholder="例：40.2" value={headCirc} onChange={(e) => setHeadCirc(e.target.value)} />
-          <p className="hint">身高、頭圍記下來之後，「趨勢 → 生長曲線」就能看出寶寶落在第幾百分位。</p>
+          <p className="hint">身高、頭圍記下來之後，「統計 → 生長曲線」就能看出寶寶落在第幾百分位。</p>
         </div>
         <div className="field">
           <label className="field-label" htmlFor="rec-note">備註</label>

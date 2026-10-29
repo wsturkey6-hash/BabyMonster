@@ -1,17 +1,15 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { loadCurrentBabyId, resolveCurrentBaby, saveCurrentBabyId } from '../db/repository';
 import type { ProfileData } from '../logic/types';
 import { startAutoSync, useSyncStatus } from '../sync/autoSync';
 import RecordPage from './RecordPage';
-import DailyStatsPage from './DailyStatsPage';
+import StatsPage, { type StatsMode } from './StatsPage';
+import FoodPage from './FoodPage';
 import SettingsPage from './SettingsPage';
 import VaccinePage from './VaccinePage';
-import { ChartIcon, PencilIcon, SettingsIcon, SyringeIcon, TrendIcon } from './components/icons';
-
-// 趨勢頁 lazy load：recharts 獨立 chunk（見 vite.config manualChunks），開啟趨勢分頁才下載
-const TrendPage = lazy(() => import('./TrendPage'));
+import { BowlIcon, ChartIcon, PencilIcon, SettingsIcon, SyringeIcon } from './components/icons';
 
 export interface PageProps {
   profiles: ProfileData[];
@@ -19,20 +17,32 @@ export interface PageProps {
   onSelectBaby: (id: string) => void;
 }
 
-type Tab = 'record' | 'stats' | 'trend' | 'vaccine' | 'settings';
+type Tab = 'record' | 'stats' | 'food' | 'vaccine' | 'settings';
 
-const TAB_KEYS = ['record', 'stats', 'trend', 'vaccine', 'settings'] as const;
+/**
+ * 分頁狀態同步到 URL hash：重新整理、上一頁都能回到原分頁。
+ * 統計分頁的三種模式各有自己的 hash；#stats、#trend 是合併前兩個分頁的網址，
+ * 主畫面捷徑或書籤可能還留著，照樣打開對應的模式。
+ */
+const ROUTES: Record<string, { tab: Tab; mode?: StatsMode }> = {
+  record: { tab: 'record' },
+  stats: { tab: 'stats', mode: 'daily' },
+  trend: { tab: 'stats', mode: 'trend' },
+  growth: { tab: 'stats', mode: 'growth' },
+  food: { tab: 'food' },
+  vaccine: { tab: 'vaccine' },
+  settings: { tab: 'settings' },
+};
+const STATS_HASH: Record<StatsMode, string> = { daily: 'stats', trend: 'trend', growth: 'growth' };
 
-/** 分頁狀態同步到 URL hash：重新整理、上一頁都能回到原分頁。 */
-function tabFromHash(): Tab {
-  const h = window.location.hash.replace('#', '');
-  return (TAB_KEYS as readonly string[]).includes(h) ? (h as Tab) : 'record';
+function routeFromHash(): { tab: Tab; mode?: StatsMode } {
+  return ROUTES[window.location.hash.replace('#', '')] ?? { tab: 'record' };
 }
 
 const TABS: { key: Tab; label: string; icon: () => JSX.Element }[] = [
   { key: 'record', label: '記錄', icon: PencilIcon },
-  { key: 'stats', label: '每日統計', icon: ChartIcon },
-  { key: 'trend', label: '趨勢', icon: TrendIcon },
+  { key: 'stats', label: '統計', icon: ChartIcon },
+  { key: 'food', label: '副食品', icon: BowlIcon },
   { key: 'vaccine', label: '疫苗', icon: SyringeIcon },
   { key: 'settings', label: '設定', icon: SettingsIcon },
 ];
@@ -65,10 +75,16 @@ function SyncStrip() {
 }
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>(tabFromHash);
+  const [tab, setTab] = useState<Tab>(() => routeFromHash().tab);
+  // 離開統計分頁再回來時，停在上次看的模式
+  const [statsMode, setStatsMode] = useState<StatsMode>(() => routeFromHash().mode ?? 'daily');
 
   useEffect(() => {
-    const onHashChange = () => setTab(tabFromHash());
+    const onHashChange = () => {
+      const r = routeFromHash();
+      setTab(r.tab);
+      if (r.mode) setStatsMode(r.mode);
+    };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
@@ -77,7 +93,11 @@ export default function App() {
 
   const selectTab = (t: Tab) => {
     setTab(t);
-    history.replaceState(null, '', '#' + t);
+    history.replaceState(null, '', '#' + (t === 'stats' ? STATS_HASH[statsMode] : t));
+  };
+  const selectStatsMode = (m: StatsMode) => {
+    setStatsMode(m);
+    history.replaceState(null, '', '#' + STATS_HASH[m]);
   };
   const profiles = useLiveQuery(() => db.profiles.toArray(), [], [] as ProfileData[]);
   const [storedBabyId, setStoredBabyId] = useState<string | null>(loadCurrentBabyId);
@@ -94,12 +114,8 @@ export default function App() {
     <>
       <SyncStrip />
       {tab === 'record' && <RecordPage {...pageProps} />}
-      {tab === 'stats' && <DailyStatsPage {...pageProps} />}
-      {tab === 'trend' && (
-        <Suspense fallback={<main className="page"><p className="hint">載入圖表中…</p></main>}>
-          <TrendPage {...pageProps} />
-        </Suspense>
-      )}
+      {tab === 'stats' && <StatsPage {...pageProps} mode={statsMode} onModeChange={selectStatsMode} />}
+      {tab === 'food' && <FoodPage {...pageProps} />}
       {tab === 'vaccine' && <VaccinePage {...pageProps} />}
       {tab === 'settings' && <SettingsPage {...pageProps} />}
       <nav className="tabbar">

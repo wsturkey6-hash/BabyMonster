@@ -14,8 +14,9 @@
     "noEmit": true,
     "baseUrl": ".",
     // tests/integration.test.ts 直接驅動真正的客戶端模組（web/src/sync/sync.ts）。
-    // 那支程式在 web/ 底下，bare import 'dexie' 從它那裡找不到 server/node_modules，所以指路給它。
-    "paths": { "dexie": ["./node_modules/dexie"] }
+    // 那支程式在 web/ 底下，bare import 'dexie' 從它那裡找不到 server/node_modules，所以指路給它；
+    // shared/* 是 web 引用共用驗證規則的別名（見 web/tsconfig.json）。
+    "paths": { "dexie": ["./node_modules/dexie"], "shared/*": ["../shared/*"] }
   },
   "include": ["src", "tests", "../shared/validateEntity.ts"]
 }

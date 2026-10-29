@@ -53,7 +53,14 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: { recharts: ['recharts'] }, // 圖表庫獨立 chunk，非趨勢頁先不用下載
+        // 圖表庫獨立 chunk，非趨勢頁先不用下載。react 一定要明確切到自己的 chunk：
+        // Rollup 會把手動 chunk 的依賴一起拉進去，不切的話 react 就跟著進了 recharts chunk，
+        // 主程式為了 react 得在啟動時載入整個圖表庫（物件寫法 { react: ['react'] } 也不夠，
+        // 只會切到 react/index.js 那個空殼，真正的 cjs 檔照樣被拉走）
+        manualChunks(id) {
+          if (/\/node_modules\/(react|react-dom|scheduler)\//.test(id)) return 'react';
+          if (id.includes('/node_modules/recharts/')) return 'recharts';
+        },
       },
     },
   },

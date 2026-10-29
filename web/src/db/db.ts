@@ -1,16 +1,19 @@
 import Dexie, { type DexieOptions, type Table } from 'dexie';
 import type { ProfileData, RecordData } from '../logic/types';
 import type { VaccineDoseRecord } from '../logic/vaccineLog';
+import type { FoodMark, FoodRecord } from '../logic/foodLog';
 import { outboxMiddleware } from './outboxMiddleware';
 
-export type EntityKind = 'profile' | 'record' | 'vaccineDose';
+import type { EntityKind } from 'shared/validateEntity';
+
+export type { EntityKind };
 
 /** 待上傳的本機變更。seq 是本機遞增序號，用來保持上傳順序，也用來判斷上傳期間這列有沒有被改過。 */
 export interface OutboxRow {
   kind: EntityKind;
   id: string;
   op: 'put' | 'delete';
-  data?: ProfileData | RecordData | VaccineDoseRecord;
+  data?: ProfileData | RecordData | VaccineDoseRecord | FoodRecord | FoodMark;
   updatedAt: number;
   seq: number;
 }
@@ -25,6 +28,8 @@ export class BabyDB extends Dexie {
   profiles!: Table<ProfileData, string>;
   records!: Table<RecordData, string>;
   vaccineDoses!: Table<VaccineDoseRecord, string>;
+  foodRecords!: Table<FoodRecord, string>;
+  foodMarks!: Table<FoodMark, string>;
   outbox!: Table<OutboxRow, [EntityKind, string]>;
   syncState!: Table<SyncStateRow, string>;
 
@@ -43,7 +48,12 @@ export class BabyDB extends Dexie {
       outbox: '[kind+id], seq',
       syncState: 'k',
     });
-    // 所有對三張資料表的寫入都在同一個 transaction 內記進 outbox，之後新增的寫入點也不會漏
+    // v4：副食品紀錄與試敏標記（設計文件 2026-10-29-baby-food-design.md §4.5）
+    this.version(4).stores({
+      foodRecords: 'id, babyId, timestamp',
+      foodMarks: 'key, babyId',
+    });
+    // 所有對資料表的寫入都在同一個 transaction 內記進 outbox，之後新增的寫入點也不會漏
     this.use(outboxMiddleware);
   }
 }

@@ -5,7 +5,7 @@
  * 型別以 web/src/sync/sync.ts 的 SyncRequest / SyncResponse / Change / ServerChange 為準，
  * 那支客戶端已經上線，不能為了伺服器改它。
  */
-import { assertSyncTimestamp, parseEpochMs, validateEntity } from '../../shared/validateEntity';
+import { ENTITY_KINDS, assertSyncTimestamp, parseEpochMs, validateEntity } from '../../shared/validateEntity';
 import type { EntityRow, Store } from './store';
 
 /** 一次請求最多推 500 筆（客戶端的批次大小），拉 1000 筆，單筆 data 上限 64 KB。 */
@@ -13,7 +13,12 @@ export const MAX_CHANGES = 500;
 export const PULL_LIMIT = 1000;
 export const MAX_DATA_BYTES = 64 * 1024;
 
-const KINDS: readonly string[] = ['profile', 'record', 'vaccineDose'];
+const KINDS: readonly string[] = ENTITY_KINDS;
+/**
+ * 沒帶 kinds 的舊版客戶端只認得這三種。它的 tableOf() 把其他種類一律當成接種紀錄，
+ * 收到副食品資料會寫壞自己的接種紀錄表，所以絕不能送給它。
+ */
+const LEGACY_KINDS: readonly string[] = ['profile', 'record', 'vaccineDose'];
 const MAX_ID = 200;
 
 export interface Result {
@@ -120,7 +125,7 @@ export function applySync(
   updatedBy: string | null,
 ): SyncOutcome {
   if (!isObject(body)) return { ok: false, message: '請求本體不是物件' };
-  const { cursor, changes, clientNow } = body;
+  const { cursor, changes, clientNow, kinds } = body;
   if (!Array.isArray(changes)) return { ok: false, message: 'changes 必須是陣列' };
   if (changes.length > MAX_CHANGES) return { ok: false, message: `changes 一次最多 ${MAX_CHANGES} 筆` };
   if (typeof cursor !== 'number' || !Number.isFinite(cursor) || cursor < 0) {
@@ -129,6 +134,11 @@ export function applySync(
   if (typeof clientNow !== 'number' || !Number.isFinite(clientNow)) {
     return { ok: false, message: 'clientNow 必須是數字' };
   }
+
+  if (kinds !== undefined && (!Array.isArray(kinds) || kinds.some((k) => typeof k !== 'string'))) {
+    return { ok: false, message: 'kinds 必須是字串陣列' };
+  }
+  const accepted: readonly string[] = kinds ?? LEGACY_KINDS;
 
   const skew = serverNow - clientNow;
   const results: Result[] = [];
@@ -173,10 +183,12 @@ export function applySync(
   const more = rows.length > PULL_LIMIT;
   const page = more ? rows.slice(0, PULL_LIMIT) : rows;
   const outCursor = page.length > 0 ? page[page.length - 1].seq : cursor;
+  // 游標照樣越過沒送出的種類：客戶端本來就收不了，等它升級後會自己從 0 重拉一次
+  const sent = page.filter((r) => accepted.includes(r.kind));
 
   return {
     ok: true,
-    response: { cursor: outCursor, changes: page.map(toServerChange), results, more },
-    counts: { pushed: changes.length, applied, skipped: changes.length - applied, pulled: page.length, more },
+    response: { cursor: outCursor, changes: sent.map(toServerChange), results, more },
+    counts: { pushed: changes.length, applied, skipped: changes.length - applied, pulled: sent.length, more },
   };
 }
