@@ -2,6 +2,12 @@
 
 > 每完成一個任務就更新此檔。SessionStart 會自動載入本檔，撞到用量上限 reset 後可據此接續。
 
+## 2026-10-29：移除 iOS 原生版
+- 網頁版（PWA）比 iOS app 方便，刪除 `BabyMonster/`、`BabyMonster.xcodeproj/`、`BabyMonsterTests/`
+- `scripts/generate-growth-reference.mjs` 只產出 web 的 `.ts`；CI 拿掉 `.swift` 路徑
+- **保留** web 匯入 iOS 匯出檔的相容邏輯（大寫 UUID、v1 檔、無毫秒 ISO 8601）與其 fixture 測試，舊備份仍可匯入
+- 以下歷史紀錄中的 iOS 內容僅供參考；程式碼可從 git 歷史找回
+
 ## 目前狀態（2026-08-19 更新）
 - 階段：**身高／頭圍記錄 + 生長曲線完成**（feature/growth-metrics，web + iOS 同步）
 - Spec：`docs/superpowers/specs/2026-08-19-growth-metrics-design.md`

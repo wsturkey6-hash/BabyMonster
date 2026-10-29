@@ -1,11 +1,10 @@
 #!/usr/bin/env node
-// 由 data/who-growth-reference.json 產生兩平台的參考資料檔。
+// 由 data/who-growth-reference.json 產生 web 的參考資料檔。
 //
 //   node scripts/generate-growth-reference.mjs          產生
 //   node scripts/generate-growth-reference.mjs --check   驗證產出與 repo 內容一致（CI 用）
 //
-// 產出的兩個檔案都會 commit 進 repo，這樣 iOS 不必改手寫的 pbxproj、
-// web 不必改建置流程。任一邊被手改，--check 就會失敗。
+// 產出的檔案會 commit 進 repo，這樣 web 不必改建置流程。被手改的話，--check 就會失敗。
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -129,66 +128,9 @@ export function growthTable(key: string): GrowthTable | null {
 `;
 }
 
-function emitSwift(meta) {
-  const rows = KEYS.map((k) => {
-    const t = meta.tables[k];
-    return `    "${k}": [\n      [${t.L.join(',')}],\n      [${t.M.join(',')}],\n      [${t.S.join(',')}],\n    ],`;
-  }).join('\n');
-
-  return `${BANNER(meta).split('\n').map((l) => `// ${l}`).join('\n')}
-
-import Foundation
-
-struct GrowthTable {
-    let L: [Double]
-    let M: [Double]
-    let S: [Double]
-}
-
-enum GrowthReferenceData {
-    static let dayMax = ${meta.dayMax}
-
-    private static let lScale = ${L_SCALE}.0
-    private static let mScale = ${M_SCALE}.0
-    private static let sScale = ${S_SCALE}.0
-
-    /// key = "<指標>|<性別>"；三個陣列依序是差分編碼的 L、M、S。
-    private static let encoded: [String: [[Int]]] = [
-${rows}
-    ]
-
-    private static func decode(_ values: [Int], _ scale: Double) -> [Double] {
-        var acc = 0
-        var out = [Double]()
-        out.reserveCapacity(values.count)
-        for v in values {
-            acc += v
-            out.append(Double(acc) / scale)
-        }
-        return out
-    }
-
-    /// 六張表在首次取用時一次解碼完（約 33,000 次加法，只發生一次）。
-    private static let tables: [String: GrowthTable] = {
-        var out = [String: GrowthTable]()
-        for (key, enc) in encoded {
-            out[key] = GrowthTable(L: decode(enc[0], lScale),
-                                   M: decode(enc[1], mScale),
-                                   S: decode(enc[2], sScale))
-        }
-        return out
-    }()
-
-    /// 取得某指標／性別的逐日 LMS 表。未知的 key 回傳 nil。
-    static func table(_ key: String) -> GrowthTable? { tables[key] }
-}
-`;
-}
-
 const meta = load();
 const targets = [
   [join(ROOT, 'web', 'src', 'logic', 'growthReference.generated.ts'), emitTypeScript(meta)],
-  [join(ROOT, 'BabyMonster', 'Logic', 'GrowthReference.generated.swift'), emitSwift(meta)],
 ];
 
 const check = process.argv.includes('--check');
