@@ -5,10 +5,14 @@ import { defineConfig } from 'vitest/config';
  * tests/integration.test.ts 直接 import 真正的客戶端模組（web/src/sync/sync.ts）。
  * 那支程式裡的 `import 'dexie'` 是從 web/ 的角度解析的，而 CI 只在 server/ 跑 npm ci，
  * web/node_modules 不存在，所以把 dexie 指到 server 自己裝的那一份。
+ * web 用 `shared/...` 這個別名引用共用的驗證規則（見 web/vite.config.ts），這裡照樣設一份。
  */
 export default defineConfig({
   resolve: {
-    alias: { dexie: fileURLToPath(new URL('node_modules/dexie', import.meta.url)) },
+    alias: {
+      dexie: fileURLToPath(new URL('node_modules/dexie', import.meta.url)),
+      shared: fileURLToPath(new URL('../shared', import.meta.url)),
+    },
   },
   test: {
     environment: 'node',

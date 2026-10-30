@@ -3,12 +3,11 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
 import { dailySummary, dayNotes, feedTarget } from '../logic/dailyStats';
 import { dailySleepMinutes } from '../logic/sleep';
-import type { RecordData } from '../logic/types';
-import { BabySwitcher } from './BabySwitcher';
+import type { ProfileData, RecordData } from '../logic/types';
 import { dateInputValue, formatNumber, msFromDateInput, timeHM } from './format';
-import type { PageProps } from './App';
 
-export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: PageProps) {
+/** 統計分頁的「每日」模式。頁首與模式切換在 StatsPage。 */
+export default function DailyStatsPanel({ currentBaby }: { currentBaby: ProfileData | null }) {
   const [dateStr, setDateStr] = useState(() => dateInputValue(Date.now()));
 
   const records = useLiveQuery(
@@ -25,12 +24,7 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
   const reached = target != null && s.totalFeed >= target.minimum;
 
   return (
-    <main className="page">
-      <header className="page-header">
-        <h1>每日統計</h1>
-        <BabySwitcher profiles={profiles} currentBaby={currentBaby} onSelect={onSelectBaby} />
-      </header>
-
+    <>
       <div className="card">
         <div className="field">
           <label className="field-label" htmlFor="stats-date">日期</label>
@@ -110,6 +104,6 @@ export default function DailyStatsPage({ profiles, currentBaby, onSelectBaby }: 
           </ul>
         )}
       </section>
-    </main>
+    </>
   );
 }

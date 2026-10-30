@@ -486,3 +486,136 @@ select.baby-switcher {
   border-radius: var(--radius-full);
   padding: 0 10px;
 }
+
+/* ---- 副食品 ---- */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.status-icon { display: inline-flex; vertical-align: -2px; }
+.status-icon svg { width: 14px; height: 14px; }
+
+.food-add { margin-bottom: 16px; }
+.food-day + .food-day { margin-top: 6px; }
+.food-day-label {
+  margin: 10px 0 0; font-size: 13px; font-weight: 700; color: var(--color-text-soft);
+}
+.food-day:first-of-type .food-day-label { margin-top: 0; }
+.first-badge {
+  margin-left: 4px; padding: 0 6px; border-radius: var(--radius-full);
+  background: var(--color-primary); color: var(--color-on-primary);
+  font-size: 11px; font-weight: 700;
+}
+
+.food-picked { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.food-picked li {
+  display: inline-flex; align-items: center; gap: 2px;
+  background: var(--color-primary); color: var(--color-on-primary);
+  border-radius: var(--radius-full); padding: 3px 4px 3px 12px; font-size: 14px; font-weight: 700;
+}
+.food-picked button {
+  border: none; background: none; color: inherit; font-size: 18px; line-height: 1;
+  width: 32px; height: 32px; border-radius: var(--radius-full);
+}
+.food-picked button:hover { background: rgba(255, 255, 255, 0.3); }
+
+.food-picks { display: flex; flex-wrap: wrap; gap: 6px; }
+.food-pick {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 7px 12px; font-size: 14px;
+  border: 2px solid var(--color-border); border-radius: var(--radius-full);
+  background: #fff; color: var(--color-text);
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+}
+.food-pick:hover:not(.selected) { background: var(--color-primary-soft); }
+.food-pick:active { transform: scale(0.96); }
+.food-pick.tried { border-color: #7fb894; }
+.food-pick.reaction { border-color: #f2c6c2; }
+.food-pick.selected {
+  background: var(--color-primary); border-color: var(--color-primary); color: var(--color-on-primary);
+}
+.food-pick.add { border-style: dashed; color: var(--color-primary-strong); font-weight: 700; }
+.food-no {
+  font-family: var(--font-display); font-size: 11px; font-weight: 600;
+  color: var(--color-text-soft); font-variant-numeric: tabular-nums;
+}
+.food-pick.selected .food-no { color: inherit; opacity: 0.8; }
+
+.food-amount { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.food-form-actions { display: flex; gap: 8px; margin-top: 8px; }
+.food-form-actions .btn { flex: 1; }
+.btn:disabled { opacity: 0.6; cursor: default; }
+
+.reaction-choices { display: flex; flex-direction: column; gap: 4px; margin: 0 0 16px; }
+.reaction-choice { display: flex; align-items: center; gap: 10px; padding: 8px 4px; font-size: 15px; }
+.reaction-choice input { width: 20px; height: 20px; accent-color: var(--color-danger); }
+
+.food-month-nav {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+  margin: 0 -16px 12px; padding: 8px 16px;
+  background: var(--color-bg);
+  border-bottom: 2px solid var(--color-border-soft);
+}
+.food-month-nav::-webkit-scrollbar { display: none; }
+.food-month-nav button {
+  flex: none; padding: 6px 12px; font-size: 13px; font-weight: 700;
+  border: 2px solid var(--color-border); border-radius: var(--radius-full);
+  background: #fff; color: var(--color-text);
+}
+.food-month-nav button.current { border-color: var(--color-primary-strong); color: var(--color-primary-strong); }
+.food-month-nav button:active { transform: scale(0.96); }
+
+.food-legend { list-style: none; display: flex; gap: 8px; margin: 0 0 12px; padding: 0; }
+.food-legend .food-cell { padding: 4px 10px; font-size: 12px; cursor: default; }
+
+/* 捲到某一區時別被固定的月份列擋住 */
+.food-section { scroll-margin-top: 64px; }
+.food-section.current { border-color: var(--color-primary); }
+.current-badge {
+  margin-left: 8px; padding: 2px 8px; border-radius: var(--radius-full);
+  background: var(--color-primary-soft); color: var(--color-heading);
+  font-size: 12px; font-weight: 700; vertical-align: 2px;
+}
+.food-grid {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px;
+}
+.food-cell {
+  display: flex; align-items: center; gap: 4px; width: 100%;
+  padding: 9px 10px; font-size: 14px; text-align: left;
+  border: 2px solid var(--color-border-soft); border-radius: var(--radius-md);
+  background: #fff; color: var(--color-text);
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+}
+.food-cell .food-name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+button.food-cell:active { transform: scale(0.97); }
+/* 已嘗試、有反應的配色沿用疫苗頁「已施打」與記錄頁「異常」 */
+.food-cell.tried { border-color: #7fb894; background: #eef8f1; color: #256b43; }
+.food-cell.reaction { border-color: #f2c6c2; background: var(--color-danger-soft); color: var(--color-danger); }
+.food-cell.tried .food-no { color: #256b43; }
+.food-cell.reaction .food-no { color: var(--color-danger); }
+button.food-cell.untried:hover { background: var(--color-primary-soft); }
+
+.sheet-dialog {
+  margin: auto auto 0; padding: 0; width: 100%; max-width: 560px;
+  background: none; border: none; overflow: visible;
+}
+.sheet-dialog::backdrop { background: rgba(62, 42, 32, 0.45); }
+.sheet-dialog .panel {
+  padding: 20px 16px calc(16px + env(safe-area-inset-bottom));
+  background: var(--color-surface); color: var(--color-text);
+  border: 2px solid var(--color-border); border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: var(--shadow-clay);
+  animation: sheet-in 0.2s ease-out;
+}
+@keyframes sheet-in { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet-dialog .title {
+  font-family: var(--font-display); font-size: 18px; font-weight: 600;
+  margin: 0 0 12px; color: var(--color-heading); overflow-wrap: anywhere;
+}
+.sheet-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.sheet-options .food-cell { justify-content: center; padding: 12px; font-size: 15px; font-weight: 700; }
+.sheet-options .food-cell.selected { box-shadow: 0 0 0 3px var(--color-primary-strong); }
+.sheet-dialog .btn { width: 100%; }

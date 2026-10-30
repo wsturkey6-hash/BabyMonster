@@ -2,6 +2,18 @@
 
 > 每完成一個任務就更新此檔。SessionStart 會自動載入本檔，撞到用量上限 reset 後可據此接續。
 
+## 2026-10-29：副食品（整合 babyfoodie）
+- Spec：`docs/superpowers/specs/2026-10-29-baby-food-design.md`
+- 分頁改成「記錄｜統計｜副食品｜疫苗｜設定」：「每日統計」與「趨勢」合併成「統計」（每日／趨勢／生長曲線），舊的 `#stats`、`#trend` 網址照樣能用
+- 副食品：紀錄（食材可複選、份量、反應、備註，存檔時標「第一次」，有反應時詢問要標記哪些食材）＋ 試敏表（118 項，三種狀態，自動捲到目前月齡）
+- 自訂食材不另外存，從紀錄與標記推出（spec §4.3）
+- 資料：Dexie v4 新增 `foodRecords`、`foodMarks`；備份檔仍是 version 2，只加選填欄位，沒用副食品時匯出逐字節不變
+- **同步相容（重要）**：舊版客戶端的 `tableOf()` 把不認得的種類當成接種紀錄。現在客戶端在請求帶 `kinds`，伺服器只送對方認得的種類；新版第一次同步會把游標歸零重拉一次（`kindsVersion`）
+- **部署順序：先部署伺服器，再合併網頁**。伺服器沒更新前，新版網頁上傳的副食品會被拒收並留在 outbox（不會遺失），伺服器更新後自動補傳
+- 順手修掉：recharts chunk 夾帶 react，導致啟動就載入整個圖表庫（gzip 150 KB）；現在只有打開趨勢／生長曲線才下載
+- babyfoodie 舊資料不搬；上線後到 babyfoodie repo 的 Settings → Pages 關掉網站（要使用者操作）
+- 測試數：web 383 → 409、server 115 → 121
+
 ## 2026-10-29：移除 iOS 原生版
 - 網頁版（PWA）比 iOS app 方便，刪除 `BabyMonster/`、`BabyMonster.xcodeproj/`、`BabyMonsterTests/`
 - `scripts/generate-growth-reference.mjs` 只產出 web 的 `.ts`；CI 拿掉 `.swift` 路徑

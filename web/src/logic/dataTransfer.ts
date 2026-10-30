@@ -1,12 +1,18 @@
-import { validateDose, validateProfile, validateRecord, type ParseTime } from 'shared/validateEntity';
+import {
+  validateDose, validateFoodMark, validateFoodRecord, validateProfile, validateRecord, type ParseTime,
+} from 'shared/validateEntity';
 import type { ProfileData, RecordData } from './types';
 import { makeDoseRecord, type VaccineDoseRecord } from './vaccineLog';
+import { makeFoodMark, type FoodMark, type FoodRecord } from './foodLog';
 
 export interface BackupPayloadV2 {
   profiles: ProfileData[];
   records: RecordData[];
   /** 選填：舊檔沒有這一段。解碼後一律是陣列（可能為空）。 */
   vaccineDoses?: VaccineDoseRecord[];
+  /** 選填，同上。 */
+  foodRecords?: FoodRecord[];
+  foodMarks?: FoodMark[];
 }
 
 // ---- ISO 8601（相容性關鍵：Swift JSONDecoder(.iso8601) 不接受毫秒） ----
@@ -42,6 +48,8 @@ function stripUndefined<T extends Record<string, unknown>>(o: T): T {
 
 export function encodeV2(p: BackupPayloadV2): string {
   const doses = p.vaccineDoses ?? [];
+  const foodRecords = p.foodRecords ?? [];
+  const foodMarks = p.foodMarks ?? [];
   const wire = {
     version: 2,
     profiles: p.profiles.map((x) =>
@@ -78,6 +86,27 @@ export function encodeV2(p: BackupPayloadV2): string {
           })),
         }
       : {}),
+    // 副食品同樣是「空就省略」，沒用這個功能的人匯出的檔案不變
+    ...(foodRecords.length > 0
+      ? {
+          foodRecords: foodRecords.map((r) =>
+            stripUndefined({
+              id: r.id,
+              babyId: r.babyId,
+              timestamp: isoFromMs(r.timestamp),
+              foods: r.foods,
+              firstFoods: r.firstFoods,
+              amount: r.amount,
+              reactions: r.reactions,
+              note: r.note,
+            }),
+          ),
+        }
+      : {}),
+    // key 可從 babyId 與食材推出，同接種紀錄不寫進檔案
+    ...(foodMarks.length > 0
+      ? { foodMarks: foodMarks.map((m) => ({ babyId: m.babyId, food: m.food, status: m.status })) }
+      : {}),
   };
   return JSON.stringify(sortKeysDeep(wire), null, 2);
 }
@@ -95,6 +124,18 @@ function parseVaccineDoses(raw: unknown): VaccineDoseRecord[] {
   return raw.map((d, i) => validateDose(d, `第 ${i + 1} 筆接種紀錄`, parseIso));
 }
 
+function parseFoodRecords(raw: unknown): FoodRecord[] {
+  if (raw === undefined || raw === null) return [];
+  if (!Array.isArray(raw)) throw new Error('副食品紀錄不是陣列');
+  return raw.map((r, i) => validateFoodRecord(r, `第 ${i + 1} 筆副食品紀錄`, parseIso));
+}
+
+function parseFoodMarks(raw: unknown): FoodMark[] {
+  if (raw === undefined || raw === null) return [];
+  if (!Array.isArray(raw)) throw new Error('試敏標記不是陣列');
+  return raw.map((m, i) => validateFoodMark(m, `第 ${i + 1} 筆試敏標記`));
+}
+
 export function decodeAny(text: string): BackupPayloadV2 {
   let root: unknown;
   try {
@@ -108,7 +149,13 @@ export function decodeAny(text: string): BackupPayloadV2 {
   if (o.version === 2 && Array.isArray(o.profiles) && Array.isArray(o.records)) {
     const profiles = o.profiles.map((p, i) => validateProfile(p, `第 ${i + 1} 個寶寶`, parseIso));
     const records = o.records.map((r, i) => validateRecord(r, `第 ${i + 1} 筆記錄`, parseIso));
-    return { profiles, records, vaccineDoses: parseVaccineDoses(o.vaccineDoses) };
+    return {
+      profiles,
+      records,
+      vaccineDoses: parseVaccineDoses(o.vaccineDoses),
+      foodRecords: parseFoodRecords(o.foodRecords),
+      foodMarks: parseFoodMarks(o.foodMarks),
+    };
   }
 
   if (o.profile !== undefined && Array.isArray(o.records)) {
@@ -123,7 +170,7 @@ export function decodeAny(text: string): BackupPayloadV2 {
       birthDate: msFromIso(p.birthDate as string),
     };
     const records = o.records.map((r, i) => validateRecord(r, `第 ${i + 1} 筆記錄`, parseIso, profile.id));
-    return { profiles: [profile], records, vaccineDoses: [] };
+    return { profiles: [profile], records, vaccineDoses: [], foodRecords: [], foodMarks: [] };
   }
 
   throw new Error('無法辨識的備份檔格式');
@@ -153,7 +200,36 @@ export function mergeBabies(local: BackupPayloadV2, incoming: BackupPayloadV2): 
   for (const r of local.records) byId.set(r.id, r); // 本機覆蓋 incoming
 
   const records = [...byId.values()].sort((a, b) => a.timestamp - b.timestamp);
-  return { profiles, records, vaccineDoses: mergeVaccineDoses(local, incoming, remap) };
+  return {
+    profiles,
+    records,
+    vaccineDoses: mergeVaccineDoses(local, incoming, remap),
+    foodRecords: mergeFoodRecords(local, incoming, remap),
+    foodMarks: mergeFoodMarks(local, incoming, remap),
+  };
+}
+
+/** 規則同 records：id 聯集、本機優先、寶寶 id 跟著重對映。 */
+function mergeFoodRecords(local: BackupPayloadV2, incoming: BackupPayloadV2, remap: Map<string, string>): FoodRecord[] {
+  const byId = new Map<string, FoodRecord>();
+  for (const r of incoming.foodRecords ?? []) {
+    const mapped = remap.get(r.babyId);
+    byId.set(r.id, mapped ? { ...r, babyId: mapped } : r);
+  }
+  for (const r of local.foodRecords ?? []) byId.set(r.id, r);
+  return [...byId.values()].sort((a, b) => a.timestamp - b.timestamp);
+}
+
+/** 規則同接種紀錄：key 聯集、本機優先；重對映時 key 跟著重組。 */
+function mergeFoodMarks(local: BackupPayloadV2, incoming: BackupPayloadV2, remap: Map<string, string>): FoodMark[] {
+  const byKey = new Map<string, FoodMark>();
+  for (const m of incoming.foodMarks ?? []) {
+    const mapped = remap.get(m.babyId);
+    const rec = mapped ? makeFoodMark(mapped, m.food, m.status) : m;
+    byKey.set(rec.key, rec);
+  }
+  for (const m of local.foodMarks ?? []) byKey.set(m.key, m);
+  return [...byKey.values()].sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
 }
 
 /** key = babyId|vaccineId|劑次，所以依 key 排序等同 spec 要求的三層排序。 */

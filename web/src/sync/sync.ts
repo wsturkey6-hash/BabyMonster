@@ -1,4 +1,5 @@
 import Dexie, { type Table } from 'dexie';
+import { ENTITY_KINDS } from 'shared/validateEntity';
 import { db as defaultDb, type BabyDB, type EntityKind, type OutboxRow } from '../db/db';
 import { skipOutboxInCurrentTransaction } from '../db/outboxMiddleware';
 
@@ -11,6 +12,13 @@ const BYTES = new TextEncoder();
 // 迴圈上限：正常情況下每輪都有實質進展（送出或拉到東西）會自然結束；這只是保險，
 // 撞到就乾淨地結束這一輪，下次觸發再繼續，不丟錯也不卡死。
 const MAX_ROUNDS = 50;
+/**
+ * 這一版認得的資料種類，在請求裡告訴伺服器；伺服器只送這些種類回來。
+ * 種類變多時把 KINDS_VERSION 加一：舊版收不到新種類、游標卻已經越過它們，
+ * 所以升級後第一次同步要從 0 重拉一次，才拿得到之前錯過的那幾筆。
+ */
+const KINDS: readonly EntityKind[] = ENTITY_KINDS;
+const KINDS_VERSION = 2; // 1 = profile/record/vaccineDose；2 = 加上 foodRecord/foodMark
 
 export interface Change {
   kind: EntityKind;
@@ -31,6 +39,8 @@ export interface SyncRequest {
   cursor: number;
   changes: Change[];
   clientNow: number;
+  /** 這支手機認得的種類。沒帶的話伺服器只送最早的三種（舊版客戶端）。 */
+  kinds: readonly EntityKind[];
 }
 
 export interface ServerChange {
@@ -79,8 +89,25 @@ async function stateValue(db: BabyDB, k: string): Promise<number | undefined> {
   return (await db.syncState.get(k))?.v;
 }
 
-function tableOf(db: BabyDB, kind: EntityKind) {
-  return kind === 'profile' ? db.profiles : kind === 'record' ? db.records : db.vaccineDoses;
+/** 不認得的種類回傳 null。舊版把其他種類一律當成接種紀錄，會把別的資料寫進接種紀錄表。 */
+function tableOf(db: BabyDB, kind: string): Table<unknown, string> | null {
+  switch (kind) {
+    case 'profile': return db.profiles as Table<unknown, string>;
+    case 'record': return db.records as Table<unknown, string>;
+    case 'vaccineDose': return db.vaccineDoses as Table<unknown, string>;
+    case 'foodRecord': return db.foodRecords as Table<unknown, string>;
+    case 'foodMark': return db.foodMarks as Table<unknown, string>;
+    default: return null;
+  }
+}
+
+/** 認得的種類變多後的第一次同步：游標歸零，把舊版收不到的那些種類補拉回來。 */
+async function resetCursorIfKindsGrew(db: BabyDB): Promise<void> {
+  await db.transaction('rw', db.syncState, async () => {
+    if (((await stateValue(db, 'kindsVersion')) ?? 1) >= KINDS_VERSION) return;
+    await db.syncState.put({ k: 'cursor', v: 0 });
+    await db.syncState.put({ k: 'kindsVersion', v: KINDS_VERSION });
+  });
 }
 
 /**
@@ -94,7 +121,8 @@ export async function applyRemote(db: BabyDB, changes: ServerChange[], cursor: n
   // Dexie 的巢狀 transaction 沿用外層的 idbtrans，標記會落在呼叫者的 transaction 上，
   // 讓它之後的每一筆本機寫入都不進 outbox（靜默遺失），所以寧可直接丟錯
   if (Dexie.currentTransaction) throw new Error('applyRemote 不可在 transaction 內呼叫');
-  return db.transaction('rw', [db.profiles, db.records, db.vaccineDoses, db.outbox, db.syncState], async () => {
+  const tables = [db.profiles, db.records, db.vaccineDoses, db.foodRecords, db.foodMarks, db.outbox, db.syncState];
+  return db.transaction('rw', tables, async () => {
     skipOutboxInCurrentTransaction();
     const applied: number[] = [];
     const stored = (await db.syncState.get('cursor'))?.v ?? 0;
@@ -106,7 +134,9 @@ export async function applyRemote(db: BabyDB, changes: ServerChange[], cursor: n
         next = Math.min(next, c.seq - 1);
         continue;
       }
-      const table = tableOf(db, c.kind) as Table<unknown, string>;
+      const table = tableOf(db, c.kind);
+      // 伺服器只送我們宣告過的種類，這裡是保險：存不了就略過，游標照樣前進（重送也一樣存不了）
+      if (!table) continue;
       if (c.deleted) await table.delete(c.id);
       else if (c.data) await table.put(c.data);
       else {
@@ -168,6 +198,7 @@ export async function syncOnce(
   // 因為被拒收而留在 outbox 的筆數。不能用「同步完 outbox 還有東西」來判斷有沒有出問題：
   // 使用者在同步進行中按儲存也會讓 outbox 非空，那是完全正常的，不該對他顯示錯誤。
   let kept = 0;
+  await resetCursorIfKindsGrew(db);
   for (let round = 0; round < MAX_ROUNDS; round++) {
     const queued = await db.outbox.orderBy('seq').limit(BATCH).toArray();
     const cursor = (await stateValue(db, 'cursor')) ?? 0;
@@ -204,7 +235,7 @@ export async function syncOnce(
       // fetch 跟過去會在 CORS 檢查失敗、丟 TypeError，被當成「離線」，家長就會跑去檢查 wifi。
       headers: { 'content-type': 'application/json', 'x-requested-with': 'XMLHttpRequest' },
       redirect: 'manual',
-      body: JSON.stringify({ cursor, changes, clientNow } satisfies SyncRequest),
+      body: JSON.stringify({ cursor, changes, clientNow, kinds: KINDS } satisfies SyncRequest),
     });
     // API 呼叫被導向，只可能是 Access 要求重新登入：我們自己的 API 從不導向。
     // manual 模式下瀏覽器把它包成 type 'opaqueredirect'、status 0，讀不到標頭也讀不到內容，

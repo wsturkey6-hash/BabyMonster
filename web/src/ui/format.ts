@@ -44,3 +44,18 @@ export function monthDay(ms: number): string {
   const d = new Date(ms);
   return `${d.getMonth() + 1}/${d.getDate()}`;
 }
+
+const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
+
+/** 列表依日期分組的標題：今天、昨天，其他寫成 9/17（四）。 */
+export function dayGroupLabel(ms: number, nowMs: number): string {
+  const startOf = (t: number) => {
+    const d = new Date(t);
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  };
+  // round：跨日光節約時間那天一天不是 24 小時
+  const diff = Math.round((startOf(nowMs) - startOf(ms)) / 86_400_000);
+  if (diff === 0) return '今天';
+  if (diff === 1) return '昨天';
+  return `${monthDay(ms)}（${WEEKDAYS[new Date(ms).getDay()]}）`;
+}

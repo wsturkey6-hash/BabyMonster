@@ -323,3 +323,56 @@ describe('結構性錯誤才回 400', () => {
     expect(h.rows()).toHaveLength(500);
   });
 });
+
+describe('kinds：只送客戶端認得的種類', () => {
+  const putFood = (id: string, updatedAt: number) => ({
+    kind: 'foodRecord',
+    id,
+    op: 'put',
+    updatedAt,
+    data: { id, babyId: BABY, timestamp: T0 - 60_000, foods: ['米湯'], firstFoods: ['米湯'], reactions: [] },
+  });
+  const putMark = (food: string, updatedAt: number) => ({
+    kind: 'foodMark',
+    id: `${BABY}|${food}`,
+    op: 'put',
+    updatedAt,
+    data: { babyId: BABY, food, status: 'reaction' },
+  });
+  const ALL = ['profile', 'record', 'vaccineDose', 'foodRecord', 'foodMark'];
+
+  it('新版客戶端可以上傳並拉回副食品資料', async () => {
+    const res = await h.sync({ cursor: 0, changes: [putFood('f1', T0 - 1000), putMark('米湯', T0 - 1000)], clientNow: T0, kinds: ALL });
+    expect(res.body.results.every((r: { applied: boolean }) => r.applied)).toBe(true);
+    expect(res.body.changes.map((c: { kind: string }) => c.kind).sort()).toEqual(['foodMark', 'foodRecord']);
+  });
+
+  it('沒帶 kinds 的舊版客戶端收不到副食品資料，但游標照樣前進', async () => {
+    await h.sync({ cursor: 0, changes: [putRecord('r1', T0 - 2000), putFood('f1', T0 - 1000)], clientNow: T0, kinds: ALL });
+    const old = await push([]);
+    expect(old.body.changes.map((c: { kind: string }) => c.kind)).toEqual(['record']);
+    expect(old.body.cursor).toBe(2);
+    // 升級後從 0 重拉就拿得到
+    const upgraded = await h.sync({ cursor: 0, changes: [], clientNow: T0, kinds: ALL });
+    expect(upgraded.body.changes).toHaveLength(2);
+  });
+
+  it('不認得的 kinds 項目直接忽略', async () => {
+    await push([putRecord('r1', T0 - 1000)]);
+    const res = await h.sync({ cursor: 0, changes: [], clientNow: T0, kinds: ['record', 'future'] });
+    expect(res.body.changes).toHaveLength(1);
+  });
+
+  it('副食品食材名稱與 key 不一致 → invalid', async () => {
+    const bad = { ...putMark('米湯', T0 - 1000), id: `${BABY}|香蕉` };
+    const res = await h.sync({ cursor: 0, changes: [bad], clientNow: T0, kinds: ALL });
+    expect(res.body.results[0]).toMatchObject({ applied: false, reason: 'invalid' });
+  });
+
+  for (const kinds of ['record', [1], null]) {
+    it(`kinds 是 ${JSON.stringify(kinds)} → 400`, async () => {
+      const res = await h.sync({ cursor: 0, changes: [], clientNow: T0, kinds });
+      expect(res.status).toBe(400);
+    });
+  }
+});
