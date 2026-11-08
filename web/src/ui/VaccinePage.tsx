@@ -5,16 +5,21 @@ import {
   SCHEDULE_SOURCES,
   VACCINES,
   ageMonthsLabel,
+  chosenBrand,
   doseDate,
+  doseProgressLabel,
+  dosesFor,
   nextMilestone,
   scheduleMilestones,
   type Funding,
   type ScheduledDose,
   type Vaccine,
+  type VaccineBrands,
 } from '../logic/vaccines';
-import { doneMap, doseRecordKey, overdueDoses, type VaccineDoseRecord } from '../logic/vaccineLog';
+import { doneMap, doseRecordKey, hiddenDoseLabels, overdueDoses, type VaccineDoseRecord } from '../logic/vaccineLog';
 import { db } from '../db/db';
-import { clearVaccineDose, setVaccineDose } from '../db/repository';
+import { clearVaccineDose, setVaccineBrand, setVaccineDose } from '../db/repository';
+import type { BrandedVaccineId } from 'shared/validateEntity';
 import { BabySwitcher } from './BabySwitcher';
 import { InfoDialog } from './components/InfoDialog';
 import { dateInputValue, msFromDateInput, ymdSlash } from './format';
@@ -49,11 +54,13 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
     babyId ? done.get(doseRecordKey(babyId, vaccineId, doseLabel)) : undefined;
   const isDone = (d: ScheduledDose) => doneDate(d.vaccine.id, d.dose.label) !== undefined;
 
-  const milestones = scheduleMilestones();
-  const upcoming = currentBaby ? nextMilestone(currentBaby.birthDate, now, VACCINES, isDone) : null;
+  const brands: VaccineBrands = currentBaby?.vaccineBrands ?? {};
+  const milestones = scheduleMilestones(VACCINES, brands);
+  const upcoming = currentBaby ? nextMilestone(currentBaby.birthDate, now, VACCINES, isDone, brands) : null;
   const overdue = currentBaby
-    ? overdueDoses(currentBaby.birthDate, now, currentBaby.id, done)
+    ? overdueDoses(currentBaby.birthDate, now, currentBaby.id, done, VACCINES, brands)
     : [];
+  const progress = (d: ScheduledDose) => doseProgressLabel(d.vaccine, d.dose, brands);
 
   const byFunding = (doses: ScheduledDose[], funding: Funding) =>
     doses.filter((d) => d.dose.funding === funding);
@@ -70,8 +77,8 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
         <span className="vaccine-name">{d.vaccine.name}</span>
         <span className="vaccine-dose">
           {date
-            ? `✓ ${d.dose.label}・${ymdSlash(date)}`
-            : `${d.dose.label}・${FUNDING_NAMES[d.dose.funding]}`}
+            ? `✓ ${progress(d)}・${ymdSlash(date)}`
+            : `${progress(d)}・${FUNDING_NAMES[d.dose.funding]}`}
         </span>
       </button>
     );
@@ -80,6 +87,12 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
   async function saveDose(vaccineId: string, doseLabel: string, date: number) {
     if (!babyId) return;
     await setVaccineDose(babyId, vaccineId, doseLabel, date);
+  }
+
+  async function chooseBrand(vaccineId: string, brandId: string | null) {
+    if (!babyId) return;
+    // brandId 來自 vaccine.brands，其型別已對齊 shared 的 VACCINE_BRAND_OPTIONS
+    await setVaccineBrand(babyId, vaccineId as BrandedVaccineId, brandId as VaccineBrands[BrandedVaccineId] | null);
   }
 
   async function removeDose(vaccineId: string, doseLabel: string) {
@@ -101,7 +114,7 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
             return (
               <li key={`${d.vaccine.id}-${d.dose.label}`}>
                 <button type="button" onClick={() => setSelected(d.vaccine)}>
-                  <span className="overdue-name">{d.vaccine.name} {d.dose.label}</span>
+                  <span className="overdue-name">{d.vaccine.name} {progress(d)}</span>
                   <span className="overdue-when">
                     預計 {ymdSlash(due)}・逾期 {-daysUntil(due, now)} 天
                   </span>
@@ -192,15 +205,52 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
           onClose={() => setSelected(null)}
         >
           <p>{selected.description}</p>
+          {selected.brands && (() => {
+            const brand = chosenBrand(selected, brands);
+            const hidden = babyId ? hiddenDoseLabels(selected, brands, babyId, done) : [];
+            return (
+              <div className="brand-picker">
+                <p className="brand-picker-label">選擇廠牌（不同廠牌劑數不同）</p>
+                <div className="seg" role="group" aria-label={`${selected.name}廠牌`}>
+                  {selected.brands.map((b) => (
+                    <button
+                      key={b.id}
+                      type="button"
+                      className={brand?.id === b.id ? 'selected' : ''}
+                      aria-pressed={brand?.id === b.id}
+                      disabled={!currentBaby}
+                      onClick={() => chooseBrand(selected.id, brand?.id === b.id ? null : b.id)}
+                    >
+                      {b.name}（{b.doses.length} 劑）
+                    </button>
+                  ))}
+                </div>
+                {brand ? (
+                  <p className="hint">
+                    {brand.maker}・共 {brand.doses.length} 劑{brand.note ? `。${brand.note}` : ''}（再點一次可取消選擇）
+                  </p>
+                ) : (
+                  <p className="hint">還沒選廠牌，時程表先只列第一劑；選了之後會顯示完整劑次。</p>
+                )}
+                {hidden.length > 0 && (
+                  <p className="hint brand-hidden-records">
+                    已記錄過{hidden.join('、')}，
+                    {brand ? `但${brand.name}沒有${hidden.length > 1 ? '這幾劑' : '這一劑'}；改選對應的廠牌就會顯示。` : '選擇廠牌後就會顯示。'}
+                  </p>
+                )}
+              </div>
+            );
+          })()}
           <ul className="dose-log">
-            {selected.doses.map((dose) => {
+            {dosesFor(selected, brands).map((dose) => {
               const date = doneDate(selected.id, dose.label);
               const inputId = `dose-${selected.id}-${dose.ageMonths}`;
               const planned = currentBaby ? doseDate(currentBaby.birthDate, dose.ageMonths) : 0;
               return (
                 <li key={dose.label} className="dose-log-row">
                   <label htmlFor={inputId}>
-                    {ageMonthsLabel(dose.ageMonths)}・{dose.label}・{FUNDING_NAMES[dose.funding]}
+                    {ageMonthsLabel(dose.ageMonths)}・{doseProgressLabel(selected, dose, brands)}
+                    {dose.label === '追加劑' ? '（追加劑）' : ''}・{FUNDING_NAMES[dose.funding]}
                   </label>
                   <div className="dose-log-controls">
                     <input

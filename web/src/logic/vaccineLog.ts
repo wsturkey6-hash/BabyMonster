@@ -4,7 +4,9 @@
  * 一筆紀錄 = 寶寶 + 疫苗 + 劑次 + 實際施打日期，key 由前三者組成，
  * 所以同一寶寶的同一劑只會有一筆。key 只存在本機、不寫進備份檔（見 dataTransfer）。
  */
-import { VACCINES, doseDate, startOfDay, type ScheduledDose, type Vaccine } from './vaccines';
+import {
+  VACCINES, doseDate, dosesFor, startOfDay, type ScheduledDose, type Vaccine, type VaccineBrands,
+} from './vaccines';
 
 export interface VaccineDoseRecord {
   key: string;
@@ -51,11 +53,12 @@ export function overdueDoses(
   babyId: string,
   done: Map<string, number>,
   vaccines: Vaccine[] = VACCINES,
+  brands: VaccineBrands = {},
 ): ScheduledDose[] {
   const today = startOfDay(now);
   const out: ScheduledDose[] = [];
   for (const vaccine of vaccines) {
-    for (const dose of vaccine.doses) {
+    for (const dose of dosesFor(vaccine, brands)) {
       if (startOfDay(doseDate(birthDate, dose.ageMonths)) >= today) continue;
       if (done.has(doseRecordKey(babyId, vaccine.id, dose.label))) continue;
       out.push({ vaccine, dose });
@@ -63,4 +66,20 @@ export function overdueDoses(
   }
   // Array.prototype.sort 在現代 JS 是穩定排序，同月齡會保持推入順序。
   return out.sort((a, b) => a.dose.ageMonths - b.dose.ageMonths);
+}
+
+/**
+ * 有施打紀錄、但目前廠牌（或還沒選廠牌）的劑次裡沒有的劑次標籤，依各廠牌劑次的先後排列。
+ * 例：記過輪狀第三劑後改選羅特律，第三劑就不會出現在清單上；資料還在，畫面要提示。
+ */
+export function hiddenDoseLabels(
+  vaccine: Vaccine,
+  brands: VaccineBrands,
+  babyId: string,
+  done: Map<string, number>,
+): string[] {
+  if (!vaccine.brands) return [];
+  const shown = new Set(dosesFor(vaccine, brands).map((d) => d.label));
+  const all = [...vaccine.doses, ...vaccine.brands.flatMap((b) => b.doses)].map((d) => d.label);
+  return [...new Set(all)].filter((label) => !shown.has(label) && done.has(doseRecordKey(babyId, vaccine.id, label)));
 }

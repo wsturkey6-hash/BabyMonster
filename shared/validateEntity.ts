@@ -12,11 +12,30 @@ export type SleepEvent = 'start' | 'end';
 export type BristolType = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type Sex = 'male' | 'female';
 
+/**
+ * 有多個廠牌、劑數不同的疫苗，各自可選的廠牌 id。
+ *
+ * **只增不改**：vaccine id 與廠牌 id 一旦上線就不能改名或移除。伺服器不會重驗已存的列，
+ * 手機也會原樣保留並在下次編輯時重送，移除一個 id 會讓用到它的寶寶資料永遠被拒收。
+ * 新增 id 一律**先部署伺服器**：舊伺服器會拒收新 id（整筆寶寶資料卡在 outbox，伺服器更新後自動補傳）。
+ */
+export const VACCINE_BRAND_OPTIONS = Object.freeze({
+  rotavirus: Object.freeze(['rotarix', 'rotateq'] as const),
+  ev71: Object.freeze(['envacgen', 'envax'] as const),
+});
+
+export type BrandedVaccineId = keyof typeof VACCINE_BRAND_OPTIONS;
+export type VaccineBrands = {
+  [K in BrandedVaccineId]?: (typeof VACCINE_BRAND_OPTIONS)[K][number];
+};
+
 export interface ProfileData {
   id: string;
   name: string;
   birthDate: number;
   sex?: Sex;
+  /** 選填：各疫苗選用的廠牌，沒選的鍵省略。 */
+  vaccineBrands?: VaccineBrands;
 }
 
 export interface RecordData {
@@ -166,7 +185,36 @@ export function validateProfile(raw: unknown, where: string, parseTime: ParseTim
     name: o.name,
     birthDate: parseTime(o.birthDate, where, 'birthDate'),
     sex: sex as Sex | undefined,
+    vaccineBrands: optVaccineBrands(o.vaccineBrands, where),
   }) as ProfileData;
+}
+
+/**
+ * 封閉結構：只認 VACCINE_BRAND_OPTIONS 裡的鍵與值，未知的一律拋錯（不默默丟掉，
+ * 否則新版手機選的廠牌會被舊伺服器無聲抹掉）。單一鍵為 null 視為沒選。
+ * 輸出由固定鍵重新組出，原始物件的任何東西（含 __proto__ 之類的鍵）都不會留下。
+ * 錯誤訊息不帶原始鍵值。
+ */
+/** Object.hasOwn 是 ES2022，web 的 lib 是 ES2020。 */
+const hasOwn = (o: object, k: string): boolean => Object.prototype.hasOwnProperty.call(o, k);
+
+function optVaccineBrands(v: unknown, where: string): VaccineBrands | undefined {
+  if (v === undefined || v === null) return undefined;
+  if (typeof v !== 'object' || Array.isArray(v)) fail(where, 'vaccineBrands 不合法');
+  const raw = v as Raw;
+  for (const k of Object.keys(raw)) {
+    if (!hasOwn(VACCINE_BRAND_OPTIONS, k)) fail(where, 'vaccineBrands 含未知的疫苗');
+  }
+  const pick = <K extends BrandedVaccineId>(k: K): VaccineBrands[K] => {
+    if (!hasOwn(raw, k)) return undefined;
+    const b = raw[k];
+    if (b === undefined || b === null) return undefined;
+    const options: readonly string[] = VACCINE_BRAND_OPTIONS[k];
+    if (typeof b !== 'string' || !options.includes(b)) fail(where, 'vaccineBrands 含未知的廠牌');
+    return b as VaccineBrands[K];
+  };
+  const out = stripUndefined({ rotavirus: pick('rotavirus'), ev71: pick('ev71') });
+  return Object.keys(out).length > 0 ? out : undefined;
 }
 
 export function validateRecord(

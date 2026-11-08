@@ -4,6 +4,7 @@ import { doseRecordKey, makeDoseRecord } from '../logic/vaccineLog';
 import { startOfDay } from '../logic/vaccines';
 import { makeFoodMark, type FoodRecord, type FoodStatus } from '../logic/foodLog';
 import type { ProfileData } from '../logic/types';
+import type { BrandedVaccineId, VaccineBrands } from 'shared/validateEntity';
 
 export async function allData(): Promise<BackupPayloadV2> {
   return {
@@ -83,6 +84,29 @@ export async function clearVaccineDose(
   doseLabel: string,
 ): Promise<void> {
   await db.vaccineDoses.delete(doseRecordKey(babyId, vaccineId, doseLabel));
+}
+
+/**
+ * 設定或清除某支疫苗選用的廠牌（brandId 為 null 代表清除）。
+ * 從已知鍵重新組出整個物件再 put：清除是刪掉鍵、絕不存 null，全空就整個欄位拿掉，
+ * 不用 'vaccineBrands.xxx' 這種點號路徑。
+ */
+export async function setVaccineBrand<K extends BrandedVaccineId>(
+  babyId: string,
+  vaccineId: K,
+  brandId: VaccineBrands[K] | null,
+): Promise<void> {
+  await db.transaction('rw', db.profiles, async () => {
+    const p = await db.profiles.get(babyId);
+    if (!p) return;
+    const merged: VaccineBrands = { rotavirus: p.vaccineBrands?.rotavirus, ev71: p.vaccineBrands?.ev71 };
+    merged[vaccineId] = brandId ?? undefined;
+    const brands = Object.fromEntries(
+      Object.entries(merged).filter(([, v]) => v !== undefined),
+    ) as VaccineBrands;
+    const { vaccineBrands: _old, ...rest } = p;
+    await db.profiles.put(Object.keys(brands).length > 0 ? { ...rest, vaccineBrands: brands } : rest);
+  });
 }
 
 /** 新增或修改一筆副食品紀錄。 */

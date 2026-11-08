@@ -10,8 +10,17 @@
  * 公費與自費掛在「劑次」而不是「疫苗」上：水痘第一劑公費、第二劑自費，
  * 同一支疫苗的不同劑次可能分屬不同給付方式。
  *
+ * 輪狀病毒與腸病毒71型有多個廠牌、劑數不同：Vaccine.doses 只放各廠牌共同的第一劑，
+ * 選了廠牌（存在寶寶資料的 vaccineBrands）之後才用該廠牌的完整劑次，見 dosesFor。
+ * 廠牌劑次依食藥署核准仿單：
+ *   羅特律 Rotarix、輪達停 RotaTeq；恩穩健 Envacgen（衛部菌疫製字第000152號）、
+ *   安拓伏 EnVAX-A71（衛部菌疫製字第000149號）。
+ *
  * 時程會不定期調整，更新時請一併更新 SCHEDULE_SOURCES。
  */
+import type { BrandedVaccineId, VaccineBrands } from 'shared/validateEntity';
+
+export type { VaccineBrands };
 
 export type Funding = 'public' | 'self';
 
@@ -26,13 +35,27 @@ export interface VaccineDose {
   funding: Funding;
 }
 
+export interface VaccineBrand {
+  id: string;
+  name: string;
+  maker: string;
+  doses: VaccineDose[];
+  note?: string;
+}
+
+/** 每個有廠牌的疫苗，各廠牌的 id 都必須在 shared 的 VACCINE_BRAND_OPTIONS 裡（型別強制，tsc 會擋）。 */
+type BrandList<K extends BrandedVaccineId> = (VaccineBrand & { id: NonNullable<VaccineBrands[K]> })[];
+
 export interface Vaccine {
   id: string;
   name: string;
   en: string;
   /** 點疫苗名稱時跳出的說明，2–3 句。 */
   description: string;
+  /** 有 brands 時只放各廠牌共同的第一劑，未選廠牌時顯示。 */
   doses: VaccineDose[];
+  /** 劑數依廠牌而不同的疫苗才有。 */
+  brands?: VaccineBrand[];
   /** 每年接種這類無法用單一月齡表達的補充說明。 */
   recurring?: string;
   note?: string;
@@ -48,6 +71,40 @@ const PRESCHOOL = 60;
 
 const pub = (label: string, ageMonths: number): VaccineDose => ({ label, ageMonths, funding: 'public' });
 const self = (label: string, ageMonths: number): VaccineDose => ({ label, ageMonths, funding: 'self' });
+
+const ROTAVIRUS_BRANDS: BrandList<'rotavirus'> = [
+  {
+    id: 'rotarix',
+    name: '羅特律',
+    maker: 'GSK Rotarix',
+    doses: [self('第一劑', 2), self('第二劑', 4)],
+    note: '最遲須在出生 24 週內完成',
+  },
+  {
+    id: 'rotateq',
+    name: '輪達停',
+    maker: 'MSD RotaTeq',
+    doses: [self('第一劑', 2), self('第二劑', 4), self('第三劑', 6)],
+    note: '第三劑不得晚於 32 週齡',
+  },
+];
+
+const EV71_BRANDS: BrandList<'ev71'> = [
+  {
+    id: 'envacgen',
+    name: '恩穩健',
+    maker: '高端疫苗 Envacgen',
+    doses: [self('第一劑', 2), self('第二劑', 4), self('追加劑', 14)],
+    note: '兩劑間隔 56 天；第一劑未滿 2 歲接種者，於第一劑後一年追加一劑',
+  },
+  {
+    id: 'envax',
+    name: '安拓伏',
+    maker: '安特羅生技 EnVAX-A71',
+    doses: [self('第一劑', 2), self('第二劑', 3)],
+    note: '兩劑間隔 28 天（時程表以滿 3 個月標示）；仿單載明是否需要追加尚未確立',
+  },
+];
 
 export const VACCINES: Vaccine[] = [
   {
@@ -99,7 +156,8 @@ export const VACCINES: Vaccine[] = [
     en: 'Rotavirus',
     description:
       '口服疫苗，預防輪狀病毒引起的嚴重腹瀉與嘔吐。輪狀病毒是嬰幼兒因腹瀉住院最常見的原因，脫水對小寶寶相當危險。市面上有2劑型與3劑型兩種，無優劣之分。',
-    doses: [self('第一劑', 2), self('第二劑', 4), self('第三劑', 6)],
+    doses: [self('第一劑', 2)],
+    brands: ROTAVIRUS_BRANDS,
     note: '2劑型與3劑型不同廠牌不可混打；部分縣市有補助',
   },
   {
@@ -118,7 +176,8 @@ export const VACCINES: Vaccine[] = [
     description:
       '預防腸病毒71型。這一型腸病毒最容易引起重症，可能侵犯腦幹造成神經系統併發症。滿2個月起就可以接種。',
     doses: [self('第一劑', 2)],
-    note: '視廠牌施打 2–3 劑',
+    brands: EV71_BRANDS,
+    note: '兩個廠牌劑數與間隔不同，不建議混打',
   },
   {
     id: 'bcg',
@@ -183,6 +242,31 @@ export const VACCINES: Vaccine[] = [
   },
 ];
 
+/** 寶寶為這支疫苗選的廠牌；沒選或存的 id 不認得都回傳 undefined。 */
+export function chosenBrand(vaccine: Vaccine, brands: VaccineBrands = {}): VaccineBrand | undefined {
+  if (!vaccine.brands) return undefined;
+  const id = (brands as Record<string, string | undefined>)[vaccine.id];
+  return vaccine.brands.find((b) => b.id === id);
+}
+
+/** 這支疫苗目前要顯示的劑次：選了廠牌用廠牌的，否則用 vaccine.doses。 */
+export function dosesFor(vaccine: Vaccine, brands: VaccineBrands = {}): VaccineDose[] {
+  return chosenBrand(vaccine, brands)?.doses ?? vaccine.doses;
+}
+
+/** 總劑數；有廠牌但還沒選時回傳 null（劑數未定）。 */
+export function doseCount(vaccine: Vaccine, brands: VaccineBrands = {}): number | null {
+  if (vaccine.brands && !chosenBrand(vaccine, brands)) return null;
+  return dosesFor(vaccine, brands).length;
+}
+
+/** 「第 2 劑／共 3 劑」；劑數未定時「第 1 劑・尚未選廠牌」。 */
+export function doseProgressLabel(vaccine: Vaccine, dose: VaccineDose, brands: VaccineBrands = {}): string {
+  const i = dosesFor(vaccine, brands).indexOf(dose) + 1;
+  const n = doseCount(vaccine, brands);
+  return n === null ? `第 ${i} 劑・尚未選廠牌` : `第 ${i} 劑／共 ${n} 劑`;
+}
+
 export function ageMonthsLabel(ageMonths: number): string {
   if (ageMonths === 0) return '出生 24 小時內';
   if (ageMonths >= PRESCHOOL) return '滿 5 歲至入國小前';
@@ -221,10 +305,10 @@ const MILESTONE_NOTES: Record<number, string> = {
 };
 
 /** 所有疫苗依接種月齡分組，由小到大；組內公費排在自費前面，其餘維持疫苗定義順序。 */
-export function scheduleMilestones(vaccines: Vaccine[] = VACCINES): Milestone[] {
+export function scheduleMilestones(vaccines: Vaccine[] = VACCINES, brands: VaccineBrands = {}): Milestone[] {
   const byAge = new Map<number, ScheduledDose[]>();
   for (const vaccine of vaccines) {
-    for (const dose of vaccine.doses) {
+    for (const dose of dosesFor(vaccine, brands)) {
       const list = byAge.get(dose.ageMonths) ?? [];
       list.push({ vaccine, dose });
       byAge.set(dose.ageMonths, list);
@@ -251,10 +335,11 @@ export function nextMilestone(
   now: number,
   vaccines: Vaccine[] = VACCINES,
   isDone: (d: ScheduledDose) => boolean = () => false,
+  brands: VaccineBrands = {},
 ): Milestone | null {
   const today = startOfDay(now);
   return (
-    scheduleMilestones(vaccines).find(
+    scheduleMilestones(vaccines, brands).find(
       (m) => startOfDay(doseDate(birthDate, m.ageMonths)) >= today && !m.doses.every(isDone),
     ) ?? null
   );

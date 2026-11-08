@@ -376,3 +376,26 @@ describe('kinds：只送客戶端認得的種類', () => {
     });
   }
 });
+
+describe('寶寶資料的疫苗廠牌（vaccineBrands）', () => {
+  const putProfile = (vaccineBrands: unknown) => ({
+    kind: 'profile',
+    id: BABY,
+    op: 'put' as const,
+    data: { id: BABY, name: '小明', birthDate: 0, vaccineBrands },
+    updatedAt: T0 - 1000,
+  });
+
+  it('已知廠牌會存下並在拉取時送回', async () => {
+    const res = await push([putProfile({ rotavirus: 'rotateq', ev71: 'envax' })]);
+    expect(res.body.results[0]).toMatchObject({ applied: true });
+    const pulled = await push([], 0);
+    expect(pulled.body.changes[0].data.vaccineBrands).toEqual({ rotavirus: 'rotateq', ev71: 'envax' });
+  });
+
+  it('未知廠牌回報 invalid，什麼都不存', async () => {
+    const res = await push([putProfile({ rotavirus: 'nope' })]);
+    expect(res.body.results[0]).toMatchObject({ applied: false, reason: 'invalid' });
+    expect(h.row('profile', BABY)).toBeUndefined();
+  });
+});

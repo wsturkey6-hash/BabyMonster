@@ -113,6 +113,197 @@
       "error": "birthDate"
     },
     {
+      "name": "profile 疫苗廠牌兩支都選",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "rotavirus": "rotarix",
+          "ev71": "envacgen"
+        }
+      },
+      "error": null
+    },
+    {
+      "name": "profile 只選輪狀廠牌",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "rotavirus": "rotateq"
+        }
+      },
+      "error": null
+    },
+    {
+      "name": "profile 只選腸病毒廠牌",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "ev71": "envax"
+        }
+      },
+      "error": null
+    },
+    {
+      "name": "profile 廠牌值為 null 視為沒選",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "rotavirus": null
+        }
+      },
+      "error": null
+    },
+    {
+      "name": "profile 廠牌空物件",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {}
+      },
+      "error": null
+    },
+    {
+      "name": "profile 廠牌為 null",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": null
+      },
+      "error": null
+    },
+    {
+      "name": "profile 廠牌不屬於該疫苗",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "rotavirus": "envax"
+        }
+      },
+      "error": "未知的廠牌"
+    },
+    {
+      "name": "profile 廠牌值是陣列",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "rotavirus": [
+            "rotarix"
+          ]
+        }
+      },
+      "error": "未知的廠牌"
+    },
+    {
+      "name": "profile 廠牌值是數字",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "rotavirus": 1
+        }
+      },
+      "error": "未知的廠牌"
+    },
+    {
+      "name": "profile 廠牌含未知疫苗",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "pcv13": "x"
+        }
+      },
+      "error": "未知的疫苗"
+    },
+    {
+      "name": "profile 廠牌鍵 constructor",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "constructor": "x"
+        }
+      },
+      "error": "未知的疫苗"
+    },
+    {
+      "name": "profile 廠牌鍵 toString",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": {
+          "toString": "rotarix"
+        }
+      },
+      "error": "未知的疫苗"
+    },
+    {
+      "name": "profile 廠牌是陣列",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": []
+      },
+      "error": "vaccineBrands 不合法"
+    },
+    {
+      "name": "profile 廠牌是字串",
+      "kind": "profile",
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "data": {
+        "id": "aaaaaaaa-0000-0000-0000-000000000001",
+        "name": "小明",
+        "birthDate": 0,
+        "vaccineBrands": "rotarix"
+      },
+      "error": "vaccineBrands 不合法"
+    },
+    {
       "name": "未知 kind",
       "kind": "baby",
       "id": "aaaaaaaa-0000-0000-0000-000000000001",

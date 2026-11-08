@@ -28,4 +28,28 @@ describe('shared/validateEntity 共用向量', () => {
     }, parseEpochMs);
     expect((d as { key: string }).key).toBe(doseRecordKey(P, 'hepb', '第一劑'));
   });
+
+  // JSON 模組匯入會把 "__proto__" 當成原型設定，向量檔測不到；線上走 JSON.parse，它會是自己的鍵。
+  it('vaccineBrands 經 JSON.parse 帶 __proto__ 鍵會被拒收', () => {
+    const P = 'aaaaaaaa-0000-0000-0000-000000000001';
+    const data = JSON.parse(
+      `{"id":"${P}","name":"小明","birthDate":0,"vaccineBrands":{"__proto__":{"rotavirus":"rotarix"}}}`,
+    );
+    expect(() => validateEntity('profile', P, data, parseEpochMs)).toThrow('未知的疫苗');
+  });
+
+  it('vaccineBrands 輸出只含已知鍵、原型是 Object.prototype', () => {
+    const P = 'aaaaaaaa-0000-0000-0000-000000000001';
+    const out = validateEntity('profile', P, JSON.parse(
+      `{"id":"${P}","name":"小明","birthDate":0,"vaccineBrands":{"ev71":"envax","rotavirus":null}}`,
+    ), parseEpochMs) as { vaccineBrands?: object };
+    expect(out.vaccineBrands).toEqual({ ev71: 'envax' });
+    expect(Object.getPrototypeOf(out.vaccineBrands)).toBe(Object.prototype);
+  });
+
+  it('vaccineBrands 全部為 null 時整個欄位省略', () => {
+    const P = 'aaaaaaaa-0000-0000-0000-000000000001';
+    const out = validateEntity('profile', P, { id: P, name: '小明', birthDate: 0, vaccineBrands: { rotavirus: null } }, parseEpochMs);
+    expect('vaccineBrands' in out).toBe(false);
+  });
 });

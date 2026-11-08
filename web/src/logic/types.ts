@@ -1,3 +1,5 @@
+import type { VaccineBrands } from 'shared/validateEntity';
+
 /** 量的多寡刻度，大便量與小便量共用（wire 值 few/medium/many 與 iOS StoolAmount 相同）。 */
 export type Amount = 'few' | 'medium' | 'many';
 
@@ -40,6 +42,8 @@ export interface ProfileData {
   name: string;
   birthDate: number; // epoch ms
   sex?: Sex; // 選填；只有生長曲線會用到
+  /** 選填：各疫苗選用的廠牌，沒選的鍵省略（規則見 shared VACCINE_BRAND_OPTIONS）。 */
+  vaccineBrands?: VaccineBrands;
 }
 
 export interface RecordData {
