@@ -392,6 +392,12 @@ h1, h2 { text-wrap: balance; }
 .vaccine-chip.self.done:hover { background: #ddf0e4; }
 .vaccine-chip.done .vaccine-dose { color: #256b43; font-weight: 700; }
 
+.brand-picker { margin-top: 12px; }
+.brand-picker-label { margin: 0 0 6px; font-size: 13px; color: var(--color-text-soft); }
+.brand-picker .hint { margin: 6px 0 0; }
+.brand-picker .brand-hidden-records { color: var(--color-heading); font-weight: 700; }
+.brand-picker .seg { flex-wrap: nowrap; }
+.brand-picker .seg button { flex: 1; padding: 8px 10px; font-size: 14px; }
 .dose-log { list-style: none; margin: 12px 0 0; padding: 0; }
 .dose-log-row {
   display: flex; flex-direction: column; gap: 4px;

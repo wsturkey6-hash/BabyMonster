@@ -1,5 +1,6 @@
 import {
   validateDose, validateFoodMark, validateFoodRecord, validateProfile, validateRecord, type ParseTime,
+  type VaccineBrands,
 } from 'shared/validateEntity';
 import type { ProfileData, RecordData } from './types';
 import { makeDoseRecord, type VaccineDoseRecord } from './vaccineLog';
@@ -46,6 +47,16 @@ function stripUndefined<T extends Record<string, unknown>>(o: T): T {
   return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as T;
 }
 
+/**
+ * 從固定的已知鍵重新組出，不直接複製存著的物件：本機若有怪資料，也不會匯出一個沒有版本能匯入的檔案。
+ * 沒選任何廠牌就省略，讓沒用這個功能的人匯出的檔案與舊版逐字節相同。
+ */
+function encodeVaccineBrands(b: VaccineBrands | undefined): VaccineBrands | undefined {
+  if (!b) return undefined;
+  const out = stripUndefined({ rotavirus: b.rotavirus, ev71: b.ev71 });
+  return Object.keys(out).length > 0 ? out : undefined;
+}
+
 export function encodeV2(p: BackupPayloadV2): string {
   const doses = p.vaccineDoses ?? [];
   const foodRecords = p.foodRecords ?? [];
@@ -53,7 +64,13 @@ export function encodeV2(p: BackupPayloadV2): string {
   const wire = {
     version: 2,
     profiles: p.profiles.map((x) =>
-      stripUndefined({ id: x.id, name: x.name, birthDate: isoFromMs(x.birthDate), sex: x.sex }),
+      stripUndefined({
+        id: x.id,
+        name: x.name,
+        birthDate: isoFromMs(x.birthDate),
+        sex: x.sex,
+        vaccineBrands: encodeVaccineBrands(x.vaccineBrands),
+      }),
     ),
     records: p.records.map((r) =>
       stripUndefined({

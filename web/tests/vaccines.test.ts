@@ -32,7 +32,7 @@ describe('公費時程（疾管署 11401 版）', () => {
 describe('自費時程（SIMBA 2026.03 版）', () => {
   it('月齡與劑次與時程表相符', () => {
     expect(plan('hbig')).toEqual(['0:self']);
-    expect(plan('rotavirus')).toEqual(['2:self', '4:self', '6:self']);
+    expect(plan('rotavirus')).toEqual(['2:self']); // 未選廠牌只列第一劑，完整劑次見 vaccineBrands.test.ts
     expect(plan('meningococcal')).toEqual(['2:self']);
     expect(plan('ev71')).toEqual(['2:self']);
     expect(plan('dtap-hib-ipv-hepb')).toEqual(['6:self', '18:self']);
