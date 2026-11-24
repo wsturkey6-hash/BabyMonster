@@ -332,6 +332,16 @@ h1, h2 { text-wrap: balance; }
   border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-clay);
+  /* 內容比螢幕高時（例如腸病毒三劑的記錄欄）只捲 .body，標題與「關閉」固定在畫面內 */
+  display: flex; flex-direction: column;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+.info-dialog .body {
+  flex: 1 1 auto; min-height: 0;
+  overflow-y: auto; overscroll-behavior: contain;
+  /* 選取中廠牌按鈕的外框會凸出 3px，留白避免被捲動區裁掉 */
+  margin: 0 -6px; padding: 0 6px 4px;
 }
 .info-dialog .title {
   font-family: var(--font-display);
