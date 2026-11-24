@@ -13,8 +13,13 @@ interface InfoDialogProps {
  */
 export function InfoDialog({ title, subtitle, children, onClose }: InfoDialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // showModal() 預設把焦點放在第一個可聚焦元素；疫苗說明框的第一個是日期欄，
+    // iOS 一聚焦就跳出日期選擇器。用 autofocus 指定焦點落在面板本身（tabIndex=-1，不進 Tab 順序）。
+    // React 的 autoFocus 不會輸出 HTML 屬性，所以直接設 attribute。
+    panelRef.current?.setAttribute('autofocus', '');
     ref.current?.showModal();
   }, []);
 
@@ -31,7 +36,7 @@ export function InfoDialog({ title, subtitle, children, onClose }: InfoDialogPro
         if (e.target === ref.current) onClose();
       }}
     >
-      <div className="panel">
+      <div className="panel" ref={panelRef} tabIndex={-1}>
         <p className="title" id="info-dialog-title">{title}</p>
         {subtitle && <p className="subtitle">{subtitle}</p>}
         <div className="body">{children}</div>
