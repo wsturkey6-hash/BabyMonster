@@ -21,6 +21,7 @@ import { db } from '../db/db';
 import { clearVaccineDose, setVaccineBrand, setVaccineDose } from '../db/repository';
 import type { BrandedVaccineId } from 'shared/validateEntity';
 import { BabySwitcher } from './BabySwitcher';
+import { ConfirmDialog } from './components/ConfirmDialog';
 import { InfoDialog } from './components/InfoDialog';
 import { dateInputValue, msFromDateInput, ymdSlash } from './format';
 import type { PageProps } from './App';
@@ -36,6 +37,8 @@ function daysUntil(target: number, now: number): number {
 
 export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: PageProps) {
   const [selected, setSelected] = useState<Vaccine | null>(null);
+  /** 等待確認要清除的那一劑；清除不可復原，所以先跳確認視窗。 */
+  const [pendingClear, setPendingClear] = useState<{ vaccine: Vaccine; doseLabel: string; message: string } | null>(null);
   const now = Date.now();
 
   const babyId = currentBaby?.id ?? null;
@@ -93,6 +96,15 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
     if (!babyId) return;
     // brandId 來自 vaccine.brands，其型別已對齊 shared 的 VACCINE_BRAND_OPTIONS
     await setVaccineBrand(babyId, vaccineId as BrandedVaccineId, brandId as VaccineBrands[BrandedVaccineId] | null);
+  }
+
+  function askClear(vaccine: Vaccine, doseLabel: string, date: number | undefined) {
+    if (date === undefined) return;
+    setPendingClear({
+      vaccine,
+      doseLabel,
+      message: `清除${vaccine.name}${doseLabel}的接種日期（${ymdSlash(date)}）？`,
+    });
   }
 
   async function removeDose(vaccineId: string, doseLabel: string) {
@@ -261,7 +273,7 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
                       onChange={(e) =>
                         e.target.value
                           ? saveDose(selected.id, dose.label, msFromDateInput(e.target.value))
-                          : removeDose(selected.id, dose.label)
+                          : askClear(selected, dose.label, date)
                       }
                     />
                     {currentBaby && date === undefined && (
@@ -277,7 +289,7 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
                       <button
                         type="button"
                         className="btn btn-soft"
-                        onClick={() => removeDose(selected.id, dose.label)}
+                        onClick={() => askClear(selected, dose.label, date)}
                       >
                         清除
                       </button>
@@ -293,6 +305,18 @@ export default function VaccinePage({ profiles, currentBaby, onSelectBaby }: Pag
           {selected.recurring && <p className="doses">{selected.recurring}</p>}
           {selected.note && <p className="doses">附註：{selected.note}</p>}
         </InfoDialog>
+      )}
+
+      {pendingClear && (
+        <ConfirmDialog
+          message={pendingClear.message}
+          confirmLabel="清除"
+          onConfirm={() => {
+            void removeDose(pendingClear.vaccine.id, pendingClear.doseLabel);
+            setPendingClear(null);
+          }}
+          onCancel={() => setPendingClear(null)}
+        />
       )}
     </main>
   );
